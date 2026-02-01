@@ -1,0 +1,731 @@
+/* =========================
+   LOGO HEADER – RAPIH & RESPONSIVE
+   ========================= */
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo img {
+  height: 500px;      /* ukuran desktop */
+  width: auto;
+  display: block;
+}
+
+/* Biar logo bisa diklik (opsional) */
+.logo a {
+  display: flex;
+  align-items: center;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  .logo img {
+    height: 100px;
+  }
+}
+
+
+/* ===== RESET & BASIC ===== */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI',Sans-Serif;
+}
+body{
+  background:var(--bg);
+  color:var(--text);
+  transition:.3s;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+a{text-decoration:none;color:var(--text);}
+
+/* ===== HEADER VERTICAL FINAL – HORIZONTAL MENU ===== */
+header {
+  display: flex;
+  flex-direction: column; /* logo atas, menu bawah, mode bawah menu */
+  align-items: center;
+  padding: 5px 0;
+  background: var(--header);
+  position: sticky;
+  top: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,.1);
+  z-index: 9999;
+  gap: 5px; /* jarak antar elemen */
+}
+
+/* LOGO */
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logo img {
+  height: 100px;
+  width: auto;
+  display: block;
+}
+
+/* MENU HORIZONTAL */
+.menu {
+  display: flex;           /* horizontal */
+  flex-direction: row;     /* default row */
+  align-items: center;
+  gap: 20px;               /* jarak antar item */
+}
+.menu a {
+  font-size: 19px;
+  font-weight: 600;
+  text-transform: capitalize;
+  white-space: nowrap;
+  color: var(--text);
+}
+
+/* MODE BUTTONS */
+.mode-btns {
+    display: flex;
+    gap: 5px;
+}
+
+.mode-btns button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+/* Warna spesifik tombol */
+button[data-mode="light"] { background: #f0f0f0; color: #333; }
+button[data-mode="dark"] { background: #333; color: #fff; }
+button[data-mode="red"] { background: #ff4d4d; color: #fff; }
+button[data-mode="blue"] { background: #007bff; color: #fff; }
+button[data-mode="green"] { background: #28a745; color: #fff; }
+
+.mode-btns button:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+}
+
+
+
+/* ===== RESPONSIVE / MOBILE ===== */
+@media(max-width:768px){
+  .logo img {
+    height: 80px;
+  }
+  .menu {
+    flex-wrap: wrap;        /* biar nggak pecah di HP */
+    justify-content: center;
+    gap: 12px;
+  }
+  .menu a {
+    font-size: 17px;
+  }
+  .mode-btns {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* ===== MAIN / HERO ===== */
+main{
+  flex:1;
+  padding:20px;
+  max-width:1200px;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* HERO */
+.hero{
+  background:var(--card-bg);
+  padding:30px 20px;
+  border-radius:14px;
+  text-align:center;
+  box-shadow:0 10px 22px rgba(0,0,0,.12);
+}
+.hero h1{font-size:2rem;color:var(--text);margin-bottom:5px;}
+.hero h2{font-size:1.2rem;color:var(--text);margin-bottom:10px;}
+.hero p{font-size:0.9rem;margin:4px 0;}
+.hero .btn-buy{
+  display:inline-block;
+  margin-top:15px;
+  padding:10px 18px;
+  background:var(--text);
+  color:var(--bg);
+  font-weight:600;
+  border-radius:10px;
+  transition:.3s;
+}
+.hero .btn-buy:hover{
+  background:#ff4d4d;color:#fff;
+}
+
+/* ===== GRID & CARD ===== */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+.card, .product-item, .article-item{
+  background:var(--card-bg);
+  border-radius:14px;
+  padding:15px;
+  text-align:left; /* kiri-justify semua card */
+  box-shadow:0 8px 18px rgba(0,0,0,.1);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.product-item img, .article-item img{
+  width:100%;
+  height:auto;
+  border-radius:10px;
+  margin-bottom:10px;
+}
+.product-item h3, .article-item h3{
+  font-size:1rem;
+  margin-bottom:6px;
+  color:var(--text);
+  transition: transform 0.3s, color 0.3s;
+}
+.product-item .price{
+  font-size:.95rem;
+  font-weight:700;
+  color:var(--text);
+  transition: transform 0.3s, color 0.3s;
+}
+/* HOVER CARD / TULISAN HIDUP */
+.card:hover, .product-item:hover, .article-item:hover{
+  transform:translateY(-5px);
+  box-shadow:0 12px 25px rgba(0,0,0,.15);
+}
+.product-item:hover h3, .article-item:hover h3,
+.product-item:hover .price{
+  transform:translateY(-3px);
+  color:#ff4d4d;
+}
+
+/* ===== PRODUCT DETAIL CARD ===== */
+.product-detail{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:25px;
+}
+.product-image img{
+  width:100%;
+  border-radius:12px;
+}
+.product-info{
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  text-align:left; /* semua teks kiri */
+  gap:10px;
+}
+.product-info h1, 
+.product-info .price, 
+.product-info .desc, 
+.product-info .spec {
+  text-align:left;
+}
+.product-info h1 {
+  font-size:1.8rem;
+  margin-bottom:8px;
+  color: var(--text);
+}
+.product-info .price {
+  font-size:1.4rem;
+  font-weight:700;
+  margin-bottom:10px;
+  color: var(--text);
+}
+.product-info .desc {
+  font-size:.95rem;
+  line-height:1.5;
+  margin-bottom:15px;
+}
+.product-info .spec li {
+  font-size:.9rem;
+  margin-bottom:6px;
+}
+.btn-buy {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:10px 18px;
+  background: var(--text);
+  color: var(--bg);
+  border-radius:10px;
+  font-size:.95rem;
+  font-weight:600;
+  transition:.3s;
+}
+.btn-buy:hover{
+  background:#ff4d4d;color:#fff;
+}
+
+/* ===== BIO-LINKS ===== */
+.bio-links{
+  display:flex;justify-content:center;gap:10px;margin:15px 0;
+}
+.bio-links a{
+  width:32px;height:32px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--text);color:var(--bg);
+  font-size:15px;transition:.25s;
+}
+.bio-links a:hover{transform:scale(1.15);}
+
+/* ===== FOOTER ===== */
+footer{
+  background:var(--footer);
+  text-align:center;
+  padding:15px;
+  font-size:.8rem;
+}
+
+/* ===== THEME COLORS ===== */
+:root{
+  --bg:#fff;
+  --text:#111;
+  --header:#f1f1f1;
+  --footer:#f1f1f1;
+  --card-bg:#fff;
+}
+body.dark{
+  --bg:#111;
+  --text:#fff;
+  --header:#222;
+  --footer:#222;
+  --card-bg:#1a1a1a;
+}
+body.red{
+  --bg:#ffe6e6;
+  --text:#8b0000;
+  --header:#ffcccc;
+  --footer:#ffcccc;
+  --card-bg:#fff0f0;
+}
+body.blue{
+  --bg:#e6f0ff;
+  --text:#003366;
+  --header:#cce0ff;
+  --footer:#cce0ff;
+  --card-bg:#eaf2ff;
+}
+body.green{
+  --bg:#e6ffe6;
+  --text:#005500;
+  --header:#ccffcc;
+  --footer:#ccffcc;
+  --card-bg:#efffef;
+}
+
+/* ===== RESPONSIVE / MOBILE ===== */
+@media(max-width:768px){
+  main{padding:15px;gap:15px;}
+  .hero h1{font-size:1.6rem;}
+  .hero h2{font-size:1rem;}
+  .hero p{font-size:0.85rem;}
+  .grid{grid-template-columns:1fr;gap:15px;}
+  .card, .product-item, .article-item{padding:12px;}
+  .product-detail{grid-template-columns:1fr;gap:15px;}
+  .btn-buy{padding:12px 20px;font-size:1rem;}
+  .menu{justify-content:center;flex-wrap:wrap;gap:12px;}
+  .mode-btns{justify-content:center;flex-wrap:wrap;gap:5px;}
+}
+
+/* article-item, product-item, dll */
+
+/* ===== RESPONSIVE ARTIKEL DETAIL ===== */
+.article-detail img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  border-radius: 12px;
+  margin: 20px 0;
+  display: block;
+}
+
+@media (max-width: 768px){
+  .article-detail {
+    padding: 15px;
+  }
+
+  .article-detail img {
+    width: 100%;
+    height: auto;
+    margin: 15px 0;
+  }
+
+  .article-detail h1 {
+    font-size: 1.5rem;
+    text-align: left;
+  }
+
+  .article-content p {
+    font-size: .9rem;
+    line-height: 1.5;
+  }
+
+  .article-content h2 {
+    font-size: 1.2rem;
+  }
+
+  .breadcrumb {
+    font-size: .8rem;
+  }
+}
+
+/* =========================
+   Konten Halaman Kontak
+   ========================= */
+
+.contact-header {
+    text-align: center;
+    margin-top: 30px;        /* jarak dari header/menu */
+    margin-bottom: 40px;     /* jarak ke konten bawah */
+}
+
+.contact-header h1 {
+    font-size: 2rem;         /* besar tapi ikut scroll normal */
+    font-weight: 500;
+    line-height: 1.2;
+    color: #333;
+}
+
+.contact-header p {
+    font-size: 1.2rem;
+    color: #666;
+    margin-top: 10px;
+}
+
+.contact-info {
+    max-width: 800px;
+    margin: 40px auto 20px;
+    padding: 0 20px;
+}
+
+.contact-info h2 {
+    font-size: 1.6rem;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.contact-info ul {
+    list-style: none;
+    padding: 0;
+}
+
+.contact-info li {
+    background-color: #fff;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ===== FORM ===== */
+.contact-form {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.contact-form h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.contact-form form {
+    background-color: #fff;
+    padding: 30px 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.contact-form label {
+    display: block;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.contact-form input[type="text"]:focus,
+.contact-form input[type="email"]:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: #007BFF;
+    box-shadow: 0 0 6px rgba(0,123,255,0.3);
+}
+
+.contact-form textarea {
+    resize: vertical;
+}
+
+.contact-form button {
+    display: block;
+    width: 100%;
+    background-color: #007BFF;
+    color: #fff;
+    padding: 14px 0;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.contact-form button:hover {
+    background-color: #0056b3;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+    .contact-info h2,
+    .contact-form h2 {
+        font-size: 1.3rem;
+    }
+  
+  
+  /* ===============================
+   DESKTOP ONLY (>=1024px)
+   =============================== */
+@media (min-width: 1024px) {
+
+  /* ===== ROOT RESET ===== */
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    background: #f7f7f7;
+    color: #111;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* ===== CONTAINER ===== */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  section {
+    margin-bottom: 64px;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    background: #fff;
+    border-bottom: 1px solid #eee;
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+
+  .logo {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  nav ul {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  nav a {
+    font-weight: 500;
+    opacity: .85;
+  }
+
+  nav a:hover {
+    opacity: 1;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    background: #fff;
+    padding: 80px 0;
+  }
+
+  .hero h1 {
+    font-size: 42px;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+
+  .hero p {
+    max-width: 520px;
+    font-size: 18px;
+    opacity: .85;
+  }
+
+  /* ===== PRODUCT GRID ===== */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+  }
+
+  /* ===== PRODUCT CARD ===== */
+  .product-card {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,.06);
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+
+  .product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 50px rgba(0,0,0,.12);
+  }
+
+  .product-image {
+    aspect-ratio: 1 / 1;
+    background: #eee;
+  }
+
+  .product-content {
+    padding: 16px;
+  }
+
+  .product-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .product-price {
+    font-size: 15px;
+    font-weight: 600;
+    opacity: .9;
+  }
+
+  /* ===== BUTTON ===== */
+  .btn {
+    display: inline-block;
+    padding: 12px 20px;
+    border-radius: 10px;
+    background: #111;
+    color: #fff;
+    font-weight: 600;
+    transition: opacity .2s ease;
+  }
+
+  .btn:hover {
+    opacity: .85;
+  }
+
+  /* ===== ARTICLE / BLOG ===== */
+  .article-layout {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 40px;
+  }
+
+  .article-content {
+    background: #fff;
+    padding: 40px;
+    border-radius: 18px;
+  }
+
+  .article-content h1 {
+    font-size: 36px;
+    margin-bottom: 24px;
+  }
+
+  .article-content p {
+    margin-bottom: 18px;
+    opacity: .9;
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 100px;
+  }
+
+  .sidebar-box {
+    background: #fff;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.06);
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: #111;
+    color: #aaa;
+    padding: 64px 0;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+  }
+
+  footer h4 {
+    color: #fff;
+    margin-bottom: 12px;
+  }
+
+  footer a {
+    display: block;
+    margin-bottom: 8px;
+    opacity: .8;
+  }
+
+  footer a:hover {
+    opacity: 1;
+  }
+
+}
+  
+  
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 5%;
+    flex-wrap: wrap; /* Agar responsif di HP */
+}
+
+  
