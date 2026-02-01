@@ -1,0 +1,19 @@
+# Robots.txt untuk https://mj-shop.great-site.net/
+# Dioptimalkan untuk SEO dan Efisiensi Crawling
+
+User-agent: *
+Allow: /
+Allow: /produk.html
+Allow: /artikel.html
+Allow: /public/photo/
+Allow: /public/css/
+Allow: /public/js/
+
+# Jangan buang kuota crawling pada folder internal/skrip
+Disallow: /cgi-bin/
+Disallow: /admin/
+Disallow: /private/
+Disallow: /config/
+
+# Beritahu mesin pencari lokasi peta situs kamu
+Sitemap: https://mj-shop.great-site.net/sitemap.xml
