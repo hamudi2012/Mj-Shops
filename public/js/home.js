@@ -1,7 +1,6 @@
 /* ===== HOME.JS OPTIMIZED - MJ-SHOPS ===== */
 
 /* ===== DATA PRODUK TERBARU ===== */
-// Saya update data ini agar sinkron dengan daftar produk di produk.html
 const homeProducts = [
   {
     title: "Jeans Paket 3inOne",
@@ -63,11 +62,13 @@ if (productsContainer) {
   homeProducts.forEach(p => {
     const a = document.createElement("a");
     a.href = p.link;
-    a.className = "product-item";
+    a.className = "item-card"; // PAKAI CLASS YANG SAMA DENGAN PROMO
     a.innerHTML = `
       <img src="${p.image}" alt="${p.title}" loading="lazy">
-      <h3>${p.title}</h3>
-      <div class="price">${p.price}</div>
+      <div class="card-info">
+        <h3>${p.title.toUpperCase()}</h3>
+        <div class="price-new">${p.price}</div>
+      </div>
     `;
     productsContainer.appendChild(a);
   });
@@ -79,12 +80,14 @@ if (articlesContainer) {
   homeArticles.forEach(a => {
     const link = document.createElement("a");
     link.href = a.link;
-    link.className = "article-item";
+    link.className = "item-card"; // PAKAI CLASS YANG SAMA DENGAN PROMO
     link.innerHTML = `
       <img src="${a.image}" alt="${a.title}" loading="lazy">
-      <h3>${a.title}</h3>
-      <div class="meta">✍ Admin • ${a.date}</div>
+      <div class="card-info">
+        <h3>${a.title.toUpperCase()}</h3>
+        <div style="font-size: 0.7rem; color: #888; margin-top: 5px;">✍ ${a.date}</div>
+      </div>
     `;
     articlesContainer.appendChild(link);
   });
-}
+    }
