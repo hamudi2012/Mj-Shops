@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog & Inspirasi Fashion Terkini | Mj-Shops</title>
+    
+    <meta name="description" content="Temukan tips berpakaian, panduan memilih ukuran gamis, hingga cara merawat sepatu hanya di Blog Mj-Shops. Update rutin untuk gaya hidup modern Anda.">
+    <link rel="canonical" href="https://mj-shops.biz.id/artikel.html">
+    <link rel="icon" href="public/photo/logo-Mj-Shops.png" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --accent-gold: #f1c40f;
+            --danger-red: #e74c3c;
+            --success-green: #27ae60;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0; padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+            margin-bottom: 70px;
+        }
+    
+        /* Navigation */
+        nav.top-nav { background: var(--primary-color); padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo { height: 30px; }
+        .menu { display: flex; justify-content: space-around; background: var(--primary-color); padding: 12px 0; position: sticky; top: 0; z-index: 1000; border-top: 1px solid #333; }
+        .menu a { text-decoration: none; color: #ffffff; font-size: 12px; font-weight: 600; flex: 1; text-align: center; }
+        .menu a.active { color: var(--accent-gold); }
+
+        /* Hero Header */
+        .hero-header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .hero-header h1 { margin: 0; font-size: 2.5rem; color: var(--accent-gold); }
+        .sale-badge { 
+            display: inline-block; 
+            background: var(--danger-red); 
+            color: #fff; 
+            padding: 5px 15px; 
+            border-radius: 50px; 
+            font-weight: bold; 
+            margin-bottom: 15px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Grid Container */
+        .product-container {
+            max-width: 1200px;
+            margin: -30px auto 40px;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover { transform: translateY(-10px); }
+
+        /* Mencegah Foto Terpotong */
+        .product-img {
+            width: 100%;
+            height: 280px; /* Tinggi seragam */
+            object-fit: cover; /* Foto tetap full mengisi box tanpa gepeng */
+            display: block;
+        }
+
+        .product-info { padding: 20px; text-align: center; flex-grow: 1; display: flex; flex-direction: column; }
+        .product-info h3 { margin: 10px 0; font-size: 1.15rem; color: #222; min-height: 55px; display: flex; align-items: center; justify-content: center; }
+        
+        .meta-info {
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+
+        .btn-view {
+            display: block;
+            background: var(--primary-color);
+            color: var(--accent-gold);
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.3s;
+            border: 2px solid var(--accent-gold);
+            margin-top: auto;
+        }
+
+        .btn-view:hover {
+            background: var(--accent-gold);
+            color: var(--primary-color);
+        }
+
+        footer {
+            background: var(--primary-color);
+            color: #888;
+            padding: 40px 20px;
+            text-align: center;
+        }
+    
+         .footer-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 25px 0;
+        }
+    
+        .footer-nav a {
+            background: #333;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+    
+         .social-links {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: 0.3s;
+        }
+
+        .social-links a:hover { color: var(--accent-gold); }
+
+        @media (max-width: 600px) {
+            .hero-header h1 { font-size: 1.8rem; }
+            .product-img { height: 220px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="top-nav">
+        <img src="https://mj-shops.biz.id/public/photo/logo-Mj-Shops.png" alt="Mj-Shops" class="nav-logo">
+        <div style="color: white; font-size: 0.6rem; font-weight: bold;">ARTIKEL & TIPS FASHION</div>
+    </nav>
+    
+    <nav class="menu">
+        <a href="index.html">Home</a>
+        <a href="promo.html">PROMO</a>
+        <a href="produk.html">Produk</a>
+        <a href="artikel.html" class="active">Artikel</a>
+        <a href="kontak.html">Kontak</a>
+    </nav>
+    
+    <div class="hero-header">
+        <div class="sale-badge">✨ NEW INSIGHT 2026</div>
+        <h1>ARTIKEL & TIPS FASHION</h1>
+        <p>Update gaya hidup modern Anda bersama Mj-Shops.</p>
+    </div>
+
+    <div class="product-container">
+        
+        <article class="product-card">
+            <img src="public/photo/jeans-paket-3inOne.jpg" alt="Tips jeans pria" class="product-img">
+            <div class="product-info">
+                <p class="meta-info">✍ Admin • 12 Jan 2026</p>
+                <h3>Cara Memilih Celana Jeans yang Pas untuk Pria</h3>
+                <a href="artikel/Cara-Memilih-Celana-Jeans-yang-Pas-untuk-Pria.html" class="btn-view">BACA ARTIKEL</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/gamis-wanita-cantik.jpg" alt="Panduan ukuran gamis" class="product-img">
+            <div class="product-info">
+                <p class="meta-info">✍ Admin • 10 Jan 2026</p>
+                <h3>Cara Membeli Gamis Sesuai Ukuran Tubuh</h3>
+                <a href="artikel/Cara-Membeli-Gamis-Sesuai-Ukuran-Tubuh.html" class="btn-view">BACA ARTIKEL</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/jeans-pria.png" alt="Jeans berkualitas" class="product-img">
+            <div class="product-info">
+                <p class="meta-info">✍ Admin • 08 Jan 2026</p>
+                <h3>Cara Memilih Celana Jeans yang Pas untuk Pria (V2)</h3>
+                <a href="artikel/Cara-Memilih-Celana-Jeans-yang-Pas-untuk-Pria.html" class="btn-view">BACA ARTIKEL</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/jeans-random.jpeg" alt="Tips jeans harian" class="product-img">
+            <div class="product-info">
+                <p class="meta-info">✍ Admin • 08 Jan 2026</p>
+                <h3>Cara Memilih Celana Jeans</h3>
+                <a href="artikel/Cara-Memilih-Celana-Jeans.html" class="btn-view">BACA ARTIKEL</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/gamis-polos-muslimah.jpg" alt="Gamis polos" class="product-img">
+            <div class="product-info">
+                <p class="meta-info">✍ Admin • 08 Jan 2026</p>
+                <h3>Cara Memilih Gamis Muslimah Polos yang Nyaman</h3>
+                <a href="artikel/Cara-Memilih-Gamis-Muslimah-Polos-yang-Nyaman-Dipakai.html" class="btn-view">BACA ARTIKEL</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/jeans-warna.jpeg" alt="Tren 2026" class="product-img">
+            <div class="product-info">
+                <p class="meta-info">✍ Admin • 08 Jan 2026</p>
+                <h3>Cara Memilih Jeans Sesuai Tren 2026</h3>
+                <a href="artikel/Cara-Memilih-Jeans-Sesuai-Tren-2026.html" class="btn-view">BACA ARTIKEL</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/Mix-Jeans-dengan-Aksesoris-Minimalis.jpg" alt="Mix match jeans" class="product-img">
+            <div class="product-info">
+                <p class="meta-info">✍ Admin • 08 Jan 2026</p>
+                <h3>Cara Mix Jeans dengan Aksesoris Minimalis</h3>
+                <a href="artikel/Cara-Mix-Jeans-dengan-Aksesoris-Minimalis.html" class="btn-view">BACA ARTIKEL</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/celana-jeans-cowo-4inOne.jpg" alt="Review 4inone" class="product-img">
+            <div class="product-info">
+                <p class="meta-info">✍ Admin • 08 Jan 2026</p>
+                <h3>Celana Jeans Cowo 4inOne</h3>
+                <a href="artikel/Celana-Jeans-Cowo-4inOne.html" class="btn-view">BACA ARTIKEL</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/Baju-Koko-Gamis-Pria-Jubah-Thobe-Ala-Saudi-Timur-Tengah-Elegan.jpg" alt="Gamis pria" class="product-img">
+            <div class="product-info">
+                <p class="meta-info">✍ Admin • 08 Jan 2026</p>
+                <h3>Gamis Pria Tips Pilih Model dan Bahan Berkualitas</h3>
+                <a href="artikel/Gamis-Pria-Tips-Pilih-Model-dan-Bahan-Berkualitas.html" class="btn-view">BACA ARTIKEL</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/Match-Gamis-Muslimah-dengan-Hijab.jpg" alt="Match hijab" class="product-img">
+            <div class="product-info">
+                <p class="meta-info">✍ Admin • 08 Jan 2026</p>
+                <h3>Panduan Mix & Match Gamis Muslimah dengan Hijab</h3>
+                <a href="artikel/Panduan-Mix-and-Match-Gamis-Muslimah-dengan-Hijab.html" class="btn-view">BACA ARTIKEL</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/sepatu-putih-wanita-keren.jpeg" alt="Sepatu hangout" class="product-img">
+            <div class="product-info">
+                <p class="meta-info">✍ Admin • 08 Jan 2026</p>
+                <h3>Panduan Sepatu Wanita untuk Hangout</h3>
+                <a href="artikel/Panduan-Sepatu-Wanita-untuk-Hangout.html" class="btn-view">BACA ARTIKEL</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/sepatu-putih-wanita.jpeg" alt="Sepatu putih" class="product-img">
+            <div class="product-info">
+                <p class="meta-info">✍ Admin • 08 Jan 2026</p>
+                <h3>Sepatu Putih Wanita</h3>
+                <a href="artikel/Panduan-Sepatu-Wanita-untuk-Hangout.html" class="btn-view">BACA ARTIKEL</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/Sepatu-Sneakers-Wanita.jpg" alt="Sneakers casual" class="product-img">
+            <div class="product-info">
+                <p class="meta-info">✍ Admin • 08 Jan 2026</p>
+                <h3>Tips Memilih Sneakers Wanita untuk Tampilan Casual</h3>
+                <a href="artikel/Tips-Memilih-Sneakers-Wanita-untuk-Tampilan-Casual.html" class="btn-view">BACA ARTIKEL</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/jeans-random.jpeg" alt="Beli online" class="product-img">
+            <div class="product-info">
+                <p class="meta-info">✍ Admin • 08 Jan 2026</p>
+                <h3>Tips Beli Jeans Online Tanpa Coba Langsung</h3>
+                <a href="artikel/Tips-Beli-Jeans-Online-Tanpa-Coba-Langsung.html" class="btn-view">BACA ARTIKEL</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/celana-jeans-dan-sweater.jpg" alt="Jeans sweater" class="product-img">
+            <div class="product-info">
+                <p class="meta-info">✍ Admin • 08 Jan 2026</p>
+                <h3>Tips Gabungkan Jeans dengan Sweater</h3>
+                <a href="artikel/Tips-Gabungkan-Jeans-dengan-Sweater.html" class="btn-view">BACA ARTIKEL</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/Sepatu-Untuk-Pesta.jpeg" alt="Sepatu pesta" class="product-img">
+            <div class="product-info">
+                <p class="meta-info">✍ Admin • 08 Jan 2026</p>
+                <h3>Tips Memilih Sepatu Stylish untuk Pesta</h3>
+                <a href="artikel/Tips-Memilih-Sepatu-Stylish-untuk-Pesta.html" class="btn-view">BACA ARTIKEL</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/Sepatu-Kanvas-Wanita.jpeg" alt="Sepatu kanvas" class="product-img">
+            <div class="product-info">
+                <p class="meta-info">✍ Admin • 08 Jan 2026</p>
+                <h3>Tips Merawat Sepatu Kanvas Agar Tidak Sobek</h3>
+                <a href="artikel/Tips-Merawat-Sepatu-Kanvas-Agar-Tidak-Mudah-Sobek.html" class="btn-view">BACA ARTIKEL</a>
+            </div>
+        </article>
+        
+        <article class="product-card">
+            <img src="public/photo/gamis-polos-muslimah.jpg" alt="Gamis Muslimah Termurah di Parungkuda Sukabumi" class="product-img">
+            <div class="product-info">
+                <p class="meta-info">✍ Admin • 08 Jan 2026</p>
+                <h3>Cara Merawat dan Membeli Gamis</h3>
+                <a href="artikel/cara-merawat-dan-membeli-gamis.html" class="btn-view">BACA ARTIKEL</a>
+            </div>
+        </article>
+
+    </div>
+
+    <footer>
+        <img src="public/photo/logo-Mj-Shops.png" alt="Mj-Shops" style="height: 50px; margin-bottom: 20px;">
+        <p style="font-size: 1.1rem;"><strong>MJ-SHOPS INDONESIA</strong><br>Pusat Fashion Murah & Berkualitas.</p>
+        
+        <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-telegram-plane"></i></a>
+            <a href="https://wa.me/6285691451094"><i class="fab fa-whatsapp"></i></a>
+        </div>
+
+        <div class="footer-nav">
+            <a href="index.html">HOME</a>
+            <a href="produk.html">KATALOG PRODUK</a>
+            <a href="promo.html">LIHAT PROMO LAINNYA</a>
+            <a href="artikel.html">ARTIKEL & TIPS FASHION</a>
+        </div>
+        
+        <hr style="border: 0; border-top: 1px solid #333; max-width: 500px; margin: 20px auto;">
+        <p style="font-size: 0.8rem; color: #666;">&copy; 2026 <strong>Mj-Shops</strong>. Parungkuda - Sukabumi - Jawa Barat.</p>
+    </footer>
+
+</body>
+</html>

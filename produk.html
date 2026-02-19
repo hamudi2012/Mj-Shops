@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katalog Produk Lengkap Mj-Shops | Fashion & Lifestyle Terpercaya</title>
+    <meta name="description" content="Cek katalog lengkap Mj-Shops. Tersedia Paket Jeans 3inOne, Kemeja Flanel, Gamis, hingga Sepatu berkualitas dengan harga terbaik.">
+    
+    <link rel="canonical" href="https://mj-shops.biz.id/produk.html">
+    <link rel="icon" href="public/photo/logo-Mj-Shops.png" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --accent-gold: #f1c40f;
+            --danger-red: #e74c3c;
+            --success-green: #27ae60;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0; padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+            margin-bottom: 70px;
+        }
+    
+        /* Navigation */
+        nav.top-nav { background: var(--primary-color); padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo { height: 30px; }
+        .menu { display: flex; justify-content: space-around; background: var(--primary-color); padding: 12px 0; position: sticky; top: 0; z-index: 1000; border-top: 1px solid #333; }
+        .menu a { text-decoration: none; color: #ffffff; font-size: 12px; font-weight: 600; flex: 1; text-align: center; }
+        .menu a.active { color: var(--accent-gold); }
+
+        /* Hero Header */
+        .hero-header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .hero-header h1 { margin: 0; font-size: 2.5rem; color: var(--accent-gold); }
+        .sale-badge { 
+            display: inline-block; 
+            background: var(--danger-red); 
+            color: #fff; 
+            padding: 5px 15px; 
+            border-radius: 50px; 
+            font-weight: bold; 
+            margin-bottom: 15px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        
+
+        /* Grid Produk */
+        .product-container {
+            max-width: 1200px;
+            margin: -30px auto 40px;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover { transform: translateY(-10px); }
+
+        .product-img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .product-info { padding: 20px; text-align: center; flex-grow: 1; }
+        .product-info h3 { margin: 10px 0; font-size: 1.2rem; color: #222; min-height: 50px; }
+        .price { color: var(--success-green); font-weight: 800; font-size: 1.5rem; margin-bottom: 15px; }
+
+        .btn-view {
+            display: block;
+            background: var(--primary-color);
+            color: var(--accent-gold);
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.3s;
+            border: 2px solid var(--accent-gold);
+        }
+
+        .btn-view:hover {
+            background: var(--accent-gold);
+            color: var(--primary-color);
+        }
+
+        footer {
+            background: var(--primary-color);
+            color: #888;
+            padding: 40px 20px;
+            text-align: center;
+        }
+    
+         .footer-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 25px 0;
+        }
+    
+        .footer-nav a {
+            background: #333;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+    
+         .social-links {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: 0.3s;
+        }
+
+        .social-links a:hover { color: var(--accent-gold); }
+    
+
+        @media (max-width: 600px) {
+            .hero-header h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="top-nav">
+    <img src="https://mj-shops.biz.id/public/photo/logo-Mj-Shops.png" alt="Mj-Shops" class="nav-logo">
+    <div style="color: white; font-size: 0.6rem; font-weight: bold;">KATALOG PRODUK</div>
+</nav>
+    
+    <nav class="menu">
+        <a href="index.html">Home</a>
+        <a href="promo.html">PROMO</a>
+        <a href="produk.html" class="active">Produk</a>
+        <a href="artikel.html">Artikel</a>
+        <a href="kontak.html">Kontak</a>
+    </nav>
+    
+    <div class="hero-header">
+        <div class="sale-badge">🔥 NEW COLLECTION 2026</div>
+        <h1>Level Up Your Style!</h1>
+        <p>Produk pilihan berkualitas butik dengan harga jujur.</p>
+    </div>
+
+    <div class="product-container">
+        <article class="product-card">
+            <img src="public/photo/jeans-paket-3inOne.jpg" alt="Jeans Paket 3inOne" class="product-img">
+            <div class="product-info">
+                <h3>Jeans Paket 3inOne</h3>
+                <p class="price">Rp 100.000</p>
+                <a href="produk/jeans-paket-3inOne.html" class="btn-view">DETAIL PRODUK</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/kemeja-flanel-pria-lengan-panjang.jpg" alt="Kemeja Flanel Pria" class="product-img">
+            <div class="product-info">
+                <h3>Kemeja Flanel Pria Lengan Panjang</h3>
+                <p class="price">Rp 50.000</p>
+                <a href="produk/kemeja-flanel-pria-lengan-panjang.html" class="btn-view">DETAIL PRODUK</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/jeans-viral-wanita.jpg" alt="Jeans Viral Wanita" class="product-img">
+            <div class="product-info">
+                <h3>Jeans Viral Wanita 3inOne</h3>
+                <p class="price">Rp 100.000</p>
+                <a href="produk/jeans-viral-wanita.html" class="btn-view">DETAIL PRODUK</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/sepatu-putih-wanita.jpeg" alt="Sepatu Putih Wanita" class="product-img">
+            <div class="product-info">
+                <h3>Sepatu Putih Wanita</h3>
+                <p class="price">Rp 150.000</p>
+                <a href="produk/sepatu-putih-wanita.html" class="btn-view">DETAIL PRODUK</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/blues4inOne.jpeg" alt="Blues 4inOne" class="product-img">
+            <div class="product-info">
+                <h3>Blues 4inOne</h3>
+                <p class="price">Rp 100.000</p>
+                <a href="produk/blues4inOne.html" class="btn-view">DETAIL PRODUK</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/gamis-wanita-cantik.jpg" alt="Gamis Wanita Cantik" class="product-img">
+            <div class="product-info">
+                <h3>Gamis Wanita Cantik 3inOne</h3>
+                <p class="price">Rp 100.000</p>
+                <a href="produk/gamis-wanita-cantik.html" class="btn-view">DETAIL PRODUK</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/celana-jeans-cowo-4inOne.jpg" alt="Celana Jeans Cowo 4inOne" class="product-img">
+            <div class="product-info">
+                <h3>Celana Jeans Cowo 4inOne</h3>
+                <p class="price">Rp 150.000</p>
+                <a href="produk/celana-jeans-cowo-4inOne.html" class="btn-view">DETAIL PRODUK</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/baju-wanita-blus.jpeg" alt="Baju Wanita Blus" class="product-img">
+            <div class="product-info">
+                <h3>Baju Wanita Blus</h3>
+                <p class="price">Rp 150.000</p>
+                <a href="produk/baju-wanita-blus.html" class="btn-view">DETAIL PRODUK</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/jeans-wanita-panjang.jpg" alt="Jeans Wanita Panjang" class="product-img">
+            <div class="product-info">
+                <h3>Jeans Wanita Panjang</h3>
+                <p class="price">Rp 75.000</p>
+                <a href="produk/jeans-wanita-panjang.html" class="btn-view">DETAIL PRODUK</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/jeans-pria.png" alt="Jeans Pria" class="product-img">
+            <div class="product-info">
+                <h3>Jeans Pria</h3>
+                <p class="price">Rp 75.000</p>
+                <a href="produk/jeans-pria.html" class="btn-view">DETAIL PRODUK</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/jeans-random.jpeg" alt="Jeans Random" class="product-img">
+            <div class="product-info">
+                <h3>Jeans Random</h3>
+                <p class="price">Rp 90.000</p>
+                <a href="produk/jeans-random.html" class="btn-view">DETAIL PRODUK</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/jeans-warna.jpeg" alt="Jeans Warna" class="product-img">
+            <div class="product-info">
+                <h3>Jeans Warna</h3>
+                <p class="price">Rp 100.000</p>
+                <a href="produk/jeans-warna.html" class="btn-view">DETAIL PRODUK</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/planel-keren.jpg" alt="Planel Keren" class="product-img">
+            <div class="product-info">
+                <h3>Planel Keren</h3>
+                <p class="price">Rp 95.000</p>
+                <a href="produk/planel-keren.html" class="btn-view">DETAIL PRODUK</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/sepatu-putih-wanita-keren.jpeg" alt="Sepatu Putih Wanita Keren" class="product-img">
+            <div class="product-info">
+                <h3>Sepatu Putih Wanita Keren</h3>
+                <p class="price">Rp 200.000</p>
+                <a href="produk/sepatu-putih-wanita-keren.html" class="btn-view">DETAIL PRODUK</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/planel.jpg" alt="Planel" class="product-img">
+            <div class="product-info">
+                <h3>Planel</h3>
+                <p class="price">Rp 90.000</p>
+                <a href="produk/planel.html" class="btn-view">DETAIL PRODUK</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/blues.jpeg" alt="Blues" class="product-img">
+            <div class="product-info">
+                <h3>Blues</h3>
+                <p class="price">Rp 50.000</p>
+                <a href="produk/blues.html" class="btn-view">DETAIL PRODUK</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/gamis-polos-muslimah.jpg" alt="Gamis Polos Muslimah" class="product-img">
+            <div class="product-info">
+                <h3>Gamis Polos Muslimah</h3>
+                <p class="price">Rp 80.000</p>
+                <a href="produk/gamis-polos-muslimah.html" class="btn-view">DETAIL PRODUK</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/Baju-Koko-Gamis-Pria-Jubah-Thobe-Ala-Saudi-Timur-Tengah-Elegan.jpg" alt="Gamis Pria Jubah Thobe" class="product-img">
+            <div class="product-info">
+                <h3>Gamis Pria Jubah Thobe</h3>
+                <p class="price">Rp 100.000</p>
+                <a href="produk/Baju-Koko-Gamis-Pria-Jubah-Thobe-Ala-Saudi-Timur-Tengah-Elegan.html" class="btn-view">DETAIL PRODUK</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/celana-jeans-dan-sweater.jpg" alt="Celana Jeans Dan Sweater" class="product-img">
+            <div class="product-info">
+                <h3>Celana Jeans Dan Sweater</h3>
+                <p class="price">Rp 50.000</p>
+                <a href="produk/celana-jeans-dan-sweater.html" class="btn-view">DETAIL PRODUK</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/Sepatu-Untuk-Pesta.jpeg" alt="Sepatu Untuk Pesta" class="product-img">
+            <div class="product-info">
+                <h3>Sepatu Untuk Pesta</h3>
+                <p class="price">Rp 150.000</p>
+                <a href="produk/Sepatu-Untuk-Pesta.html" class="btn-view">DETAIL PRODUK</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <img src="public/photo/Sepatu-Kanvas-Wanita.jpeg" alt="Sepatu Kanvas Wanita" class="product-img">
+            <div class="product-info">
+                <h3>Sepatu Kanvas Wanita</h3>
+                <p class="price">Rp 75.000</p>
+                <a href="produk/Sepatu-Kanvas-Wanita.html" class="btn-view">DETAIL PRODUK</a>
+            </div>
+        </article>
+
+    </div>
+
+    <footer>
+        <img src="public/photo/logo-Mj-Shops.png" alt="Mj-Shops" style="height: 50px; margin-bottom: 20px;">
+        <p style="font-size: 1.1rem;"><strong>MJ-SHOPS INDONESIA</strong><br>Pusat Fashion Murah & Berkualitas.</p>
+        
+        <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-telegram-plane"></i></a>
+            <a href="https://wa.me/6285691451094"><i class="fab fa-whatsapp"></i></a>
+        </div>
+
+        <div class="footer-nav">
+            <a href="index.html">HOME</a>
+            <a href="produk.html">KATALOG PRODUK</a>
+            <a href="promo.html">LIHAT PROMO LAINNYA</a>
+            <a href="artikel.html">ARTIKEL & TIPS FASHION</a>
+        </div>
+        
+        <hr style="border: 0; border-top: 1px solid #333; max-width: 500px; margin: 20px auto;">
+        <p style="font-size: 0.8rem; color: #666;">&copy; 2026 <strong>Mj-Shops</strong>. Parungkuda - Sukabumi - Jawa Barat.</p>
+    </footer>
+
+</body>
+</html>
