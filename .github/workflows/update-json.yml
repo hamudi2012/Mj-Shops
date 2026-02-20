@@ -1,0 +1,29 @@
+name: Auto Update JSON Photos
+on:
+  push:
+    paths:
+      - 'public/photo/**' # Script jalan otomatis cuma kalau ada foto baru di folder ini
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3 # Mengambil kode repo kamu
+      
+      - name: Generate JSON
+        run: |
+          echo "{" > daftar-foto.json
+          echo "  \"baseUrl\": \"https://mj-shops.biz.id/public/photo/\"," >> daftar-foto.json
+          echo "  \"photos\": [" >> daftar-foto.json
+          # Mencari file gambar, membersihkan teks, dan menyusun jadi format JSON
+          ls public/photo | grep -E "\.(jpg|jpeg|png|gif|JPG|PNG)$" | sed 's/.*/    "&",/' | sed '$ s/,$//' >> daftar-foto.json
+          echo "  ]" >> daftar-foto.json
+          echo "}" >> daftar-foto.json
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add daftar-foto.json
+          git commit -m "Otomatis update daftar-foto.json" || exit 0
+          git push
