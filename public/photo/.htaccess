@@ -1,0 +1,19 @@
+# 1. Matikan daftar file (biar gak bisa diintip)
+Options -Indexes
+
+# 2. Aktifkan Caching (Biar web kencang)
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 month"
+  ExpiresByType image/jpg "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+</IfModule>
+
+# 3. Cegah Hotlinking (Hanya web kamu yang bisa panggil foto)
+RewriteEngine on
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^http(s)?://(www\.)?mj-shops.biz.id [NC]
+RewriteCond %{HTTP_REFERER} !^http(s)?://(www\.)?github.com [NC]
+RewriteRule \.(jpg|jpeg|png|gif)$ - [F]
