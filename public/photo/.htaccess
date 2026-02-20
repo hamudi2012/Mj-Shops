@@ -1,19 +1,22 @@
-# 1. Matikan daftar file (biar gak bisa diintip)
 Options -Indexes
-
-# 2. Aktifkan Caching (Biar web kencang)
-<IfModule mod_expires.c>
-  ExpiresActive On
-  ExpiresDefault "access plus 1 month"
-  ExpiresByType image/jpg "access plus 1 year"
-  ExpiresByType image/jpeg "access plus 1 year"
-  ExpiresByType image/png "access plus 1 year"
-  ExpiresByType image/gif "access plus 1 year"
-</IfModule>
-
-# 3. Cegah Hotlinking (Hanya web kamu yang bisa panggil foto)
 RewriteEngine on
+
+# 1. Izinkan akses langsung (biar Google Index tetap jalan)
 RewriteCond %{HTTP_REFERER} !^$
+
+# 2. Whitelist Domain Resmi
 RewriteCond %{HTTP_REFERER} !^http(s)?://(www\.)?mj-shops.biz.id [NC]
-RewriteCond %{HTTP_REFERER} !^http(s)?://(www\.)?github.com [NC]
+
+# Tambahkan baris ini di bawah domain mj-shops
+RewriteCond %{HTTP_REFERER} !^http(s)?://(www\.)?reseller-mj\.com [NC]
+
+# 3. Whitelist GitHub (Buat API & Preview)
+RewriteCond %{HTTP_REFERER} !^http(s)?://(www\.)?github\.com [NC]
+RewriteCond %{HTTP_REFERER} !^http(s)?://.*\.github\.io [NC]
+
+# 4. Whitelist Localhost (Buat kamu ngetes di HP/Laptop)
+RewriteCond %{HTTP_REFERER} !^http(s)?://localhost [NC]
+RewriteCond %{HTTP_REFERER} !^http(s)?://127\.0\.0\.1 [NC]
+
+# JIKA BUKAN DARI LIST DI ATAS, BLOKIR AKSES GAMBAR
 RewriteRule \.(jpg|jpeg|png|gif)$ - [F]
