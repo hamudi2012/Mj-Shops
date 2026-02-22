@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mj-STUDIO | Abadikan Momen Berhargamu</title>
+    
+    <link rel="icon" href="https://mj-shops.biz.id/public/photo/logo-Mj-Shops.png" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --accent-gold: #f1c40f;
+            --soft-white: #ffffff;
+            --light-bg: #f8f9fa;
+        }
+
+        body { 
+            font-family: 'Poppins', sans-serif !important; 
+            margin: 0; 
+            padding: 0; 
+            background-color: var(--light-bg); 
+            color: #333; 
+            overflow-x: hidden; 
+        }
+
+        /* Navigation */
+        nav.top-nav { background: var(--primary-color); padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo { height: 30px; }
+        .menu { display: flex; justify-content: space-around; background: var(--primary-color); padding: 12px 0; position: sticky; top: 0; z-index: 1000; border-top: 1px solid #333; }
+        .menu a { text-decoration: none; color: #ffffff; font-size: 10px; font-weight: 600; flex: 1; text-align: center; }
+        .menu a.active { color: var(--accent-gold); }
+
+        /* Hero Studio Section */
+        .hero-studio {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070') center/cover;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+        .hero-studio h1 { font-size: 2rem; font-weight: 800; margin-bottom: 5px; color: var(--accent-gold); }
+        .hero-studio p { font-size: 0.9rem; max-width: 80%; opacity: 0.9; }
+
+        /* Studio Services Grid */
+        .section-title { 
+            text-align: center; 
+            font-size: 1.2rem; 
+            margin: 40px 0 20px; 
+            font-weight: 800; 
+            color: var(--primary-color); 
+            text-transform: uppercase; 
+            letter-spacing: 2px;
+        }
+
+        .studio-grid {
+            display: grid !important;
+            grid-template-columns: 1fr !important;
+            gap: 20px !important;
+            padding: 15px !important;
+        }
+
+        /* Studio Card Styling */
+        .studio-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .studio-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .studio-info {
+            padding: 20px;
+        }
+
+        .studio-info h3 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+        }
+
+        .studio-info p {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .studio-tag {
+            background: var(--accent-gold);
+            color: #000;
+            padding: 4px 12px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .btn-order {
+            display: block;
+            background: var(--primary-color);
+            color: var(--accent-gold);
+            text-align: center;
+            padding: 12px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .btn-order:hover { background: #333; }
+
+        /* Stats Section */
+        .stats-bar {
+            background: var(--primary-color);
+            display: flex;
+            justify-content: space-around;
+            padding: 30px 10px;
+            color: white;
+            margin-top: 40px;
+        }
+        .stat-item { text-align: center; }
+        .stat-item i { color: var(--accent-gold); font-size: 1.5rem; margin-bottom: 10px; }
+        .stat-item div { font-weight: 800; font-size: 1.1rem; }
+        .stat-item span { font-size: 0.6rem; text-transform: uppercase; color: #999; }
+
+        footer { background: var(--primary-color); color: #777; padding: 30px 15px; text-align: center; font-size: 0.7rem; }
+        .social-links { margin-top: 20px; display: flex; justify-content: center; gap: 15px; }
+        .social-links a { color: white; font-size: 1.5rem; }
+        .footer-nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin: 25px 0; }
+        .footer-nav a { background: #333; color: white; padding: 8px 15px; text-decoration: none; border-radius: 5px; font-size: 0.8rem; }
+
+        @media (min-width: 768px) {
+            .studio-grid { grid-template-columns: repeat(3, 1fr) !important; }
+            .hero-studio { height: 450px; }
+            .hero-studio h1 { font-size: 3.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="top-nav">
+    <img src="https://mj-shops.biz.id/public/photo/logo-Mj-Shops.png" alt="Mj-Shops" class="nav-logo">
+    <div style="color: white; font-size: 0.6rem; font-weight: bold;">CREATIVE STUDIO</div>
+</nav>
+
+<nav class="menu">
+    <a href="index.html">Home</a>
+    <a href="promo.html">PROMO</a>
+    <a href="produk.html">Produk</a>
+    <a href="mj-studio.html" class="active">Mj STUDIO</a>
+    <a href="mj-shops-news.html">Mj NEWS</a>
+    <a href="kontak.html">Kontak</a>
+</nav>
+
+<main>
+    <section class="hero-studio">
+        <h1>Mj-STUDIO</h1>
+        <p>Professional Photography & Creative Media Services.<br>Abadikan setiap detik berhargamu dengan kualitas sinematik.</p>
+    </section>
+
+    <div class="section-title">OUR PREMIUM SERVICES</div>
+
+    <div class="studio-grid">
+        <div class="studio-card">
+            <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=2070" alt="Prewedding Mj-Studio">
+            <div class="studio-info">
+                <span class="studio-tag">Best Seller</span>
+                <h3>Prewedding Photography</h3>
+                <p>Abadikan kisah cinta kalian dengan konsep unik, mulai dari casual outdoor hingga elegant indoor. Hasil foto high-res & retouch premium.</p>
+                <a href="https://wa.me/6285691451094?text=Halo%20Mj-Studio,%20saya%20ingin%20tanya%20paket%20Prewedding" class="btn-order">CEK HARGA PAKET</a>
+            </div>
+        </div>
+
+        <div class="studio-card">
+            <img src="https://images.unsplash.com/photo-1607344645866-009c320b63e0?q=80&w=2080" alt="Undangan Mj-Studio">
+            <div class="studio-info">
+                <span class="studio-tag">Creative Design</span>
+                <h3>Kartu Undangan Premium</h3>
+                <p>Desain eksklusif yang mencerminkan kepribadian Anda. Tersedia format cetak mewah (emboss/foil) maupun Undangan Digital/Web kekinian.</p>
+                <a href="https://wa.me/6285691451094?text=Halo%20Mj-Studio,%20saya%20ingin%20tanya%20desain%20Undangan" class="btn-order">LIHAT KATALOG DESAIN</a>
+            </div>
+        </div>
+
+        <div class="studio-card">
+            <img src="https://images.unsplash.com/photo-1533488765986-dfa2a9939acd?q=80&w=2070" alt="Video Dokumentasi Mj-Studio">
+            <div class="studio-info">
+                <span class="studio-tag">Cinematic</span>
+                <h3>Video Dokumentasi</h3>
+                <p>Dokumentasi pernikahan dengan gaya sinematik. Meliputi Cinematic Highlight, Full Documentation, hingga Liputan Drone (Aerial).</p>
+                <a href="https://wa.me/6285691451094?text=Halo%20Mj-Studio,%20saya%20ingin%20tanya%20paket%20Video%20Pernikahan" class="btn-order">BOOKING JADWAL</a>
+            </div>
+        </div>
+    </div>
+
+    <section class="stats-bar">
+        <div class="stat-item">
+            <i class="fas fa-camera-retro"></i>
+            <div>500+</div>
+            <span>Clients</span>
+        </div>
+        <div class="stat-item">
+            <i class="fas fa-heart"></i>
+            <div>100%</div>
+            <span>Satisfaction</span>
+        </div>
+        <div class="stat-item">
+            <i class="fas fa-award"></i>
+            <div>Professional</div>
+            <span>Crew</span>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <img src="https://mj-shops.biz.id/public/photo/logo-Mj-Shops.png" alt="Mj-Shops" style="height: 50px; margin-bottom: 20px;">
+    <p style="font-size: 1.1rem;"><strong>MJ-STUDIO by Mj-Shops</strong><br>Professional Creative Media Solution.</p>
+    
+    <div class="social-links">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="https://wa.me/6285691451094"><i class="fab fa-whatsapp"></i></a>
+    </div>
+
+    <div class="footer-nav">
+        <a href="index.html">HOME</a>
+        <a href="produk.html">KATALOG PRODUK</a>
+        <a href="promo.html">PROMO</a>
+        <a href="kontak.html">KONSULTASI GRATIS</a>
+    </div>
+    
+    <hr style="border: 0; border-top: 1px solid #333; max-width: 500px; margin: 20px auto;">
+    <p style="font-size: 0.8rem; color: #666;">&copy; 2026 <strong>Mj-Studio</strong>. Parungkuda - Sukabumi - Jawa Barat.</p>
+</footer>
+
+</body>
+</html>

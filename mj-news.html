@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mj-Shops News | Pusat Tren Fashion & Gaya Hidup 2026</title>
+    
+    <link rel="icon" href="https://mj-shops.biz.id/public/photo/logo-Mj-Shops.png" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --accent-gold: #f1c40f;
+            --text-gray: #555;
+            --light-bg: #ffffff;
+            --border-color: #eeeeee;
+        }
+
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #fcfcfc; 
+            color: #222; 
+        }
+
+        /* Top Bar Branding */
+        .news-header {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 4px solid var(--accent-gold);
+        }
+        .news-header img { height: 45px; margin-bottom: 5px; }
+        .news-header p { 
+            margin: 0; 
+            font-size: 0.7rem; 
+            letter-spacing: 3px; 
+            text-transform: uppercase; 
+            color: var(--accent-gold); 
+        }
+
+        /* Navigation */
+        .menu { 
+            display: flex; 
+            justify-content: center; 
+            background: #fff; 
+            padding: 15px 0; 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .menu a { 
+            text-decoration: none; 
+            color: var(--primary-color); 
+            font-size: 13px; 
+            font-weight: 600; 
+            margin: 0 15px;
+            text-transform: uppercase;
+        }
+        .menu a:hover, .menu a.active { color: var(--accent-gold); }
+
+        /* News Layout */
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        
+        /* Featured Article (Headline) */
+        .headline-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .main-headline {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            height: 400px;
+        }
+        .main-headline img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .main-headline:hover img { transform: scale(1.05); }
+        .headline-overlay {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            padding: 30px 20px;
+            color: white;
+        }
+        .headline-overlay h1 { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 2rem; 
+            margin: 10px 0; 
+        }
+
+        /* Sidebar Style */
+        .trending-sidebar {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        .sidebar-title {
+            font-weight: 800;
+            border-left: 4px solid var(--accent-gold);
+            padding-left: 10px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        /* Article List */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .news-card {
+            background: transparent;
+            border: none;
+            transition: 0.3s;
+        }
+        .news-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .category-tag {
+            color: var(--accent-gold);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .news-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            margin: 10px 0;
+            line-height: 1.4;
+            color: var(--primary-color);
+        }
+        .news-meta {
+            font-size: 0.7rem;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        /* Responsif Mobile */
+        @media (max-width: 768px) {
+            .headline-section { grid-template-columns: 1fr; }
+            .main-headline { height: 300px; }
+            .main-headline h1 { font-size: 1.4rem; }
+            .menu { overflow-x: auto; justify-content: flex-start; padding: 15px; }
+            .menu a { white-space: nowrap; margin-right: 20px; }
+        }
+
+        footer { 
+            background: var(--primary-color); 
+            color: #777; 
+            padding: 50px 15px; 
+            text-align: center; 
+            margin-top: 50px;
+        }
+        .social-links a { color: white; margin: 0 10px; font-size: 1.2rem; }
+    </style>
+</head>
+<body>
+
+<header class="news-header">
+    <img src="https://mj-shops.biz.id/public/photo/logo-Mj-Shops.png" alt="Mj-Shops Logo">
+    <p>The Journal of Fashion & Lifestyle</p>
+</header>
+
+<nav class="menu">
+    <a href="index.html">Home</a>
+    <a href="#" class="active">News</a>
+    <a href="#">Tren 2026</a>
+    <a href="#">Tips & Trick</a>
+    <a href="#">Event</a>
+</nav>
+
+<main class="container">
+    
+    <section class="headline-section">
+        <a href="artikel/tren-gamis-2026.html" style="text-decoration: none;">
+            <div class="main-headline">
+                <img src="public/photo/model-gamis-2026.jpeg" alt="Headline">
+                <div class="headline-overlay">
+                    <span class="category-tag" style="color: var(--accent-gold);">Trend Report</span>
+                    <h1>Eksklusif: Mengintip Tren Gamis Bini Orang yang Bakal Booming di Tahun 2026</h1>
+                    <div class="news-meta">Oleh Redaksi Mj-Shops | 20 Februari 2026</div>
+                </div>
+            </div>
+        </a>
+
+        <div class="trending-sidebar">
+            <div class="sidebar-title">Sedang Hangat</div>
+            <div style="margin-bottom: 15px;">
+                <span class="category-tag">Parungkuda News</span>
+                <p style="font-size: 0.9rem; font-weight: 600; margin: 5px 0;">Gudang Jeans Terbesar Kini Hadir di Sukabumi</p>
+            </div>
+            <hr style="border: 0; border-top: 1px solid #eee;">
+            <div style="margin-bottom: 15px;">
+                <span class="category-tag">Fashion Tips</span>
+                <p style="font-size: 0.9rem; font-weight: 600; margin: 5px 0;">Cara Memilih Bahan Syar'i Agar Tetap Adem</p>
+            </div>
+            <hr style="border: 0; border-top: 1px solid #eee;">
+            <div style="margin-bottom: 15px;">
+                <span class="category-tag">Promo</span>
+                <p style="font-size: 0.9rem; font-weight: 600; margin: 5px 0;">Flash Sale Gila-Gilaan: Diskon up to 75%!</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="sidebar-title">Berita Terbaru</div>
+    
+    <section class="news-grid">
+        <div class="news-card">
+            <img src="public/photo/jeans-pria.png" alt="Jeans Pria">
+            <span class="category-tag">Style Guide</span>
+            <div class="news-meta">20 Februari 2026</div>
+            <h3>5 Model Celana Jeans Pria yang Wajib Dimiliki Tahun Ini</h3>
+            <p style="font-size: 0.85rem; color: var(--text-gray);">Kenyamanan adalah kunci. Temukan pilihan jeans terbaik dari brand lokal...</p>
+        </div>
+
+        <div class="news-card">
+            <img src="public/photo/Match-Gamis-Muslimah-dengan-Hijab.jpg" alt="Gamis Hijab">
+            <span class="category-tag">Lifestyle</span>
+            <div class="news-meta">19 Februari 2026</div>
+            <h3>Padu Padan Hijab dan Gamis Premium untuk Acara Formal</h3>
+            <p style="font-size: 0.85rem; color: var(--text-gray);">Tampil elegan tidak harus mahal. Simak tips padu padan warna berikut...</p>
+        </div>
+
+        <div class="news-card">
+            <img src="public/photo/celana-jeans-cowo-4inOne.jpg" alt="Jeans Cowo">
+            <span class="category-tag">Shopping</span>
+            <div class="news-meta">18 Februari 2026</div>
+            <h3>Review: Paket Hemat Jeans 4 In One Parungkuda</h3>
+            <p style="font-size: 0.85rem; color: var(--text-gray);">Kami menguji ketahanan bahan denim dari koleksi terbaru Mj-Shops...</p>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <img src="https://mj-shops.biz.id/public/photo/logo-Mj-Shops.png" alt="Mj-Shops" style="height: 40px; margin-bottom: 20px;">
+    <p style="font-size: 1rem; color: white;"><strong>MJ-SHOPS NEWSROOM</strong></p>
+    <p>Menyajikan informasi fashion terdepan langsung dari pusatnya.</p>
+    
+    <div class="social-links" style="margin: 20px 0;">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="https://wa.me/6285691451094"><i class="fab fa-whatsapp"></i></a>
+    </div>
+
+    <p style="font-size: 0.7rem;">&copy; 2026 Mj-Shops Indonesia. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>
