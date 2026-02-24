@@ -4,75 +4,117 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Produk | MJ-SHOPS</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
-        :root { --dark: #1a1a1a; --gold: #f1c40f; }
-        body { font-family: 'Poppins', sans-serif; margin: 0; background: #f8f9fa; }
-        .nav { background: var(--dark); padding: 15px; color: white; display: flex; align-items: center; gap: 15px; }
-        .nav a { color: white; text-decoration: none; font-size: 20px; }
-        .container { max-width: 500px; margin: auto; background: white; min-height: 100vh; }
-        .main-img { width: 100%; height: 400px; object-fit: cover; }
-        .info { padding: 20px; }
-        .tag { background: var(--gold); color: black; padding: 3px 10px; border-radius: 5px; font-size: 10px; font-weight: 800; }
-        h1 { font-size: 1.4rem; margin: 10px 0; text-transform: uppercase; font-weight: 800; }
-        .price { font-size: 1.5rem; color: #27ae60; font-weight: 800; margin-bottom: 20px; }
-        .desc { font-size: 0.9rem; color: #666; line-height: 1.6; border-top: 1px solid #eee; padding-top: 15px; }
-        .wa-btn { position: fixed; bottom: 20px; left: 20px; right: 20px; background: #25d366; color: white; text-align: center; padding: 15px; border-radius: 10px; text-decoration: none; font-weight: 800; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        :root { --primary: #1a1a1a; --gold: #f1c40f; --bg: #f8f9fa; }
+        body { font-family: 'Poppins', sans-serif; margin: 0; background: var(--bg); color: #333; }
+        
+        /* Navbar */
+        .navbar { background: var(--primary); padding: 15px; display: flex; align-items: center; color: white; position: sticky; top: 0; z-index: 100; }
+        .navbar a { color: white; text-decoration: none; font-size: 1.2rem; margin-right: 15px; }
+        .navbar span { font-weight: 800; font-size: 0.9rem; letter-spacing: 1px; }
+
+        .container { max-width: 600px; margin: auto; background: white; min-height: 100vh; padding-bottom: 100px; }
+        
+        /* Image Section */
+        .product-img { width: 100%; height: 450px; object-fit: cover; background: #eee; }
+        
+        /* Info Section */
+        .product-info { padding: 20px; }
+        .badge { background: var(--gold); color: black; padding: 4px 12px; border-radius: 5px; font-size: 10px; font-weight: 800; text-transform: uppercase; }
+        h1 { font-size: 1.5rem; font-weight: 800; margin: 15px 0 5px; text-transform: uppercase; line-height: 1.2; }
+        .price { font-size: 1.6rem; color: #27ae60; font-weight: 800; margin-bottom: 20px; display: block; }
+        
+        .description-box { border-top: 1px solid #eee; padding-top: 20px; }
+        .description-box h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 10px; color: var(--primary); }
+        .description-box p { font-size: 0.85rem; color: #666; line-height: 1.6; white-space: pre-line; }
+
+        /* Floating Button WA */
+        .cta-container { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); display: flex; justify-content: center; }
+        .btn-wa { background: #25d366; color: white; text-decoration: none; width: 100%; max-width: 500px; padding: 15px; border-radius: 12px; text-align: center; font-weight: 800; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; }
+        .btn-wa:active { transform: scale(0.95); }
+
+        #loading-screen { text-align: center; padding: 100px 20px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="nav">
+    <div class="navbar">
         <a href="katalog-produk.html"><i class="fas fa-arrow-left"></i></a>
-        <span style="font-weight: 800; font-size: 14px;">DETAIL PRODUK</span>
+        <span>DETAIL PRODUK</span>
     </div>
 
-    <div id="loading" style="padding: 50px; text-align: center;">Memuat detail...</div>
-    <div id="content" style="display: none;">
-        <img id="p-foto" class="main-img">
-        <div class="info">
-            <span class="tag">NEW ARRIVAL</span>
-            <h1 id="p-nama"></h1>
-            <div class="price" id="p-harga"></div>
-            <div class="desc">
-                <b style="color:black">DESKRIPSI PRODUK:</b><br>
-                <span id="p-desc"></span>
+    <div id="loading-screen">
+        <i class="fas fa-circle-notch fa-spin" style="font-size: 2rem; color: var(--gold);"></i>
+        <p>Mencari barang...</p>
+    </div>
+
+    <div id="product-content" style="display: none;">
+        <img id="p-foto" class="product-img" src="" alt="Produk">
+        <div class="product-info">
+            <span class="badge">Original Collection</span>
+            <h1 id="p-nama">Nama Produk</h1>
+            <span class="price" id="p-harga">Rp 0</span>
+            
+            <div class="description-box">
+                <h3>DESKRIPSI PRODUK</h3>
+                <p id="p-desc">Memuat deskripsi...</p>
             </div>
         </div>
     </div>
-    
-    <a href="#" id="wa-link" class="wa-btn" target="_blank">
-        <i class="fab fa-whatsapp"></i> BELI SEKARANG
-    </a>
+
+    <div class="cta-container">
+        <a href="#" id="wa-link" class="btn-wa" target="_blank">
+            <i class="fab fa-whatsapp"></i> BELI SEKARANG
+        </a>
+    </div>
 </div>
 
 <script>
     const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('id');
+    const productId = urlParams.get('id');
+    const USER = "hamudi2012";
+    const REPO = "Mj-Shops";
 
-    async function load() {
-        if(!id) return;
+    async function loadDetail() {
+        if (!productId) {
+            document.getElementById('loading-screen').innerHTML = "Produk tidak ditemukan.";
+            return;
+        }
+
         try {
-            const res = await fetch(`https://raw.githubusercontent.com/hamudi2012/Mj-E-commerce-/main/database/products/${id}.json`);
+            // Kita ambil data JSON-nya
+            const res = await fetch(`https://raw.githubusercontent.com/${USER}/${REPO}/main/database/products/${productId}.json`);
+            if (!res.ok) throw new Error();
             const p = await res.json();
 
+            // Pasang data ke HTML
             document.getElementById('p-foto').src = p.foto;
             document.getElementById('p-nama').innerText = p.nama;
             document.getElementById('p-harga').innerText = "Rp " + parseInt(p.harga).toLocaleString('id-ID');
-            document.getElementById('p-desc').innerText = p.deskripsi || "Tidak ada deskripsi.";
+            document.getElementById('p-desc').innerText = p.deskripsi || "Produk eksklusif dari MJ-SHOPS. Bahan berkualitas tinggi dan nyaman dipakai.";
             
-            const pesan = `Halo MJ-SHOPS, saya mau beli ${p.nama} seharga Rp ${parseInt(p.harga).toLocaleString('id-ID')}. Apakah stok ada?`;
+            // Format pesan WA biar rapi
+            const pesan = `Halo MJ-SHOPS, saya mau pesan produk ini:\n\n*Nama:* ${p.nama}\n*Harga:* Rp ${parseInt(p.harga).toLocaleString('id-ID')}\n\nApakah stok masih ada?`;
             document.getElementById('wa-link').href = `https://wa.me/6285691451094?text=${encodeURIComponent(pesan)}`;
 
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('content').style.display = 'block';
-        } catch(e) {
-            document.getElementById('loading').innerText = "Produk tidak ditemukan.";
+            // Tampilkan konten, sembunyikan loading
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('product-content').style.display = 'block';
+
+        } catch (error) {
+            document.getElementById('loading-screen').innerHTML = `
+                <i class="fas fa-shopping-bag" style="font-size: 3rem; color: #ddd; margin-bottom: 15px;"></i>
+                <p>Produk belum tersedia atau sudah dihapus.</p>
+                <a href="katalog-produk.html" style="color: var(--gold); font-weight: 800; text-decoration: none;">Kembali ke Katalog</a>
+            `;
         }
     }
-    load();
+
+    loadDetail();
 </script>
+
 </body>
 </html>
