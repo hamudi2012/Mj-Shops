@@ -75,29 +75,25 @@
 <script>
     async function muatKatalog() {
         const container = document.getElementById('katalog-container');
-        // SINKRONISASI REPO TERBARU
         const USER = "hamudi2012";
         const REPO = "Mj-Shops";
 
         try {
-            // Ambil daftar file dari folder database/products
-            const res = await fetch(`https://api.github.com/repos/${USER}/${REPO}/contents/database/products/`);
-            const files = await res.json();
+            // Kita panggil file master yang baru lu buat tadi
+            // Tambahin ?v= biar gak kena cache (data selalu terbaru)
+            const res = await fetch(`https://raw.githubusercontent.com/${USER}/${REPO}/main/database/list-produk.json?v=${Date.now()}`);
             
-            // Filter hanya file JSON dan urutkan dari yang terbaru (ID terbesar)
-            const jsonFiles = files.filter(f => f.name.endsWith('.json')).reverse();
+            if (!res.ok) throw new Error();
+            const listProduk = await res.json();
 
-            if (jsonFiles.length === 0) {
-                container.innerHTML = "<p style='grid-column: span 2; text-align: center; padding: 50px;'>Belum ada produk tambahan di katalog otomatis.</p>";
+            if (listProduk.length === 0) {
+                container.innerHTML = "<p style='grid-column: span 2; text-align: center; padding: 50px;'>Belum ada produk di katalog.</p>";
                 return;
             }
 
             container.innerHTML = ""; // Bersihkan loading
 
-            for (let file of jsonFiles) {
-                const resP = await fetch(file.download_url);
-                const p = await resP.json();
-                
+            listProduk.forEach(p => {
                 container.innerHTML += `
                     <a href="detail.html?id=${p.id}" class="item-card">
                         <img src="${p.foto}" alt="${p.nama}">
@@ -107,12 +103,13 @@
                         </div>
                     </a>
                 `;
-            }
+            });
         } catch (e) {
-            container.innerHTML = "<p style='grid-column: span 2; text-align: center; padding: 50px;'>Gagal memuat katalog. Pastikan folder 'database/products' sudah ada di GitHub.</p>";
+            container.innerHTML = "<p style='grid-column: span 2; text-align: center; padding: 50px;'>Gagal memuat katalog. Coba upload barang dulu di Admin.</p>";
         }
     }
     muatKatalog();
 </script>
+
 </body>
 </html>
