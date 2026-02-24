@@ -16,7 +16,7 @@
         input, textarea { width: 100%; padding: 15px; margin: 8px 0 15px; border-radius: 12px; border: 1px solid #333; background: #252525; color: white; box-sizing: border-box; font-family: 'Poppins'; }
         .preview-container { width: 100%; height: 200px; border-radius: 12px; background: #252525; border: 2px dashed #444; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 15px; cursor: pointer; }
         #imgPreview { width: 100%; height: 100%; object-fit: contain; display: none; }
-        button { width: 100%; padding: 18px; border-radius: 12px; border: none; background: var(--gold); color: black; font-weight: 800; font-size: 16px; cursor: pointer; text-transform: uppercase; }
+        button { width: 100%; padding: 18px; border-radius: 12px; border: none; background: var(--gold); color: black; font-weight: 800; font-size: 16px; cursor: pointer; text-transform: uppercase; width: 100%; }
         #status { text-align: center; font-size: 13px; margin-top: 15px; font-weight: 600; color: var(--gold); }
     </style>
 </head>
@@ -24,7 +24,7 @@
 
 <div class="header">
     <h2>MJ-SHOPS</h2>
-    <p style="margin:0; font-size:10px; opacity:0.7">EXCLUSIVE ADMIN PANEL</p>
+    <p style="margin:0; font-size:10px; opacity:0.7">ULTRA-FAST ADMIN SYSTEM</p>
 </div>
 
 <div class="card">
@@ -36,16 +36,16 @@
     <input type="file" id="foto" accept="image/*" onchange="preview()" style="display: none;">
 
     <label><i class="fas fa-tag"></i> Nama Barang</label>
-    <input type="text" id="nama" placeholder="Contoh: Kaos Polos Hitam">
+    <input type="text" id="nama" placeholder="Contoh: Gamis Viral Bini Orang">
 
     <label><i class="fas fa-money-bill-wave"></i> Harga (Rp)</label>
-    <input type="number" id="harga" placeholder="Contoh: 150000">
+    <input type="number" id="harga" placeholder="Contoh: 250000">
 
     <label><i class="fas fa-align-left"></i> Deskripsi Produk</label>
-    <textarea id="deskripsi" rows="3" placeholder="Ukuran, Bahan, Warna..."></textarea>
+    <textarea id="deskripsi" rows="3" placeholder="Masukkan deskripsi barang..."></textarea>
 
     <button onclick="upload()" id="btnUpload">PAJANG SEKARANG</button>
-    <div id="status">Siap upload barang baru.</div>
+    <div id="status">Sistem Siap.</div>
 </div>
 
 <script>
@@ -62,22 +62,25 @@
     }
 
     async function upload() {
-        // SISTEM KEAMANAN: Token ditanyakan lewat kotak popup (tidak tersimpan di file)
-        const tokenAsli = prompt("MASUKKAN TOKEN KEAMANAN GITHUB LU:");
-        
-        if (!tokenAsli || tokenAsli.trim() === "") {
-            return alert("Wajib masukin token biar bisa upload, Bos!");
+        let tokenAsli = sessionStorage.getItem("token_mj");
+        if (!tokenAsli) {
+            tokenAsli = prompt("MASUKKAN TOKEN GITHUB LU:");
+            if (tokenAsli) sessionStorage.setItem("token_mj", tokenAsli.trim());
         }
+        if (!tokenAsli) return;
 
         const nama = document.getElementById('nama').value;
         const harga = document.getElementById('harga').value;
         const deskripsi = document.getElementById('deskripsi').value;
         const file = document.getElementById('foto').files[0];
         const stat = document.getElementById('status');
+        const btn = document.getElementById('btnUpload');
 
-        if(!nama || !harga || !file) return alert("Lengkapi semua data dulu!");
+        if(!nama || !harga || !file) return alert("Data gak boleh kosong!");
 
-        stat.innerHTML = "⏳ Sedang Menghubungi Server...";
+        stat.innerHTML = "⏳ Menghubungi Satelit GitHub...";
+        btn.disabled = true;
+
         const id = Date.now();
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -85,40 +88,61 @@
         reader.onload = async (e) => {
             const base64 = e.target.result.split(',')[1];
             try {
-                // 1. Upload Foto ke public/photo/
+                const header = { "Authorization": `token ${tokenAsli.trim()}` };
+
+                // 1. UPLOAD FOTO
                 const resF = await fetch(`https://api.github.com/repos/${USER}/${REPO}/contents/public/photo/${id}.jpg`, {
-                    method: "PUT",
-                    headers: { "Authorization": `token ${tokenAsli.trim()}` },
+                    method: "PUT", headers: header,
                     body: JSON.stringify({ message: `Foto: ${nama}`, content: base64 })
                 });
-
-                if(!resF.ok) throw new Error("Token Salah");
                 const dataF = await resF.json();
+                const fotoUrl = dataF.content.download_url;
 
-                // 2. Simpan Data ke database/products/
-                const dataProd = { id, nama, harga, deskripsi, foto: dataF.content.download_url };
+                // 2. SIMPAN DETAIL JSON (Buat halaman detail)
+                const dataProd = { id, nama, harga, deskripsi, foto: fotoUrl };
+                await fetch(`https://api.github.com/repos/${USER}/${REPO}/contents/database/products/${id}.json`, {
+                    method: "PUT", headers: header,
+                    body: JSON.stringify({ message: `Detail: ${nama}`, content: btoa(unescape(encodeURIComponent(JSON.stringify(dataProd)))) })
+                });
 
-                const resD = await fetch(`https://api.github.com/repos/${USER}/${REPO}/contents/database/products/${id}.json`, {
-                    method: "PUT",
-                    headers: { "Authorization": `token ${tokenAsli.trim()}` },
+                // 3. UPDATE LIST-PRODUK.JSON (Biar Katalog Ngebut)
+                stat.innerHTML = "⏳ Menyelaraskan Katalog...";
+                const resL = await fetch(`https://api.github.com/repos/${USER}/${REPO}/contents/database/list-produk.json`, { headers: header });
+                
+                let listData = [];
+                let sha = null;
+
+                if (resL.ok) {
+                    const dataL = await resL.json();
+                    sha = dataL.sha;
+                    listData = JSON.parse(decodeURIComponent(escape(atob(dataL.content))));
+                }
+
+                // Tambah ke paling atas
+                listData.unshift({ id, nama, harga, foto: fotoUrl });
+
+                await fetch(`https://api.github.com/repos/${USER}/${REPO}/contents/database/list-produk.json`, {
+                    method: "PUT", headers: header,
                     body: JSON.stringify({ 
-                        message: `Data: ${nama}`, 
-                        content: btoa(unescape(encodeURIComponent(JSON.stringify(dataProd)))) 
+                        message: "Update Katalog List", 
+                        content: btoa(unescape(encodeURIComponent(JSON.stringify(listData)))),
+                        sha: sha 
                     })
                 });
 
-                if(!resD.ok) throw new Error("Gagal Simpan JSON");
-
-                stat.innerHTML = "✅ BERHASIL DIPAJANG!";
-                alert("MANTAP! Produk berhasil masuk katalog.");
+                stat.innerHTML = "✅ BERHASIL!";
+                alert("🔥 GACOR! Barang sudah tayang dan katalog sudah diperbarui.");
                 location.reload();
 
             } catch(err) {
-                alert("GAGAL! Token salah atau expired. Coba lagi.");
-                stat.innerHTML = "❌ Gagal Upload.";
+                alert("Gagal! Cek Token lu Bos.");
+                sessionStorage.removeItem("token_mj");
+                btn.disabled = false;
+                stat.innerHTML = "❌ Gagal.";
             }
         };
     }
 </script>
 </body>
-</html>
+    </html>
+    
