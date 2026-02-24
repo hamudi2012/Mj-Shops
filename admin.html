@@ -3,117 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel | MJ-SHOPS</title>
+    <title>Owner Panel | MJ-SHOPS</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
-        :root { --dark: #1a1a1a; --gold: #f1c40f; }
-        body { font-family: 'Poppins', sans-serif; background: #f4f4f4; margin: 0; padding: 15px; }
-        .header { background: var(--dark); color: white; padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; border-bottom: 4px solid var(--gold); }
-        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        input, textarea, button { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box; font-family: 'Poppins'; }
-        button { background: var(--dark); color: var(--gold); border: none; font-weight: 800; cursor: pointer; text-transform: uppercase; }
-        .btn-hapus { background: #e74c3c; color: white; width: auto; padding: 5px 15px; font-size: 12px; }
-        .preview-img { width: 100%; height: 200px; object-fit: contain; background: #eee; border-radius: 8px; display: none; }
-        .item-list { display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #eee; padding: 10px 0; }
-        .item-list img { width: 50px; height: 50px; object-fit: cover; border-radius: 5px; }
+        :root { --dark: #1a1a1a; --gold: #f1c40f; --white: #ffffff; }
+        body { font-family: 'Poppins', sans-serif; background: #121212; margin: 0; padding: 15px; color: var(--white); }
+        .header { background: var(--dark); padding: 25px; border-radius: 20px; text-align: center; margin-bottom: 20px; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .header h2 { margin: 0; color: var(--gold); letter-spacing: 2px; font-weight: 800; }
+        .card { background: #1e1e1e; padding: 20px; border-radius: 20px; border: 1px solid #333; margin-bottom: 20px; }
+        label { font-size: 12px; color: var(--gold); font-weight: 600; }
+        input, textarea { width: 100%; padding: 15px; margin: 8px 0 15px; border-radius: 12px; border: 1px solid #333; background: #252525; color: white; box-sizing: border-box; font-family: 'Poppins'; }
+        .preview-container { width: 100%; height: 200px; border-radius: 12px; background: #252525; border: 2px dashed #444; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 15px; cursor: pointer; }
+        #imgPreview { width: 100%; height: 100%; object-fit: contain; display: none; }
+        button { width: 100%; padding: 18px; border-radius: 12px; border: none; background: var(--gold); color: black; font-weight: 800; font-size: 16px; cursor: pointer; text-transform: uppercase; }
+        #status { text-align: center; font-size: 13px; margin-top: 15px; font-weight: 600; color: var(--gold); }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <h2 style="margin:0">MANAGEMENT PRODUK</h2>
-    <p style="margin:0; font-size:12px; color: var(--gold)">MJ-SHOPS EXCLUSIVE SYSTEM</p>
+    <h2>MJ-SHOPS</h2>
+    <p style="margin:0; font-size:10px; opacity:0.7">EXCLUSIVE ADMIN PANEL</p>
 </div>
 
 <div class="card">
-    <img id="imgPreview" class="preview-img">
-    <input type="text" id="nama" placeholder="Nama Barang">
-    <input type="number" id="harga" placeholder="Harga (Angka saja)">
-    <textarea id="deskripsi" placeholder="Deskripsi Produk (Ukuran, Bahan, dll)"></textarea>
-    <input type="file" id="foto" accept="image/*" onchange="preview()">
-    <button onclick="upload()" id="btnUpload">UPLOAD PRODUK</button>
-    <div id="status" style="text-align:center; font-size:12px; margin-top:10px"></div>
-</div>
+    <label><i class="fas fa-camera"></i> Foto Produk</label>
+    <div class="preview-container" onclick="document.getElementById('foto').click()">
+        <i id="placeholderIcon" class="fas fa-plus-circle" style="font-size: 40px; color: #444;"></i>
+        <img id="imgPreview">
+    </div>
+    <input type="file" id="foto" accept="image/*" onchange="preview()" style="display: none;">
 
-<div class="card">
-    <h3 style="margin-top:0">Stok Katalog Otomatis</h3>
-    <div id="listProduk">Memuat data...</div>
+    <label><i class="fas fa-tag"></i> Nama Barang</label>
+    <input type="text" id="nama" placeholder="Contoh: Kaos Polos Hitam">
+
+    <label><i class="fas fa-money-bill-wave"></i> Harga (Rp)</label>
+    <input type="number" id="harga" placeholder="Contoh: 150000">
+
+    <label><i class="fas fa-align-left"></i> Deskripsi Produk</label>
+    <textarea id="deskripsi" rows="3" placeholder="Ukuran, Bahan, Warna..."></textarea>
+
+    <button onclick="upload()" id="btnUpload">PAJANG SEKARANG</button>
+    <div id="status">Siap upload barang baru.</div>
 </div>
 
 <script>
     const USER = "hamudi2012";
-    const REPO = "Mj-E-commerce-";
-    const TOKEN = "ghp_MASUKKAN_SISA_TOKEN_LU_DISINI"; // MASUKKAN SISA TOKEN LU
+    const REPO = "Mj-Shops";
 
     function preview() {
         const p = document.getElementById('imgPreview');
+        const icon = document.getElementById('placeholderIcon');
         const file = document.getElementById('foto').files[0];
         const reader = new FileReader();
-        reader.onloadend = () => { p.src = reader.result; p.style.display = 'block'; }
+        reader.onloadend = () => { p.src = reader.result; p.style.display = 'block'; icon.style.display = 'none'; }
         if(file) reader.readAsDataURL(file);
     }
 
-    async function loadList() {
-        const container = document.getElementById('listProduk');
-        try {
-            const res = await fetch(`https://api.github.com/repos/${USER}/${REPO}/contents/database/products/`);
-            const files = await res.json();
-            container.innerHTML = "";
-            for(let f of files.reverse()) {
-                if(f.name.endsWith('.json')) {
-                    const d = await (await fetch(f.download_url)).json();
-                    container.innerHTML += `
-                        <div class="item-list">
-                            <img src="${d.foto}">
-                            <div style="flex:1"><b>${d.nama}</b></div>
-                            <button class="btn-hapus" onclick="hapus('${f.path}','${d.foto}')">Hapus</button>
-                        </div>`;
-                }
-            }
-        } catch(e) { container.innerHTML = "Belum ada produk."; }
-    }
-
     async function upload() {
+        // SISTEM KEAMANAN: Token ditanyakan lewat kotak popup (tidak tersimpan di file)
+        const tokenAsli = prompt("MASUKKAN TOKEN KEAMANAN GITHUB LU:");
+        
+        if (!tokenAsli || tokenAsli.trim() === "") {
+            return alert("Wajib masukin token biar bisa upload, Bos!");
+        }
+
         const nama = document.getElementById('nama').value;
         const harga = document.getElementById('harga').value;
         const deskripsi = document.getElementById('deskripsi').value;
         const file = document.getElementById('foto').files[0];
-        if(!nama || !harga || !file) return alert("Isi semua data!");
+        const stat = document.getElementById('status');
 
-        document.getElementById('status').innerText = "⏳ Memproses...";
+        if(!nama || !harga || !file) return alert("Lengkapi semua data dulu!");
+
+        stat.innerHTML = "⏳ Sedang Menghubungi Server...";
         const id = Date.now();
         const reader = new FileReader();
         reader.readAsDataURL(file);
+        
         reader.onload = async (e) => {
             const base64 = e.target.result.split(',')[1];
             try {
-                // 1. Upload Foto
-                const resF = await fetch(`https://api.github.com/repos/${USER}/${REPO}/contents/assets/uploads/${id}.jpg`, {
-                    method: "PUT", headers: { "Authorization": `Bearer ${TOKEN}` },
-                    body: JSON.stringify({ message: "foto", content: base64 })
+                // 1. Upload Foto ke public/photo/
+                const resF = await fetch(`https://api.github.com/repos/${USER}/${REPO}/contents/public/photo/${id}.jpg`, {
+                    method: "PUT",
+                    headers: { "Authorization": `token ${tokenAsli.trim()}` },
+                    body: JSON.stringify({ message: `Foto: ${nama}`, content: base64 })
                 });
+
+                if(!resF.ok) throw new Error("Token Salah");
                 const dataF = await resF.json();
 
-                // 2. Simpan JSON
+                // 2. Simpan Data ke database/products/
                 const dataProd = { id, nama, harga, deskripsi, foto: dataF.content.download_url };
-                await fetch(`https://api.github.com/repos/${USER}/${REPO}/contents/database/products/${id}.json`, {
-                    method: "PUT", headers: { "Authorization": `Bearer ${TOKEN}` },
-                    body: JSON.stringify({ message: "json", content: btoa(JSON.stringify(dataProd)) })
+
+                const resD = await fetch(`https://api.github.com/repos/${USER}/${REPO}/contents/database/products/${id}.json`, {
+                    method: "PUT",
+                    headers: { "Authorization": `token ${tokenAsli.trim()}` },
+                    body: JSON.stringify({ 
+                        message: `Data: ${nama}`, 
+                        content: btoa(unescape(encodeURIComponent(JSON.stringify(dataProd)))) 
+                    })
                 });
 
-                alert("Berhasil!"); location.reload();
-            } catch(err) { alert("Gagal! Cek Token lu."); }
+                if(!resD.ok) throw new Error("Gagal Simpan JSON");
+
+                stat.innerHTML = "✅ BERHASIL DIPAJANG!";
+                alert("MANTAP! Produk berhasil masuk katalog.");
+                location.reload();
+
+            } catch(err) {
+                alert("GAGAL! Token salah atau expired. Coba lagi.");
+                stat.innerHTML = "❌ Gagal Upload.";
+            }
         };
     }
-
-    async function hapus(path, fotoUrl) {
-        if(!confirm("Hapus produk ini?")) return;
-        // Logika hapus file via API (Perlu SHA, tapi biar simpel bisa lewat GitHub langsung atau tambahin kodingan SHA di sini)
-        alert("Untuk keamanan, hapus file langsung di folder database/products di GitHub lu ya Bos!");
-    }
-
-    loadList();
 </script>
 </body>
-  </html>
-  
+</html>
