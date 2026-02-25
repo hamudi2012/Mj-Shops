@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title id="meta-title">Memuat... | MJ-SHOPS</title>
+    <title id="meta-title">MJ-SHOPS</title>
     <meta name="description" id="meta-desc" content="">
     <meta property="og:image" id="og-img" content="">
     <script type="application/ld+json" id="p-schema"></script>
@@ -14,179 +14,174 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     
     <style>
-        :root {
-            --primary-color: #1a1a1a;
-            --accent-gold: #f1c40f;
-            --danger-red: #e74c3c;
-            --light-bg: #f8f9fa;
-        }
+        :root { --primary: #1a1a1a; --gold: #f1c40f; --bg: #f8f9fa; }
+        body { font-family: 'Poppins', sans-serif; margin: 0; background: var(--bg); color: #333; }
 
-        body { font-family: 'Poppins', sans-serif !important; margin: 0; padding: 0; background-color: var(--light-bg); color: #333; }
-
-        /* Navigation (Sesuai Index.html lu) */
-        nav.top-nav { background: var(--primary-color); padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        /* Nav & Menu (Sesuai index.html) */
+        nav.top-nav { background: var(--primary); padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
         .nav-logo { height: 30px; }
-        .menu { display: flex; justify-content: space-around; background: var(--primary-color); padding: 12px 0; position: sticky; top: 0; z-index: 1000; border-top: 1px solid #333; }
-        .menu a { text-decoration: none; color: #ffffff; font-size: 10px; font-weight: 600; flex: 1; text-align: center; }
+        .menu { display: flex; justify-content: space-around; background: var(--primary); padding: 12px 0; position: sticky; top: 0; z-index: 1000; border-top: 1px solid #333; }
+        .menu a { text-decoration: none; color: #fff; font-size: 10px; font-weight: 600; flex: 1; text-align: center; }
 
-        .container { max-width: 800px; margin: 20px auto; padding: 0 15px; padding-bottom: 100px; }
+        .container { max-width: 600px; margin: 20px auto; padding: 0 15px 100px; }
 
-        /* Tampilan Produk */
-        .detail-card { background: white; border-radius: 15px; overflow: hidden; border: 1px solid #eee; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .product-img-box { position: relative; width: 100%; background: #fff; text-align: center; border-bottom: 1px solid #f5f5f5; }
-        .product-img-box img { width: 100%; max-height: 550px; object-fit: contain; }
+        /* Product Display */
+        .product-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .img-box { width: 100%; background: #fff; line-height: 0; }
+        .img-box img { width: 100%; height: auto; object-fit: cover; }
         
-        .product-content { padding: 30px; }
-        .product-content h1 { font-size: 1.6rem; font-weight: 800; text-transform: uppercase; margin: 0; color: var(--primary-color); line-height: 1.2; }
+        .content { padding: 25px; }
+        .content h1 { font-size: 1.5rem; font-weight: 800; margin: 0; color: var(--primary); }
         
-        .price-section { margin: 20px 0; display: flex; align-items: center; gap: 15px; }
-        .price-new { color: #27ae60; font-weight: 800; font-size: 2.2rem; }
-        .price-old { text-decoration: line-through; color: #999; font-size: 1.1rem; }
+        .price-box { margin: 15px 0; display: flex; align-items: baseline; gap: 10px; }
+        .p-new { color: #27ae60; font-weight: 800; font-size: 2rem; }
+        .p-old { text-decoration: line-through; color: #bbb; font-size: 1rem; }
 
-        /* DESKRIPSI GAYA AI (Rapi & Bersih) */
-        .description-box { 
-            margin-top: 30px; 
-            padding: 25px; 
-            background: #ffffff; 
-            border-radius: 12px; 
-            border: 1px solid #f1f1f1;
-            font-family: 'Inter', sans-serif; /* Pake Inter biar clean kaya AI */
+        /* --- AUTO BEAUTY DESCRIPTION STYLE --- */
+        .desc-wrapper { 
+            margin-top: 25px; 
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.8;
+            color: #444;
         }
-        .description-text { font-size: 1rem; line-height: 1.8; color: #444; }
         
-        /* Format Otomatis untuk Judul di Deskripsi [JUDUL] */
-        .desc-header { 
-            font-weight: 700; color: #111; font-size: 1.1rem; 
-            margin: 25px 0 12px 0; border-left: 4px solid var(--accent-gold); padding-left: 12px;
+        /* Style untuk Baris Pertama / Judul Otomatis */
+        .desc-wrapper h3 {
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .desc-wrapper h3::before {
+            content: "";
+            width: 4px;
+            height: 20px;
+            background: var(--gold);
+            border-radius: 10px;
         }
 
-        /* Format Otomatis List Bintang (*) */
-        .description-text ul { padding-left: 20px; list-style: none; margin: 15px 0; }
-        .description-text li { position: relative; margin-bottom: 8px; }
-        .description-text li::before { content: "✦"; color: var(--accent-gold); position: absolute; left: -20px; font-size: 0.8rem; }
+        /* Style untuk List Otomatis */
+        .desc-list { margin: 15px 0; padding: 0; list-style: none; }
+        .desc-list li { 
+            background: #fdfdfd; 
+            margin-bottom: 8px; 
+            padding: 10px 15px; 
+            border-radius: 8px; 
+            border: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+        .desc-list li::before { content: "✨"; font-size: 0.9rem; }
 
-        /* Tombol WA Meledak */
         .btn-wa { 
             display: flex; align-items: center; justify-content: center; 
             background: #25d366; color: white; text-decoration: none; 
-            padding: 20px; border-radius: 12px; font-weight: 800; 
-            font-size: 1.2rem; margin-top: 30px; transition: 0.3s;
-            box-shadow: 0 10px 20px rgba(37,211,102,0.2);
+            padding: 18px; border-radius: 15px; font-weight: 800; 
+            font-size: 1.1rem; margin-top: 30px; transition: 0.3s;
         }
-        .btn-wa:hover { transform: translateY(-3px); filter: brightness(1.1); }
-        .btn-wa i { font-size: 1.7rem; margin-right: 12px; }
-
-        footer { background: var(--primary-color); color: #777; padding: 40px 15px; text-align: center; font-size: 0.75rem; }
+        .btn-wa i { font-size: 1.5rem; margin-right: 12px; }
     </style>
 </head>
 <body>
 
 <nav class="top-nav">
-    <img src="https://mj-shops.biz.id/public/photo/logo-Mj-Shops.png" alt="Mj-Shops" class="nav-logo">
-    <div style="color: white; font-size: 0.6rem; font-weight: bold; letter-spacing: 1px;">PREMIUM QUALITY</div>
+    <img src="https://mj-shops.biz.id/public/photo/logo-Mj-Shops.png" class="nav-logo">
+    <div style="color: white; font-size: 10px; font-weight: bold;">PREMIUM STORE</div>
 </nav>
 
 <nav class="menu">
     <a href="index.html">HOME</a>
-    <a href="promo.html">PROMO</a>
     <a href="produk.html">KATALOG</a>
+    <a href="promo.html">PROMO</a>
     <a href="kontak.html">KONTAK</a>
 </nav>
 
-<main class="container">
-    <div class="detail-card" id="main-content" style="display: none;">
-        <div class="product-img-box">
-            <img src="" id="p-img">
-        </div>
-
-        <div class="product-content">
+<div class="container">
+    <div class="product-card" id="card" style="display:none;">
+        <div class="img-box"><img src="" id="p-img"></div>
+        <div class="content">
             <h1 id="p-name"></h1>
+            <div class="price-box">
+                <span class="p-new" id="p-price"></span>
+                <span class="p-old" id="p-old"></span>
+            </div>
             
-            <div class="price-section">
-                <span class="price-old" id="p-old-price"></span>
-                <span class="price-new" id="p-price"></span>
-            </div>
-
-            <div class="description-box">
-                <div class="description-text" id="p-desc"></div>
-            </div>
+            <div class="desc-wrapper" id="p-desc">
+                </div>
 
             <a href="#" id="p-wa" class="btn-wa">
-                <i class="fab fa-whatsapp"></i> PESAN SEKARANG VIA WHATSAPP
+                <i class="fab fa-whatsapp"></i> BELI SEKARANG
             </a>
         </div>
     </div>
-</main>
-
-<footer>
-    <p>&copy; 2026 Mj-Shops Indonesia - Sukabumi Style.</p>
-</footer>
+</div>
 
 <script>
-    // FUNGSI PEMBERSIH & PERAPI TEKS (AI STYLE)
-    function cleanDescription(text) {
-        // 1. Ubah [JUDUL] jadi Header Rapi
-        let formatted = text.replace(/\[(.*?)\]/g, '<div class="desc-header">$1</div>');
-        
-        // 2. Ubah * Poin jadi List Bintang ✦
-        formatted = formatted.replace(/^\*\s(.*)$/gm, '<li>$1</li>');
-        formatted = formatted.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
-        
-        // 3. Spasi Baris
-        formatted = formatted.replace(/\n/g, '<br>');
-        return formatted;
+    // MESIN OTOMATIS PENYANTIK DESKRIPSI
+    function autoBeauty(text) {
+        let lines = text.split('\n').filter(line => line.trim() !== '');
+        let htmlResult = "";
+        let listActive = false;
+
+        lines.forEach((line, index) => {
+            let cleanLine = line.trim();
+            
+            // 1. Baris pertama otomatis jadi Judul Keren
+            if (index === 0) {
+                htmlResult += `<h3>${cleanLine}</h3>`;
+            } 
+            // 2. Kalau ada tanda bintang atau strip, jadi List Estetik
+            else if (cleanLine.startsWith('*') || cleanLine.startsWith('-')) {
+                if (!listActive) { htmlResult += '<div class="desc-list">'; listActive = true; }
+                htmlResult += `<li>${cleanLine.replace(/^[\*\-]\s*/, '')}</li>`;
+            } 
+            // 3. Sisanya jadi teks paragraf rapi
+            else {
+                if (listActive) { htmlResult += '</div>'; listActive = false; }
+                htmlResult += `<p style="margin-bottom:15px;">${cleanLine}</p>`;
+            }
+        });
+
+        if (listActive) htmlResult += '</div>';
+        return htmlResult;
     }
 
-    async function fetchProduct() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const id = urlParams.get('id');
-        const USER = "hamudi2012";
-        const REPO = "Mj-Shops";
-
+    async function loadData() {
+        const id = new URLSearchParams(window.location.search).get('id');
         try {
-            const res = await fetch(`https://raw.githubusercontent.com/${USER}/${REPO}/main/database/products/${id}.json`);
+            const res = await fetch(`https://raw.githubusercontent.com/hamudi2012/Mj-Shops/main/database/products/${id}.json`);
             const p = await res.json();
 
-            // Isi Konten
             document.getElementById('p-name').innerText = p.nama;
             document.getElementById('p-img').src = p.foto;
             document.getElementById('p-price').innerText = `Rp ${parseInt(p.harga).toLocaleString('id-ID')}`;
-            document.getElementById('p-old-price').innerText = `Rp ${(parseInt(p.harga) * 1.5).toLocaleString('id-ID')}`;
-            document.getElementById('p-desc').innerHTML = cleanDescription(p.deskripsi);
+            document.getElementById('p-old').innerText = `Rp ${(parseInt(p.harga) * 1.5).toLocaleString('id-ID')}`;
             
-            document.getElementById('p-wa').href = `https://wa.me/6285691451094?text=Halo%20Mj-Shops,%20saya%20tertarik%20dengan%20${p.nama}!`;
+            // JRENG! Langsung Cantik Disini
+            document.getElementById('p-desc').innerHTML = autoBeauty(p.deskripsi);
+            
+            document.getElementById('p-wa').href = `https://wa.me/6285691451094?text=Order%20${p.nama}`;
 
-            // INJEKSI SEO & LD+JSON
-            document.title = `${p.nama} Murah di Sukabumi | MJ-SHOPS`;
-            document.getElementById('meta-title').innerText = `${p.nama} Murah di Sukabumi`;
-            document.getElementById('meta-desc').content = `Cari ${p.nama} berkualitas? Mj-Shops Sukabumi sedia ${p.nama} dengan harga Rp ${p.harga}. Lokasi Parungkuda.`;
+            // SEO & Schema
+            document.title = `${p.nama} - MJ-SHOPS Sukabumi`;
+            document.getElementById('meta-desc').content = `Beli ${p.nama} murah di Sukabumi. Kualitas terbaik area Parungkuda.`;
             document.getElementById('og-img').content = p.foto;
-
-            const schema = {
-                "@context": "https://schema.org/",
-                "@type": "Product",
-                "name": p.nama,
-                "image": p.foto,
-                "description": p.deskripsi.substring(0, 160),
-                "offers": {
-                    "@type": "Offer",
-                    "priceCurrency": "IDR",
-                    "price": p.harga,
-                    "availability": "https://schema.org/InStock"
-                }
-            };
-            document.getElementById('p-schema').text = JSON.stringify(schema);
+            document.getElementById('p-schema').text = JSON.stringify({
+                "@context": "https://schema.org/", "@type": "Product", "name": p.nama, "image": p.foto,
+                "offers": { "@type": "Offer", "price": p.harga, "priceCurrency": "IDR" }
+            });
             
-            // Tampilkan Halaman
-            document.getElementById('main-content').style.display = 'block';
-
-        } catch (err) {
-            console.log("Produk tidak ada");
-        }
+            document.getElementById('card').style.display = 'block';
+        } catch (e) { console.log("Error!"); }
     }
-    fetchProduct();
+    loadData();
 </script>
-
 </body>
-                </html>
-                
+    </html>
+    
