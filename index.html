@@ -40,6 +40,46 @@
         .promo-mini-card b { color: var(--accent-gold); font-size: 0.75rem; display: block; text-transform: uppercase; }
         .promo-mini-card span { font-size: 0.65rem; }
 
+        .home-products { padding: 40px 15px; background: #fff; }
+.container-title { text-align: center; margin-bottom: 30px; }
+.container-title h2 { font-weight: 800; letter-spacing: -1px; margin-bottom: 5px; }
+.container-title p { color: #777; font-size: 0.9rem; }
+
+/* Grid System */
+.product-grid { 
+    display: grid; 
+    grid-template-columns: repeat(2, 1fr); /* 2 Kolom di HP */
+    gap: 15px; 
+}
+
+@media (min-width: 768px) {
+    .product-grid { grid-template-columns: repeat(4, 1fr); } /* 4 Kolom di Laptop */
+}
+
+/* Kartu Produk */
+.product-card { 
+    background: #fff; 
+    border-radius: 15px; 
+    overflow: hidden; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #f0f0f0;
+}
+
+.product-card img { width: 100%; height: 200px; object-fit: cover; }
+.product-info { padding: 12px; }
+.product-info h3 { font-size: 0.85rem; margin: 0; font-weight: 600; height: 35px; overflow: hidden; }
+.product-info .price { color: #e74c3c; font-weight: 800; font-size: 1rem; margin-top: 8px; display: block; }
+
+.btn-more { 
+    display: inline-block; padding: 12px 30px; background: #000; color: #fff; 
+    text-decoration: none; border-radius: 50px; font-weight: 600; font-size: 0.8rem;
+                        }
+        
+
         /* GRID SYSTEM 2 KOLOM (PASTI) */
         #home-products, #home-articles, .promo-grid {
             display: grid !important;
@@ -224,6 +264,22 @@
         </a>
     </div>
 
+    <section class="home-products">
+    <div class="container-title">
+        <h2>🔥 KOLEKSI TERBARU</h2>
+        <p>Produk viral paling dicari minggu ini</p>
+    </div>
+    
+    <div id="home-product-grid" class="product-grid">
+        <p style="text-align: center; grid-column: 1/-1;">Lagi jemput barang di gudang...</p>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="katalog-produk.html" class="btn-more">LIHAT SEMUA KATALOG</a>
+    </div>
+    </section>
+    
+
     <div class="section-title">📦 KOLEKSI TERBARU</div>
     <div id="home-products"></div>
 
@@ -255,6 +311,46 @@
 
 <script src="public/js/home.js"></script>
 <script src="public/js/katalog-otomatis.js"></script>
+<script>
+    async function muatProdukHome() {
+        const grid = document.getElementById('home-product-grid');
+        const USER = "hamudi2012";
+        const REPO = "Mj-Shops";
+
+        try {
+            const res = await fetch(`https://raw.githubusercontent.com/${USER}/${REPO}/main/database/list-produk.json?v=${Date.now()}`);
+            const data = await res.json();
+
+            if (data.length === 0) {
+                grid.innerHTML = "<p>Belum ada produk baru.</p>";
+                return;
+            }
+
+            grid.innerHTML = ""; // Hapus loading
+
+            // Cuma nampilin 6 produk terbaru aja di Home
+            const produkTerbaru = data.slice(0, 6);
+
+            produkTerbaru.forEach(p => {
+                grid.innerHTML += `
+                    <a href="detail.html?id=${p.id}" class="product-card">
+                        <img src="${p.foto}" alt="${p.nama}">
+                        <div class="product-info">
+                            <h3>${p.nama}</h3>
+                            <span class="price">Rp ${parseInt(p.harga).toLocaleString('id-ID')}</span>
+                        </div>
+                    </a>
+                `;
+            });
+        } catch (e) {
+            grid.innerHTML = "<p>Gagal memuat produk.</p>";
+        }
+    }
+
+    // Jalankan pas halaman kebuka
+    muatProdukHome();
+</script>
+    
 
 </body>
 </html>
