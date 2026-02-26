@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MJ STUDIO ULTIMATE v2</title>
+    <title>MJ STUDIO ULTIMATE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
         :root { --gold: #d4af37; --dark: #0a0a0a; --card: #161616; --border: #333; }
@@ -15,9 +15,9 @@
         .form-control { background: #000; border: 1px solid var(--border); color: #fff; font-size: 13px; margin-bottom: 10px; }
         .form-control:focus { border-color: var(--gold); box-shadow: none; background: #050505; color: #fff; }
         .btn-gold { background: var(--gold); color: #000; font-weight: 800; border: none; width: 100%; padding: 12px; border-radius: 8px; text-transform: uppercase; }
-        .list-item { background: #111; border: 1px solid #222; padding: 10px; border-radius: 8px; margin-bottom: 8px; }
+        .list-item { background: #111; border: 1px solid #222; padding: 10px; border-radius: 8px; margin-bottom: 8px; transition: 0.3s; }
         .preview-img { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; margin-right: 10px; border: 1px solid #444; }
-        #status-bar { position: fixed; bottom: 0; width: 100%; background: #000; border-top: 1px solid var(--border); padding: 5px; font-size: 9px; color: var(--gold); text-align: center; font-family: monospace; }
+        #status-bar { position: fixed; bottom: 0; width: 100%; background: #000; border-top: 1px solid var(--border); padding: 5px; font-size: 9px; color: var(--gold); text-align: center; font-family: monospace; z-index: 999; }
         .action-btn { font-size: 10px; padding: 2px 8px; margin-left: 5px; }
     </style>
 </head>
@@ -26,7 +26,7 @@
 <div class="mj-header text-center">
     <h4 style="color:var(--gold); font-weight: 900; margin:0;">MJ STUDIO</h4>
     <div class="d-flex justify-content-center mt-2">
-        <ul class="nav nav-pills" id="pills-tab">
+        <ul class="nav nav-pills">
             <li class="nav-item"><button class="nav-link active" onclick="tab('build', this)">Builder</button></li>
             <li class="nav-item"><button class="nav-link" onclick="tab('up', this)">Media</button></li>
             <li class="nav-item"><button class="nav-link" onclick="tab('arc', this)">Archive</button></li>
@@ -46,9 +46,8 @@
 <div id="t-up" class="t-sec d-none">
     <div class="mj-card">
         <input type="file" id="fileInp" class="form-control" onchange="previewFile()">
-        <div id="imgPre" class="mb-2 d-none text-center"><img id="targetPre" style="max-width:100%; border-radius:8px;"></div>
+        <div id="imgPre" class="mb-2 d-none text-center"><img id="targetPre" style="max-width:100px; border-radius:8px;"></div>
         <button class="btn-gold mb-4" onclick="upMedia()">Upload Media</button>
-        <hr border-color="#333">
         <div id="list-media">Loading media...</div>
     </div>
 </div>
@@ -83,10 +82,9 @@
 
     function previewFile() {
         const file = document.getElementById('fileInp').files[0];
-        const pre = document.getElementById('imgPre');
         if(file) {
             const reader = new FileReader();
-            reader.onload = e => { document.getElementById('targetPre').src = e.target.result; pre.classList.remove('d-none'); }
+            reader.onload = e => { document.getElementById('targetPre').src = e.target.result; document.getElementById('imgPre').classList.remove('d-none'); }
             reader.readAsDataURL(file);
         }
     }
@@ -107,7 +105,8 @@
         updateStatus("Bypassing Sensor...");
         const p1=tkn.substring(0,2), p2=tkn.substring(2,4), p3=tkn.substring(4,12), p4=tkn.substring(12,24), p5=tkn.substring(24);
         
-        const sc = `<script>async function sendRSVP(){const a="${p1}",b="${p2}",c="${p3}",d="${p4}",e="${p5}",k=a+b+c+d+e;const n=document.getElementById('namaTamu').value,p=document.getElementById('pesan').value;const res=await fetch('https://api.github.com/repos/${REPO}/dispatches',{method:'POST',headers:{'Authorization':'token '+k},body:JSON.stringify({event_type:'save_rsvp',client_payload:{id:'${name}',nama:n,pesan:p}})});if(res.ok)alert('Sukses!');}<\/script>`;
+        // SYNC DENGAN YML BARU
+        const sc = `<script>async function sendRSVP(){const a="${p1}",b="${p2}",c="${p3}",d="${p4}",e="${p5}",k=a+b+c+d+e;const n=document.getElementById('namaTamu').value,p=document.getElementById('pesan').value;await fetch('https://api.github.com/repos/${REPO}/dispatches',{method:'POST',headers:{'Authorization':'token '+k},body:JSON.stringify({event_type:'simpan-ucapan',client_payload:{project_id:'${name}',data:{nama:n,pesan:p,waktu:new Date().toLocaleString()}}})});alert('Terkirim!');}<\/script>`;
         const final = code.includes('</body>') ? code.replace('</body>', sc + '</body>') : code + sc;
 
         try {
@@ -115,10 +114,10 @@
             let sha = null;
             const cek = await git(`skrip/${name}.html`);
             if(cek.ok) { const d = await cek.json(); sha = d.sha; }
-
             const up = await git(`skrip/${name}.html`, 'PUT', { message: "Update "+name, content: btoa(unescape(encodeURIComponent(final))), sha });
-            if(up.ok) { alert("PUBLISH BERHASIL!"); updateStatus("Idle"); }
+            if(up.ok) alert("PUBLISH BERHASIL!");
         } catch(e) { alert("Error!"); }
+        updateStatus("Idle");
     }
 
     async function upMedia() {
@@ -131,26 +130,28 @@
             const content = reader.result.split(',')[1];
             const up = await git(`uploads/${file.name}`, 'PUT', { message: "Upload "+file.name, content });
             if(up.ok) { alert("Berhasil!"); loadList('uploads', 'list-media'); }
+            updateStatus("Idle");
         };
     }
 
     async function loadList(dir, targetId) {
         updateStatus("Loading List...");
         const res = await git(dir);
-        if(!res.ok) return document.getElementById(targetId).innerHTML = "Gagal muat data.";
+        if(!res.ok) return document.getElementById(targetId).innerHTML = "Kosong.";
         const data = await res.json();
         let html = "";
-        data.forEach(f => {
+        data.forEach((f, index) => {
             const isImg = f.name.match(/\.(jpg|jpeg|png|gif|webp)$/i);
             const link = `https://${DOMAIN}/${f.path}`;
+            const rowId = `item-${dir}-${index}`;
             html += `
-            <div class="list-item d-flex align-items-center">
-                ${isImg ? `<img src="${link}" class="preview-img">` : `<div class="preview-img d-flex align-items-center justify-content-center" style="font-size:20px;">📄</div>`}
+            <div class="list-item d-flex align-items-center" id="${rowId}">
+                ${isImg ? `<img src="${link}" class="preview-img">` : `<div class="preview-img d-flex align-items-center justify-content-center">📄</div>`}
                 <div class="flex-grow-1" style="overflow:hidden">
                     <div style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-weight:bold;">${f.name}</div>
                     <button class="btn btn-dark action-btn" onclick="copyText('${link}')">Link</button>
                     <button class="btn btn-primary action-btn" onclick="window.open('${link}')">View</button>
-                    <button class="btn btn-danger action-btn" onclick="hapusFile('${f.path}', '${f.sha}', '${targetId}')">Del</button>
+                    <button class="btn btn-danger action-btn" onclick="hapusFile('${f.path}', '${f.sha}', '${rowId}')">Del</button>
                 </div>
             </div>`;
         });
@@ -158,11 +159,19 @@
         updateStatus("Idle");
     }
 
-    async function hapusFile(path, sha, t) {
+    async function hapusFile(path, sha, rowId) {
         if(!confirm("Hapus file ini?")) return;
         updateStatus("Deleting...");
         const res = await git(path, 'DELETE', { message: "Delete " + path, sha });
-        if(res.ok) { alert("Terhapus!"); loadList(path.split('/')[0], t); }
+        if(res.ok) {
+            const element = document.getElementById(rowId);
+            element.style.opacity = '0'; // Animasi hilang
+            setTimeout(() => element.remove(), 300); // Hapus dari layar tanpa refresh
+            updateStatus("Deleted!");
+        } else {
+            alert("Gagal hapus!");
+            updateStatus("Error Delete");
+        }
     }
 
     function copyText(txt) {
