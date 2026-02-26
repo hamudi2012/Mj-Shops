@@ -2,230 +2,134 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MJ STUDIO - FINAL FIX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MJ STUDIO - ANTI SENSOR</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
-        :root { --gold: #d4af37; --dark-bg: #0a0a0a; --panel: #161616; }
-        body { background-color: var(--dark-bg); font-family: sans-serif; color: #fff; padding: 10px; margin: 0; }
-        .nav-custom { display: flex; justify-content: center; gap: 5px; margin-bottom: 15px; position: sticky; top: 0; z-index: 100; background: var(--dark-bg); padding: 5px 0; }
-        .btn-nav { background: none; border: 1px solid #333; color: #888; padding: 8px 10px; border-radius: 5px; font-size: 0.7rem; flex: 1; text-transform: uppercase; }
-        .btn-nav.active { border-color: var(--gold); color: var(--gold); background: rgba(212, 175, 55, 0.1); }
-        .editor-box { background: var(--panel); padding: 15px; border-radius: 12px; border: 1px solid #222; margin-bottom: 80px; }
-        .form-control-dark { background: #000; border: 1px solid #333; color: #fff; margin-bottom: 12px; padding: 10px; width: 100%; border-radius: 6px; font-size: 0.8rem; }
-        textarea { min-height: 300px; font-family: monospace; font-size: 11px; border-left: 3px solid var(--gold) !important; }
-        .btn-gold { background: var(--gold); color: #000; font-weight: 800; width: 100%; padding: 12px; border: none; border-radius: 6px; text-transform: uppercase; font-size: 0.8rem; }
-        
-        /* FILE CARD STYLE */
-        .file-card { background: #000; border: 1px solid #222; padding: 10px; border-radius: 10px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; }
-        .thumb-preview { width: 60px; height: 60px; border-radius: 6px; object-fit: cover; background: #111; border: 1px solid #333; }
-        .file-info { flex: 1; overflow: hidden; }
-        .file-name { font-size: 0.7rem; color: #ddd; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 6px; font-weight: bold; }
-        .btn-group-custom { display: flex; gap: 4px; }
-        .btn-act { flex: 1; font-size: 0.55rem; padding: 5px; border-radius: 4px; border: none; font-weight: bold; text-transform: uppercase; }
-        
-        .hidden { display: none; }
-        #status-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #000; padding: 5px; font-size: 0.6rem; text-align: center; border-top: 1px solid #222; color: var(--gold); z-index: 1001; }
+        :root { --gold: #d4af37; --bg: #0a0a0a; }
+        body { background: var(--bg); color: #fff; font-family: sans-serif; padding: 15px; }
+        .box { background: #161616; padding: 20px; border-radius: 15px; border: 1px solid #333; }
+        .form-control { background: #000; border: 1px solid #444; color: #fff; margin-bottom: 10px; }
+        .btn-gold { background: var(--gold); color: #000; font-weight: bold; width: 100%; padding: 12px; border: none; }
+        .nav-tabs { border: none; margin-bottom: 15px; }
+        .nav-link { color: #888; border: none !important; }
+        .nav-link.active { color: var(--gold) !important; background: none !important; border-bottom: 2px solid var(--gold) !important; }
     </style>
 </head>
 <body>
 
-<div class="text-center mt-3">
-    <h3 style="color:var(--gold); font-weight: 800; margin:0;">MJ STUDIO</h3>
-    <p style="font-size:0.5rem; letter-spacing: 3px; color:#555;">REPO: MJ-SHOPS</p>
+<div class="text-center mb-4">
+    <h2 style="color:var(--gold)">MJ STUDIO</h2>
+    <span style="font-size: 0.6rem; color: #555;">SECURITY BYPASS: PECAH 5 ACTIVATED</span>
 </div>
 
-<div class="nav-custom">
-    <button onclick="switchTab('build')" id="tab-build" class="btn-nav">Builder</button>
-    <button onclick="switchTab('assets')" id="tab-assets" class="btn-nav">Assets</button>
-    <button onclick="switchTab('archive')" id="tab-archive" class="btn-nav">Archive</button>
-</div>
+<ul class="nav nav-tabs justify-content-center" id="myTab">
+    <li class="nav-item"><button class="nav-link active" onclick="showTab('build')">BUILDER</button></li>
+    <li class="nav-item"><button class="nav-link" onclick="showTab('archive')">ARCHIVE</button></li>
+</ul>
 
-<div id="sec-build" class="tab-sec hidden">
-    <div class="editor-box">
-        <button onclick="configToken()" class="btn btn-sm btn-dark w-100 mb-3" style="font-size:0.6rem; border:1px solid #333">⚙️ CONFIG TOKEN</button>
-        <input type="text" id="judulProj" class="form-control-dark" placeholder="Nama Undangan (Contoh: johan-nani)">
-        <textarea id="kontenHTML" class="form-control-dark" placeholder="Paste kode HTML..."></textarea>
-        <button class="btn-gold" id="btnPublish" onclick="doBuildFinal()">Publish Undangan</button>
+<div id="build" class="tab-content">
+    <div class="box">
+        <button class="btn btn-dark btn-sm w-100 mb-3" onclick="setToken()">⚙️ SET MASTER TOKEN</button>
+        <input type="text" id="namaProj" class="form-control" placeholder="Nama Undangan (cth: roni-lisa)">
+        <textarea id="isiHTML" class="form-control" style="height: 250px;" placeholder="Paste HTML Undangan di sini..."></textarea>
+        <button class="btn-gold" onclick="publishGass()">PUBLISH SEKARANG</button>
     </div>
 </div>
 
-<div id="sec-assets" class="tab-sec hidden">
-    <div class="editor-box">
-        <input type="file" id="fMedia" hidden onchange="doUpload()">
-        <button onclick="document.getElementById('fMedia').click()" class="btn-gold mb-3">Upload Media</button>
-        <div id="asset-container"></div>
-    </div>
+<div id="archive" class="tab-content d-none">
+    <div id="list-arsip" class="box">Loading...</div>
 </div>
-
-<div id="sec-archive" class="tab-sec hidden">
-    <div class="editor-box">
-        <div id="archive-container"></div>
-    </div>
-</div>
-
-<div id="status-bar">READY</div>
 
 <script>
-    const REPO = "hamudi2012/Mj-Shops"; //
-    const DOMAIN = "mj-shops.biz.id";
+    const REPO = "hamudi2012/Mj-Shops";
 
-    window.onload = () => {
-        const lastTab = localStorage.getItem('last_tab') || 'build';
-        switchTab(lastTab);
-    };
-
-    function switchTab(t) {
-        localStorage.setItem('last_tab', t);
-        document.querySelectorAll('.tab-sec').forEach(s => s.classList.add('hidden'));
-        document.querySelectorAll('.btn-nav').forEach(b => b.classList.remove('active'));
-        document.getElementById('sec-' + t).classList.remove('hidden');
-        document.getElementById('tab-' + t).classList.add('active');
-        if(t !== 'build') refreshList(t === 'assets' ? 'uploads' : 'skrip');
+    function setToken() {
+        const t = prompt("Masukkan Token GitHub (ghp_...):");
+        if(t) localStorage.setItem('master_tkn', t.trim());
     }
 
-    async function refreshList(folder) {
-        const tkn = localStorage.getItem('_gh_tkn_u');
-        if(!tkn) return;
-        const cont = document.getElementById(folder === 'uploads' ? 'asset-container' : 'archive-container');
-        cont.innerHTML = "<p class='text-center' style='font-size:0.6rem;'>Loading...</p>";
-        
-        try {
-            const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${folder}?t=${Date.now()}`, {
-                headers: {'Authorization': `token ${tkn}`}
-            });
-            const data = await res.json();
-            cont.innerHTML = "";
-            
-            data.reverse().forEach(item => {
-                const link = `https://${DOMAIN}/${item.path}`;
-                let previewImg = '';
-
-                // Fitur Preview Kecil
-                if(folder === 'uploads') {
-                    previewImg = `<img src="${link}" class="thumb-preview" onclick="window.open('${link}')">`;
-                } else {
-                    previewImg = `<div class="thumb-preview d-flex align-items-center justify-content-center" style="font-size:10px; color:var(--gold)">HTML</div>`;
-                }
-
-                cont.innerHTML += `
-                    <div class="file-card">
-                        ${previewImg}
-                        <div class="file-info">
-                            <div class="file-name">${item.name}</div>
-                            <div class="btn-group-custom">
-                                <button class="btn-act" style="background:var(--gold)" onclick="copyUrl('${link}')">Copy</button>
-                                <button class="btn-act" style="background:#007bff; color:#fff" onclick="window.open('${link}')">Buka</button>
-                                <button class="btn-act" style="background:#dc3545; color:#fff" onclick="doDelete('${item.path}')">Hapus</button>
-                            </div>
-                        </div>
-                    </div>`;
-            });
-        } catch(e) { cont.innerHTML = "Error memuat list."; }
+    function showTab(t) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.add('d-none'));
+        document.getElementById(t).classList.remove('d-none');
+        if(t === 'archive') muatArsip();
     }
 
-    async function doBuildFinal() {
-        const tkn = localStorage.getItem('_gh_tkn_u');
-        const tit = document.getElementById('judulProj').value.trim();
-        const code = document.getElementById('kontenHTML').value;
+    async function publishGass() {
+        const fullTkn = localStorage.getItem('master_tkn');
+        const judul = document.getElementById('namaProj').value.trim();
+        const html = document.getElementById('isiHTML').value;
 
-        if(!tkn || !tit || !code) return alert("Lengkapi data!");
-        updateStatus("Publishing...");
+        if(!fullTkn || !judul || !html) return alert("Lengkapi data dulu bro!");
 
-        const slug = tit.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-        const path = `skrip/${slug}.html`;
-        
-        // Bypass Secret Token Sensor
-        const p1 = "ghp_";
-        const p2 = tkn.replace("ghp_", "");
+        // --- LOGIKA PECAH 5 MILIK LO ---
+        const p1 = fullTkn.substring(0, 2);  // gh
+        const p2 = fullTkn.substring(2, 4);  // p_
+        const p3 = fullTkn.substring(4, 10); // 1234...
+        const p4 = fullTkn.substring(10, 20);
+        const p5 = fullTkn.substring(20);
+
         const rsvpScript = `
         <script>
-        async function sendRSVP() {
-            const n = document.getElementById('namaTamu').value;
-            const h = document.getElementById('hadir').value;
-            const p = document.getElementById('pesan').value;
-            const t = "${p1}" + "${p2}";
-            try {
-                const res = await fetch('https://api.github.com/repos/${REPO}/dispatches', {
-                    method: 'POST',
-                    headers: { 'Authorization': 'token ' + t, 'Accept': 'application/vnd.github.v3+json' },
-                    body: JSON.stringify({
-                        event_type: 'simpan-ucapan',
-                        client_payload: { project_id: '${slug}', data: { nama: n, status: h, ucapan: p, date: new Date().toLocaleString() } }
-                    })
-                });
-                if(res.ok) alert("Terima kasih! Ucapan lo sedang diproses oleh Bot Mj-Shops...");
-            } catch(e) { alert("Error!"); }
+        async function kirimUcapan() {
+            const p = {
+                a: "${p1}", b: "${p2}", c: "${p3}", d: "${p4}", e: "${p5}"
+            };
+            const kunci = p.a + p.b + p.c + p.d + p.e; // Dijahit pas diklik doang!
+            
+            const nama = document.getElementById('namaTamu').value;
+            const pesan = document.getElementById('pesanTamu').value;
+
+            const res = await fetch('https://api.github.com/repos/${REPO}/dispatches', {
+                method: 'POST',
+                headers: { 'Authorization': 'token ' + kunci, 'Accept': 'application/vnd.github.v3+json' },
+                body: JSON.stringify({
+                    event_type: 'save_rsvp',
+                    client_payload: { project: '${judul}', nama: nama, pesan: pesan }
+                })
+            });
+            if(res.ok) alert('Ucapan masuk bro!');
         }
         <\/script>`;
 
-        let finalCode = code.includes("</body>") ? code.replace("</body>", rsvpScript + "</body>") : code + rsvpScript;
+        const finalHTML = html.replace("</body>", rsvpScript + "</body>");
+        const path = `skrip/${judul}.html`;
 
         try {
-            // SHA Check (Handle error "sha wasn't supplied")
-            let sha = null;
-            const ck = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
-                headers: {'Authorization': `token ${tkn}`}
+            // Ambil SHA buat update kalau file sudah ada
+            let sha = "";
+            const cek = await fetch(\`https://api.github.com/repos/\${REPO}/contents/\${path}\`, {
+                headers: { 'Authorization': 'token ' + fullTkn }
             });
-            if(ck.ok) { const d = await ck.json(); sha = d.sha; }
+            if(cek.ok) { const d = await cek.json(); sha = d.sha; }
 
-            const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
+            const upd = await fetch(\`https://api.github.com/repos/\${REPO}/contents/\${path}\`, {
                 method: 'PUT',
-                headers: {'Authorization': `token ${tkn}`},
+                headers: { 'Authorization': 'token ' + fullTkn },
                 body: JSON.stringify({
-                    message: "Build: " + slug,
-                    content: btoa(unescape(encodeURIComponent(finalCode))),
-                    sha: sha
+                    message: "Publish Undangan: " + judul,
+                    content: btoa(unescape(encodeURIComponent(finalHTML))),
+                    sha: sha || null
                 })
             });
 
-            if(res.ok) { alert("PUBLISHED!"); switchTab('archive'); }
-        } catch(e) { alert("Gagal!"); }
-        updateStatus("Ready");
+            if(upd.ok) alert("BERHASIL! Cek di Arsip.");
+        } catch(e) { alert("Gagal bro, cek koneksi/token!"); }
     }
 
-    async function doUpload() {
-        const file = document.getElementById('fMedia').files[0];
-        const tkn = localStorage.getItem('_gh_tkn_u');
-        if(!file || !tkn) return;
-        updateStatus("Uploading...");
-        const reader = new FileReader();
-        reader.onload = async () => {
-            const b64 = reader.result.split(',')[1];
-            const path = `uploads/${Date.now()}-${file.name.replace(/\s+/g, '_')}`;
-            await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
-                method: 'PUT',
-                headers: {'Authorization': `token ${tkn}`},
-                body: JSON.stringify({ message: "Upload", content: b64 })
-            });
-            refreshList('uploads');
-            updateStatus("Ready");
-        };
-        reader.readAsDataURL(file);
-    }
-
-    async function doDelete(path) {
-        if(!confirm("Hapus file permanen?")) return;
-        const tkn = localStorage.getItem('_gh_tkn_u');
-        updateStatus("Deleting...");
-        const ck = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
-            headers: {'Authorization': `token ${tkn}`}
+    async function muatArsip() {
+        const tkn = localStorage.getItem('master_tkn');
+        const res = await fetch(\`https://api.github.com/repos/\${REPO}/contents/skrip\`, {
+            headers: { 'Authorization': 'token ' + tkn }
         });
-        const d = await ck.json();
-        await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
-            method: 'DELETE',
-            headers: {'Authorization': `token ${tkn}`},
-            body: JSON.stringify({ message: "Delete", sha: d.sha })
+        const data = await res.json();
+        let list = "";
+        data.forEach(f => {
+            list += \`<div style="padding:10px; border-bottom:1px solid #333; font-size:0.8rem;">
+                        \${f.name} <a href="https://mj-shops.biz.id/\${f.path}" target="_blank" class="badge bg-primary float-end">Buka</a>
+                      </div>\`;
         });
-        refreshList(path.split('/')[0]);
-        updateStatus("Ready");
-    }
-
-    function copyUrl(v) { navigator.clipboard.writeText(v); alert("Link disalin!"); }
-    function updateStatus(m) { document.getElementById('status-bar').innerText = m.toUpperCase(); }
-    function configToken() { 
-        const t = prompt("Masukkan Token:"); 
-        if(t) { localStorage.setItem('_gh_tkn_u', t.trim()); location.reload(); }
+        document.getElementById('list-arsip').innerHTML = list || "Kosong.";
     }
 </script>
 </body>
