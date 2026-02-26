@@ -2,253 +2,196 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mj-STUDIO | Abadikan Momen Berhargamu</title>
-    
-    <link rel="icon" href="https://mj-shops.biz.id/public/photo/logo-Mj-Shops.png" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Studio Ultra Max + MJ Shops</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
-        :root {
-            --primary-color: #1a1a1a;
-            --accent-gold: #f1c40f;
-            --soft-white: #ffffff;
-            --light-bg: #f8f9fa;
-        }
-
-        body { 
-            font-family: 'Poppins', sans-serif !important; 
-            margin: 0; 
-            padding: 0; 
-            background-color: var(--light-bg); 
-            color: #333; 
-            overflow-x: hidden; 
-        }
-
-        /* Navigation */
-        nav.top-nav { background: var(--primary-color); padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
-        .nav-logo { height: 30px; }
-        .menu { display: flex; justify-content: space-around; background: var(--primary-color); padding: 12px 0; position: sticky; top: 0; z-index: 1000; border-top: 1px solid #333; }
-        .menu a { text-decoration: none; color: #ffffff; font-size: 10px; font-weight: 600; flex: 1; text-align: center; }
-        .menu a.active { color: var(--accent-gold); }
-
-        /* Hero Studio Section */
-        .hero-studio {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070') center/cover;
-            height: 300px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: white;
-            padding: 20px;
-        }
-        .hero-studio h1 { font-size: 2rem; font-weight: 800; margin-bottom: 5px; color: var(--accent-gold); }
-        .hero-studio p { font-size: 0.9rem; max-width: 80%; opacity: 0.9; }
-
-        /* Studio Services Grid */
-        .section-title { 
-            text-align: center; 
-            font-size: 1.2rem; 
-            margin: 40px 0 20px; 
-            font-weight: 800; 
-            color: var(--primary-color); 
-            text-transform: uppercase; 
-            letter-spacing: 2px;
-        }
-
-        .studio-grid {
-            display: grid !important;
-            grid-template-columns: 1fr !important;
-            gap: 20px !important;
-            padding: 15px !important;
-        }
-
-        /* Studio Card Styling */
-        .studio-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease;
-            position: relative;
-        }
-
-        .studio-card img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-        }
-
-        .studio-info {
-            padding: 20px;
-        }
-
-        .studio-info h3 {
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: var(--primary-color);
-            margin: 0 0 10px 0;
-            text-transform: uppercase;
-        }
-
-        .studio-info p {
-            font-size: 0.85rem;
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-
-        .studio-tag {
-            background: var(--accent-gold);
-            color: #000;
-            padding: 4px 12px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            border-radius: 50px;
-            display: inline-block;
-            margin-bottom: 10px;
-        }
-
-        .btn-order {
-            display: block;
-            background: var(--primary-color);
-            color: var(--accent-gold);
-            text-align: center;
-            padding: 12px;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            transition: 0.3s;
-        }
-
-        .btn-order:hover { background: #333; }
-
-        /* Stats Section */
-        .stats-bar {
-            background: var(--primary-color);
-            display: flex;
-            justify-content: space-around;
-            padding: 30px 10px;
-            color: white;
-            margin-top: 40px;
-        }
-        .stat-item { text-align: center; }
-        .stat-item i { color: var(--accent-gold); font-size: 1.5rem; margin-bottom: 10px; }
-        .stat-item div { font-weight: 800; font-size: 1.1rem; }
-        .stat-item span { font-size: 0.6rem; text-transform: uppercase; color: #999; }
-
-        footer { background: var(--primary-color); color: #777; padding: 30px 15px; text-align: center; font-size: 0.7rem; }
-        .social-links { margin-top: 20px; display: flex; justify-content: center; gap: 15px; }
-        .social-links a { color: white; font-size: 1.5rem; }
-        .footer-nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin: 25px 0; }
-        .footer-nav a { background: #333; color: white; padding: 8px 15px; text-decoration: none; border-radius: 5px; font-size: 0.8rem; }
-
-        @media (min-width: 768px) {
-            .studio-grid { grid-template-columns: repeat(3, 1fr) !important; }
-            .hero-studio { height: 450px; }
-            .hero-studio h1 { font-size: 3.5rem; }
-        }
+        :root { --gold: #d4af37; --dark-bg: #0a0a0a; --panel: #161616; }
+        body { background-color: var(--dark-bg); font-family: sans-serif; color: #fff; padding: 10px; margin: 0; }
+        .nav-custom { display: flex; justify-content: center; gap: 5px; margin-bottom: 15px; position: sticky; top: 0; z-index: 100; background: var(--dark-bg); padding: 5px 0; }
+        .btn-nav { background: none; border: 1px solid #333; color: #888; padding: 8px 10px; border-radius: 5px; font-size: 0.7rem; text-transform: uppercase; flex: 1; }
+        .btn-nav.active { border-color: var(--gold); color: var(--gold); background: rgba(212, 175, 55, 0.1); }
+        .editor-box { background: var(--panel); padding: 15px; border-radius: 12px; border: 1px solid #222; margin-bottom: 80px; }
+        .form-control-dark { background: #000; border: 1px solid #333; color: #fff; margin-bottom: 12px; padding: 10px; width: 100%; border-radius: 6px; font-size: 0.8rem; }
+        textarea { min-height: 300px; font-family: monospace; font-size: 11px; border-left: 3px solid var(--gold) !important; }
+        .btn-gold { background: var(--gold); color: #000; font-weight: 800; width: 100%; padding: 12px; border: none; border-radius: 6px; text-transform: uppercase; font-size: 0.8rem; }
+        
+        .file-card { background: #000; border: 1px solid #222; padding: 10px; border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
+        .thumb-preview { width: 50px; height: 50px; border-radius: 4px; object-fit: cover; background: #111; border: 1px solid #333; flex-shrink: 0; }
+        .file-content { flex-grow: 1; overflow: hidden; }
+        .file-info { font-size: 0.7rem; margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #ccc; }
+        .file-actions { display: flex; gap: 4px; }
+        .btn-act { flex: 1; font-size: 0.55rem; padding: 4px; border-radius: 3px; border: none; font-weight: bold; text-transform: uppercase; }
+        .btn-view { background: #007bff; color: #fff; }
+        .btn-del { background: #dc3545; color: #fff; }
+        .btn-cp { background: var(--gold); color: #000; }
+        
+        .hidden { display: none; }
+        #status-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #000; padding: 5px; font-size: 0.6rem; text-align: center; border-top: 1px solid #222; color: var(--gold); z-index: 1001; }
     </style>
 </head>
 <body>
 
-<nav class="top-nav">
-    <img src="https://mj-shops.biz.id/public/photo/logo-Mj-Shops.png" alt="Mj-Shops" class="nav-logo">
-    <div style="color: white; font-size: 0.6rem; font-weight: bold;">CREATIVE STUDIO</div>
-</nav>
+<div class="text-center mt-3">
+    <h3 style="color:var(--gold); font-weight: 800; margin:0;">MJ STUDIO</h3>
+    <p style="font-size:0.5rem; letter-spacing: 3px; color:#555;">MANAGEMENT SYSTEM</p>
+</div>
 
-<nav class="menu">
-    <a href="index.html">Home</a>
-    <a href="promo.html">PROMO</a>
-    <a href="produk.html">Produk</a>
-    <a href="mj-studio.html" class="active">Mj STUDIO</a>
-    <a href="mj-news.html">Mj NEWS</a>
-    <a href="kontak.html">Kontak</a>
-</nav>
+<div class="nav-custom">
+    <button onclick="switchTab('build')" id="tab-build" class="btn-nav">Builder</button>
+    <button onclick="switchTab('assets')" id="tab-assets" class="btn-nav">Assets</button>
+    <button onclick="switchTab('archive')" id="tab-archive" class="btn-nav">Archive</button>
+</div>
 
-<main>
-    <section class="hero-studio">
-        <h1>Mj-STUDIO</h1>
-        <p>Professional Photography & Creative Media Services.<br>Abadikan setiap detik berhargamu dengan kualitas sinematik.</p>
-    </section>
-
-    <div class="section-title">OUR PREMIUM SERVICES</div>
-
-    <div class="studio-grid">
-        <div class="studio-card">
-            <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=2070" alt="Prewedding Mj-Studio">
-            <div class="studio-info">
-                <span class="studio-tag">Best Seller</span>
-                <h3>Prewedding Photography</h3>
-                <p>Abadikan kisah cinta kalian dengan konsep unik, mulai dari casual outdoor hingga elegant indoor. Hasil foto high-res & retouch premium.</p>
-                <a href="https://wa.me/6285691451094?text=Halo%20Mj-Studio,%20saya%20ingin%20tanya%20paket%20Prewedding" class="btn-order">CEK HARGA PAKET</a>
-            </div>
-        </div>
-
-        <div class="studio-card">
-            <img src="https://images.unsplash.com/photo-1607344645866-009c320b63e0?q=80&w=2080" alt="Undangan Mj-Studio">
-            <div class="studio-info">
-                <span class="studio-tag">Creative Design</span>
-                <h3>Kartu Undangan Premium</h3>
-                <p>Desain eksklusif yang mencerminkan kepribadian Anda. Tersedia format cetak mewah (emboss/foil) maupun Undangan Digital/Web kekinian.</p>
-                <a href="https://wa.me/6285691451094?text=Halo%20Mj-Studio,%20saya%20ingin%20tanya%20desain%20Undangan" class="btn-order">LIHAT KATALOG DESAIN</a>
-            </div>
-        </div>
-
-        <div class="studio-card">
-            <img src="https://images.unsplash.com/photo-1533488765986-dfa2a9939acd?q=80&w=2070" alt="Video Dokumentasi Mj-Studio">
-            <div class="studio-info">
-                <span class="studio-tag">Cinematic</span>
-                <h3>Video Dokumentasi</h3>
-                <p>Dokumentasi pernikahan dengan gaya sinematik. Meliputi Cinematic Highlight, Full Documentation, hingga Liputan Drone (Aerial).</p>
-                <a href="https://wa.me/6285691451094?text=Halo%20Mj-Studio,%20saya%20ingin%20tanya%20paket%20Video%20Pernikahan" class="btn-order">BOOKING JADWAL</a>
-            </div>
-        </div>
+<div id="sec-build" class="tab-sec hidden">
+    <div class="editor-box">
+        <button onclick="configToken()" class="btn btn-sm btn-dark w-100 mb-3" style="font-size:0.6rem; border:1px solid #333">⚙️ CONFIG TOKEN</button>
+        <input type="text" id="judul" class="form-control-dark" placeholder="Project Name (e.g. Undangan-Asep)">
+        <textarea id="content" class="form-control-dark" placeholder="Paste HTML..."></textarea>
+        <button class="btn-gold" onclick="doBuild()">Publish to MJ Shops</button>
     </div>
+</div>
 
-    <section class="stats-bar">
-        <div class="stat-item">
-            <i class="fas fa-camera-retro"></i>
-            <div>500+</div>
-            <span>Clients</span>
-        </div>
-        <div class="stat-item">
-            <i class="fas fa-heart"></i>
-            <div>100%</div>
-            <span>Satisfaction</span>
-        </div>
-        <div class="stat-item">
-            <i class="fas fa-award"></i>
-            <div>Professional</div>
-            <span>Crew</span>
-        </div>
-    </section>
-</main>
-
-<footer>
-    <img src="https://mj-shops.biz.id/public/photo/logo-Mj-Shops.png" alt="Mj-Shops" style="height: 50px; margin-bottom: 20px;">
-    <p style="font-size: 1.1rem;"><strong>MJ-STUDIO by Mj-Shops</strong><br>Professional Creative Media Solution.</p>
-    
-    <div class="social-links">
-        <a href="#"><i class="fab fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="https://wa.me/6285691451094"><i class="fab fa-whatsapp"></i></a>
+<div id="sec-assets" class="tab-sec hidden">
+    <div class="editor-box">
+        <input type="file" id="fMedia" hidden onchange="doUpload()">
+        <button onclick="document.getElementById('fMedia').click()" class="btn-gold mb-3">Upload Media</button>
+        <div id="asset-container"></div>
     </div>
+</div>
 
-    <div class="footer-nav">
-        <a href="index.html">HOME</a>
-        <a href="produk.html">KATALOG PRODUK</a>
-        <a href="promo.html">PROMO</a>
-        <a href="kontak.html">KONSULTASI GRATIS</a>
+<div id="sec-archive" class="tab-sec hidden">
+    <div class="editor-box">
+        <div id="archive-container"></div>
     </div>
-    
-    <hr style="border: 0; border-top: 1px solid #333; max-width: 500px; margin: 20px auto;">
-    <p style="font-size: 0.8rem; color: #666;">&copy; 2026 <strong>Mj-Studio</strong>. Parungkuda - Sukabumi - Jawa Barat.</p>
-</footer>
+</div>
 
+<div id="status-bar">READY</div>
+
+<script>
+    // SUDAH DIUBAH KE REPO TUJUAN
+    const REPO = "hamudi2012/Mj-Shops"; 
+
+    window.onload = function() {
+        const lastTab = localStorage.getItem('last_tab') || 'build';
+        switchTab(lastTab);
+    };
+
+    function switchTab(t) {
+        localStorage.setItem('last_tab', t);
+        document.querySelectorAll('.tab-sec').forEach(s => s.classList.add('hidden'));
+        document.querySelectorAll('.btn-nav').forEach(b => b.classList.remove('active'));
+        document.getElementById('sec-' + t).classList.remove('hidden');
+        document.getElementById('tab-' + t).classList.add('active');
+        if(t !== 'build') refreshList(t === 'assets' ? 'uploads' : 'skrip');
+    }
+
+    async function refreshList(folder) {
+        const tkn = localStorage.getItem('_gh_tkn_u');
+        if(!tkn) return;
+        const cont = document.getElementById(folder === 'uploads' ? 'asset-container' : 'archive-container');
+        cont.innerHTML = "<p style='font-size:0.7rem'>Loading...</p>";
+        try {
+            const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${folder}?t=${Date.now()}`, {
+                headers: {'Authorization': `token ${tkn}`}
+            });
+            const data = await res.json();
+            cont.innerHTML = "";
+            if(!data.length) { cont.innerHTML = "Kosong."; return; }
+            data.reverse().forEach(item => {
+                // LINK SUDAH DIUBAH KE MJ-SHOPS
+                const link = `https://hamudi2012.github.io/Mj-Shops/${item.path}`;
+                let previewHtml = '';
+                
+                if (folder === 'uploads') {
+                    const ext = item.name.split('.').pop().toLowerCase();
+                    if(['jpg','jpeg','png','gif','webp'].includes(ext)) {
+                        previewHtml = `<img src="${link}" class="thumb-preview" onclick="window.open('${link}')">`;
+                    } else {
+                        previewHtml = `<div class="thumb-preview d-flex align-items-center justify-content-center" style="font-size:10px; color:#555">FILE</div>`;
+                    }
+                } else {
+                    previewHtml = `<div class="thumb-preview d-flex align-items-center justify-content-center" style="font-size:10px; color:var(--gold)">HTML</div>`;
+                }
+
+                cont.innerHTML += `
+                    <div class="file-card">
+                        ${previewHtml}
+                        <div class="file-content">
+                            <div class="file-info">${item.name}</div>
+                            <div class="file-actions">
+                                <button class="btn-act btn-cp" onclick="copyIt('${link}')">Link</button>
+                                <button class="btn-act btn-view" onclick="window.open('${link}')">Buka</button>
+                                <button class="btn-act btn-del" onclick="doDelete('${item.path}')">Hapus</button>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+        } catch(e) { cont.innerHTML = "Error atau Folder Belum Ada."; }
+    }
+
+    async function doDelete(path) {
+        if(!confirm("Hapus file?")) return;
+        const tkn = localStorage.getItem('_gh_tkn_u');
+        updateStatus("Deleting...");
+        try {
+            const ck = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
+                headers: {'Authorization': `token ${tkn}`}
+            });
+            const d = await ck.json();
+            await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
+                method: 'DELETE',
+                headers: {'Authorization': `token ${tkn}`},
+                body: JSON.stringify({ message: "Delete via MJ Studio", sha: d.sha })
+            });
+            refreshList(path.split('/')[0]);
+        } catch(e) { alert("Gagal!"); }
+        updateStatus("Ready");
+    }
+
+    async function doUpload() {
+        const file = document.getElementById('fMedia').files[0];
+        if(!file) return;
+        const tkn = localStorage.getItem('_gh_tkn_u');
+        updateStatus("Uploading...");
+        const reader = new FileReader();
+        reader.onload = async () => {
+            const b64 = reader.result.split(',')[1];
+            const path = `uploads/${Date.now()}-${file.name.replace(/\s+/g, '_')}`;
+            const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
+                method: 'PUT',
+                headers: {'Authorization': `token ${tkn}`},
+                body: JSON.stringify({ message: "Upload via MJ Studio", content: b64 })
+            });
+            if(res.ok) { refreshList('uploads'); }
+            updateStatus("Ready");
+        };
+        reader.readAsDataURL(file);
+    }
+
+    async function doBuild() {
+        const tkn = localStorage.getItem('_gh_tkn_u');
+        const tit = document.getElementById('judul').value.trim();
+        const code = document.getElementById('content').value;
+        if(!tkn || !tit || !code) return alert("Lengkapi data!");
+        updateStatus("Publishing...");
+        const slug = tit.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+        const path = `skrip/${slug}.html`;
+        const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
+            method: 'PUT',
+            headers: {'Authorization': `token ${tkn}`},
+            body: JSON.stringify({ message: "Build via MJ Studio", content: btoa(unescape(encodeURIComponent(code))) })
+        });
+        if(res.ok) { alert("Published to MJ Shops!"); switchTab('archive'); }
+        updateStatus("Ready");
+    }
+
+    function copyIt(v) { navigator.clipboard.writeText(v); alert("Link Copied!"); }
+    function updateStatus(m) { document.getElementById('status-bar').innerText = m.toUpperCase(); }
+    function configToken() { 
+        const t = prompt("Masukkan GitHub Token:"); 
+        if(t) { localStorage.setItem('_gh_tkn_u', t.trim()); alert("Token Saved!"); }
+    }
+</script>
 </body>
 </html>
