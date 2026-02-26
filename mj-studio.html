@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MJ STUDIO FINAL - AUTO RSVP</title>
+    <title>MJ STUDIO FINAL - REPO FIX</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
         :root { --gold: #d4af37; --dark-bg: #0a0a0a; --panel: #161616; }
@@ -15,17 +15,17 @@
         .form-control-dark { background: #000; border: 1px solid #333; color: #fff; margin-bottom: 12px; padding: 10px; width: 100%; border-radius: 6px; font-size: 0.8rem; }
         textarea { min-height: 350px; font-family: monospace; font-size: 11px; border-left: 3px solid var(--gold) !important; }
         .btn-gold { background: var(--gold); color: #000; font-weight: 800; width: 100%; padding: 12px; border: none; border-radius: 6px; text-transform: uppercase; font-size: 0.8rem; }
-        #status-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #000; padding: 5px; font-size: 0.6rem; text-align: center; border-top: 1px solid #222; color: var(--gold); z-index: 1001; }
         .file-card { background: #000; border: 1px solid #222; padding: 10px; border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
         .thumb-preview { width: 50px; height: 50px; border-radius: 4px; object-fit: cover; background: #111; border: 1px solid #333; flex-shrink: 0; }
         .hidden { display: none; }
+        #status-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #000; padding: 5px; font-size: 0.6rem; text-align: center; border-top: 1px solid #222; color: var(--gold); z-index: 1001; }
     </style>
 </head>
 <body>
 
 <div class="text-center mt-3">
     <h3 style="color:var(--gold); font-weight: 800; margin:0;">MJ STUDIO</h3>
-    <p style="font-size:0.5rem; letter-spacing: 3px; color:#555;">PRO AUTO-RSVP EDITION</p>
+    <p style="font-size:0.5rem; letter-spacing: 3px; color:#555;">REPO MJ-SHOPS CONNECTED</p>
 </div>
 
 <div class="nav-custom">
@@ -37,16 +37,16 @@
 <div id="sec-build" class="tab-sec">
     <div class="editor-box">
         <button onclick="configToken()" class="btn btn-sm btn-dark w-100 mb-3" style="font-size:0.6rem; border:1px solid #333">⚙️ CONFIG TOKEN</button>
-        <input type="text" id="judul" class="form-control-dark" placeholder="Project Name (Contoh: Johan-Hasanah)">
+        <input type="text" id="judul" class="form-control-dark" placeholder="Nama File (Contoh: johan-hasanah)">
         <textarea id="content" class="form-control-dark" placeholder="Paste HTML..."></textarea>
-        <button class="btn-gold" id="btnPublish" onclick="doBuild()">Publish & Inject RSVP</button>
+        <button class="btn-gold" id="btnPublish" onclick="doBuild()">Publish & Link RSVP</button>
     </div>
 </div>
 
 <div id="sec-assets" class="tab-sec hidden">
     <div class="editor-box">
         <input type="file" id="fMedia" hidden onchange="doUpload()">
-        <button onclick="document.getElementById('fMedia').click()" class="btn-gold mb-3">Upload Media</button>
+        <button onclick="document.getElementById('fMedia').click()" class="btn-gold mb-3">Upload Foto Baru</button>
         <div id="asset-container"></div>
     </div>
 </div>
@@ -60,8 +60,9 @@
 <div id="status-bar">READY</div>
 
 <script>
-    [span_1](start_span)// Konfigurasi Repo Baru[span_1](end_span)
+    [span_3](start_span)// FIX: Arahkan ke repo Mj-Shops[span_3](end_span)
     const REPO = "hamudi2012/Mj-Shops";
+    const DOMAIN = "mj-shops.biz.id";
 
     window.onload = () => {
         const lastTab = localStorage.getItem('last_tab') || 'build';
@@ -77,28 +78,57 @@
         if(t !== 'build') refreshList(t === 'assets' ? 'uploads' : 'skrip');
     }
 
+    async function refreshList(folder) {
+        const tkn = localStorage.getItem('_gh_tkn_u');
+        if(!tkn) return;
+        const cont = document.getElementById(folder === 'uploads' ? 'asset-container' : 'archive-container');
+        cont.innerHTML = "Loading...";
+        try {
+            [span_4](start_span)// FIX: Fetch folder yang benar di repo Mj-Shops[span_4](end_span)
+            const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${folder}?t=${Date.now()}`, {
+                headers: {'Authorization': `token ${tkn}`}
+            });
+            const data = await res.json();
+            cont.innerHTML = "";
+            if(!data.length) { cont.innerHTML = "Folder " + folder + " masih kosong."; return; }
+            
+            data.reverse().forEach(item => {
+                const link = `https://${DOMAIN}/${item.path}`;
+                cont.innerHTML += `
+                    <div class="file-card">
+                        <div class="file-content">
+                            <div class="file-info" style="font-size:0.7rem">${item.name}</div>
+                            <div class="d-flex gap-1">
+                                <button class="btn-act btn-cp" style="background:var(--gold)" onclick="copyIt('${link}')">Copy Link</button>
+                                <button class="btn-act btn-view" style="background:#007bff; color:#fff; border:none" onclick="window.open('${link}')">Buka</button>
+                                <button class="btn-act btn-del" style="background:#dc3545; color:#fff; border:none" onclick="doDelete('${item.path}')">Hapus</button>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+        } catch(e) { cont.innerHTML = "Gagal memuat folder " + folder; }
+    }
+
     async function doBuild() {
         const tkn = localStorage.getItem('_gh_tkn_u');
         const tit = document.getElementById('judul').value.trim();
         let code = document.getElementById('content').value;
 
-        if(!tkn || !tit || !code) return alert("Lengkapi Data!");
-
-        document.getElementById('btnPublish').innerText = "PUBLISHING...";
-        updateStatus("Working...");
+        if(!tkn || !tit || !code) return alert("Data belum lengkap!");
+        updateStatus("Publishing...");
 
         const slug = tit.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-
-        [span_2](start_span)// SCRIPT RSVP OTOMATIS[span_2](end_span)
+        
+        [span_5](start_span)// Inject Script RSVP otomatis yang arahnya ke Mj-Shops[span_5](end_span)
         const rsvpScript = `
         <script>
         async function sendRSVP() {
             const n = document.getElementById('namaTamu').value;
             const h = document.getElementById('hadir').value;
             const p = document.getElementById('pesan').value;
-            if(!n || !p) return alert("Nama dan Pesan wajib diisi!");
+            if(!n || !p) return alert("Nama & Pesan wajib diisi!");
             try {
-                const res = await fetch('https://api.github.com/repos/${REPO}/dispatches', {
+                await fetch('https://api.github.com/repos/${REPO}/dispatches', {
                     method: 'POST',
                     headers: { 'Authorization': 'token ${tkn}', 'Accept': 'application/vnd.github.v3+json' },
                     body: JSON.stringify({
@@ -106,95 +136,51 @@
                         client_payload: { project_id: '${slug}', data: { nama: n, status: h, ucapan: p, date: new Date().toLocaleString() } }
                     })
                 });
-                if(res.ok) alert("Ucapan Terkirim!");
-                else alert("Gagal Kirim. Cek Token!");
-            } catch(e) { alert("Error!"); }
+                alert("Sukses! Ucapan terarsip di database Mj-Shops.");
+            } catch(e) { alert("Gagal kirim!"); }
         }
-        <\/script>
-        `;
+        <\/script>`;
 
-        // Gabungkan script ke dalam kode
-        if (code.includes("</body>")) {
-            code = code.replace("</body>", rsvpScript + "</body>");
-        } else {
-            code = code + rsvpScript;
-        }
+        code = code.includes("</body>") ? code.replace("</body>", rsvpScript + "</body>") : code + rsvpScript;
 
-        const path = `skrip/${slug}.html`;
         try {
-            // Encode aman untuk karakter spesial
-            const base64Content = btoa(unescape(encodeURIComponent(code)));
-
-            const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
+            const res = await fetch(`https://api.github.com/repos/${REPO}/contents/skrip/${slug}.html`, {
                 method: 'PUT',
                 headers: {'Authorization': `token ${tkn}`},
-                body: JSON.stringify({ message: "Build: " + tit, content: base64Content })
+                body: JSON.stringify({ 
+                    message: "Update via Studio", 
+                    content: btoa(unescape(encodeURIComponent(code))) 
+                })
             });
-
-            if(res.ok) {
-                alert("BERHASIL! Undangan sudah online.");
-                switchTab('archive');
-            } else {
-                const err = await res.json();
-                alert("Gagal: " + err.message);
-            }
-        } catch(e) { alert("Kesalahan teknis!"); }
-
-        document.getElementById('btnPublish').innerText = "Publish & Inject RSVP";
+            if(res.ok) { alert("Published!"); switchTab('archive'); }
+        } catch(e) { alert("Error!"); }
         updateStatus("Ready");
-    }
-
-    async function refreshList(folder) {
-        const tkn = localStorage.getItem('_gh_tkn_u');
-        if(!tkn) return;
-        const cont = document.getElementById(folder === 'uploads' ? 'asset-container' : 'archive-container');
-        cont.innerHTML = "Loading...";
-        try {
-            const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${folder}`, {
-                headers: {'Authorization': `token ${tkn}`}
-            });
-            const data = await res.json();
-            cont.innerHTML = "";
-            data.reverse().forEach(item => {
-                const link = `https://mj-shops.biz.id/${item.path}`;
-                cont.innerHTML += `
-                    <div class="file-card">
-                        <div class="file-content">
-                            <div class="file-info" style="font-size:0.7rem">${item.name}</div>
-                            <div class="d-flex gap-1">
-                                <button class="btn-act btn-cp" onclick="copyIt('${link}')">Link</button>
-                                <button class="btn-act btn-view" onclick="window.open('${link}')">Buka</button>
-                                <button class="btn-act btn-del" onclick="doDelete('${item.path}')">Del</button>
-                            </div>
-                        </div>
-                    </div>`;
-            });
-        } catch(e) { cont.innerHTML = "Folder Kosong."; }
     }
 
     async function doUpload() {
         const file = document.getElementById('fMedia').files[0];
-        if(!file) return;
         const tkn = localStorage.getItem('_gh_tkn_u');
+        if(!file || !tkn) return;
         updateStatus("Uploading...");
         const reader = new FileReader();
         reader.onload = async () => {
             const b64 = reader.result.split(',')[1];
             const path = `uploads/${Date.now()}-${file.name.replace(/\s+/g, '_')}`;
-            await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
+            const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
                 method: 'PUT',
                 headers: {'Authorization': `token ${tkn}`},
-                body: JSON.stringify({ message: "Upload", content: b64 })
+                body: JSON.stringify({ message: "Upload Foto", content: b64 })
             });
-            refreshList('uploads');
+            if(res.ok) refreshList('uploads');
             updateStatus("Ready");
         };
         reader.readAsDataURL(file);
     }
 
     async function doDelete(path) {
-        if(!confirm("Hapus?")) return;
+        if(!confirm("Hapus file ini?")) return;
         const tkn = localStorage.getItem('_gh_tkn_u');
+        updateStatus("Deleting...");
         const ck = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
             headers: {'Authorization': `token ${tkn}`}
         });
@@ -202,16 +188,17 @@
         await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
             method: 'DELETE',
             headers: {'Authorization': `token ${tkn}`},
-            body: JSON.stringify({ message: "Delete", sha: d.sha })
+            body: JSON.stringify({ message: "Delete file", sha: d.sha })
         });
         refreshList(path.split('/')[0]);
+        updateStatus("Ready");
     }
 
-    function copyIt(v) { navigator.clipboard.writeText(v); alert("Copied!"); }
+    function copyIt(v) { navigator.clipboard.writeText(v); alert("Link Copied!"); }
     function updateStatus(m) { document.getElementById('status-bar').innerText = m.toUpperCase(); }
     function configToken() { 
-        const t = prompt("Masukkan Token:"); 
-        if(t) { localStorage.setItem('_gh_tkn_u', t.trim()); alert("Saved!"); location.reload(); }
+        const t = prompt("Masukkan Token GitHub Anda:"); 
+        if(t) { localStorage.setItem('_gh_tkn_u', t.trim()); alert("Token Tersimpan!"); location.reload(); }
     }
 </script>
 </body>
