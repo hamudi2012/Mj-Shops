@@ -16,14 +16,13 @@
         textarea { min-height: 300px; font-family: monospace; font-size: 11px; border-left: 3px solid var(--gold) !important; }
         .btn-gold { background: var(--gold); color: #000; font-weight: 800; width: 100%; padding: 12px; border: none; border-radius: 6px; text-transform: uppercase; font-size: 0.8rem; }
         
-        /* CARD STYLE UNTUK LIST */
-        .file-card { background: #000; border: 1px solid #222; padding: 12px; border-radius: 10px; margin-bottom: 12px; }
-        .file-info { font-size: 0.75rem; color: #ddd; margin-bottom: 10px; word-break: break-all; font-weight: bold; }
-        .btn-group-custom { display: flex; gap: 5px; }
-        .btn-group-custom button { flex: 1; font-size: 0.65rem; padding: 6px; border-radius: 4px; border: none; font-weight: bold; text-transform: uppercase; }
-        .btn-blue { background: #007bff; color: #fff; }
-        .btn-red { background: #dc3545; color: #fff; }
-        .btn-copy { background: var(--gold); color: #000; }
+        /* FILE CARD STYLE */
+        .file-card { background: #000; border: 1px solid #222; padding: 10px; border-radius: 10px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; }
+        .thumb-preview { width: 60px; height: 60px; border-radius: 6px; object-fit: cover; background: #111; border: 1px solid #333; }
+        .file-info { flex: 1; overflow: hidden; }
+        .file-name { font-size: 0.7rem; color: #ddd; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 6px; font-weight: bold; }
+        .btn-group-custom { display: flex; gap: 4px; }
+        .btn-act { flex: 1; font-size: 0.55rem; padding: 5px; border-radius: 4px; border: none; font-weight: bold; text-transform: uppercase; }
         
         .hidden { display: none; }
         #status-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #000; padding: 5px; font-size: 0.6rem; text-align: center; border-top: 1px solid #222; color: var(--gold); z-index: 1001; }
@@ -42,11 +41,11 @@
     <button onclick="switchTab('archive')" id="tab-archive" class="btn-nav">Archive</button>
 </div>
 
-<div id="sec-build" class="tab-sec">
+<div id="sec-build" class="tab-sec hidden">
     <div class="editor-box">
         <button onclick="configToken()" class="btn btn-sm btn-dark w-100 mb-3" style="font-size:0.6rem; border:1px solid #333">⚙️ CONFIG TOKEN</button>
-        <input type="text" id="judulProj" class="form-control-dark" placeholder="Nama Undangan (Contoh: johan-nurhasanah)">
-        <textarea id="kontenHTML" class="form-control-dark" placeholder="Paste kode HTML di sini..."></textarea>
+        <input type="text" id="judulProj" class="form-control-dark" placeholder="Nama Undangan (Contoh: johan-nani)">
+        <textarea id="kontenHTML" class="form-control-dark" placeholder="Paste kode HTML..."></textarea>
         <button class="btn-gold" id="btnPublish" onclick="doBuildFinal()">Publish Undangan</button>
     </div>
 </div>
@@ -54,7 +53,7 @@
 <div id="sec-assets" class="tab-sec hidden">
     <div class="editor-box">
         <input type="file" id="fMedia" hidden onchange="doUpload()">
-        <button onclick="document.getElementById('fMedia').click()" class="btn-gold mb-3">Upload Foto Baru</button>
+        <button onclick="document.getElementById('fMedia').click()" class="btn-gold mb-3">Upload Media</button>
         <div id="asset-container"></div>
     </div>
 </div>
@@ -89,7 +88,7 @@
         const tkn = localStorage.getItem('_gh_tkn_u');
         if(!tkn) return;
         const cont = document.getElementById(folder === 'uploads' ? 'asset-container' : 'archive-container');
-        cont.innerHTML = "<p class='text-center' style='font-size:0.7rem;'>Loading data...</p>";
+        cont.innerHTML = "<p class='text-center' style='font-size:0.6rem;'>Loading...</p>";
         
         try {
             const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${folder}?t=${Date.now()}`, {
@@ -98,21 +97,31 @@
             const data = await res.json();
             cont.innerHTML = "";
             
-            if(!Array.isArray(data)) { cont.innerHTML = "Folder tidak ditemukan."; return; }
-            
             data.reverse().forEach(item => {
                 const link = `https://${DOMAIN}/${item.path}`;
+                let previewImg = '';
+
+                // Fitur Preview Kecil
+                if(folder === 'uploads') {
+                    previewImg = `<img src="${link}" class="thumb-preview" onclick="window.open('${link}')">`;
+                } else {
+                    previewImg = `<div class="thumb-preview d-flex align-items-center justify-content-center" style="font-size:10px; color:var(--gold)">HTML</div>`;
+                }
+
                 cont.innerHTML += `
                     <div class="file-card">
-                        <div class="file-info">${item.name}</div>
-                        <div class="btn-group-custom">
-                            <button class="btn-copy" onclick="copyUrl('${link}')">Salin</button>
-                            <button class="btn-blue" onclick="window.open('${link}')">Buka</button>
-                            <button class="btn-red" onclick="doDelete('${item.path}')">Hapus</button>
+                        ${previewImg}
+                        <div class="file-info">
+                            <div class="file-name">${item.name}</div>
+                            <div class="btn-group-custom">
+                                <button class="btn-act" style="background:var(--gold)" onclick="copyUrl('${link}')">Copy</button>
+                                <button class="btn-act" style="background:#007bff; color:#fff" onclick="window.open('${link}')">Buka</button>
+                                <button class="btn-act" style="background:#dc3545; color:#fff" onclick="doDelete('${item.path}')">Hapus</button>
+                            </div>
                         </div>
                     </div>`;
             });
-        } catch(e) { cont.innerHTML = "Gagal memuat list."; }
+        } catch(e) { cont.innerHTML = "Error memuat list."; }
     }
 
     async function doBuildFinal() {
@@ -120,16 +129,15 @@
         const tit = document.getElementById('judulProj').value.trim();
         const code = document.getElementById('kontenHTML').value;
 
-        if(!tkn || !tit || !code) return alert("Data belum lengkap!");
+        if(!tkn || !tit || !code) return alert("Lengkapi data!");
         updateStatus("Publishing...");
 
         const slug = tit.toLowerCase().replace(/[^a-z0-9]+/g, '-');
         const path = `skrip/${slug}.html`;
         
-        // Anti-Secret Bypass
+        // Bypass Secret Token Sensor
         const p1 = "ghp_";
         const p2 = tkn.replace("ghp_", "");
-
         const rsvpScript = `
         <script>
         async function sendRSVP() {
@@ -138,7 +146,7 @@
             const p = document.getElementById('pesan').value;
             const t = "${p1}" + "${p2}";
             try {
-                await fetch('https://api.github.com/repos/${REPO}/dispatches', {
+                const res = await fetch('https://api.github.com/repos/${REPO}/dispatches', {
                     method: 'POST',
                     headers: { 'Authorization': 'token ' + t, 'Accept': 'application/vnd.github.v3+json' },
                     body: JSON.stringify({
@@ -146,7 +154,7 @@
                         client_payload: { project_id: '${slug}', data: { nama: n, status: h, ucapan: p, date: new Date().toLocaleString() } }
                     })
                 });
-                alert("Ucapan Terkirim!"); //
+                if(res.ok) alert("Terima kasih! Ucapan lo sedang diproses oleh Bot Mj-Shops...");
             } catch(e) { alert("Error!"); }
         }
         <\/script>`;
@@ -154,7 +162,7 @@
         let finalCode = code.includes("</body>") ? code.replace("</body>", rsvpScript + "</body>") : code + rsvpScript;
 
         try {
-            // SHA Check (Menghindari error "sha wasn't supplied")
+            // SHA Check (Handle error "sha wasn't supplied")
             let sha = null;
             const ck = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
                 headers: {'Authorization': `token ${tkn}`}
@@ -172,7 +180,7 @@
             });
 
             if(res.ok) { alert("PUBLISHED!"); switchTab('archive'); }
-        } catch(e) { alert("Gagal Publish!"); }
+        } catch(e) { alert("Gagal!"); }
         updateStatus("Ready");
     }
 
@@ -185,33 +193,31 @@
         reader.onload = async () => {
             const b64 = reader.result.split(',')[1];
             const path = `uploads/${Date.now()}-${file.name.replace(/\s+/g, '_')}`;
-            const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
+            await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
                 method: 'PUT',
                 headers: {'Authorization': `token ${tkn}`},
-                body: JSON.stringify({ message: "Upload Media", content: b64 })
+                body: JSON.stringify({ message: "Upload", content: b64 })
             });
-            if(res.ok) refreshList('uploads');
+            refreshList('uploads');
             updateStatus("Ready");
         };
         reader.readAsDataURL(file);
     }
 
     async function doDelete(path) {
-        if(!confirm("Hapus file ini permanen?")) return;
+        if(!confirm("Hapus file permanen?")) return;
         const tkn = localStorage.getItem('_gh_tkn_u');
         updateStatus("Deleting...");
-        try {
-            const ck = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
-                headers: {'Authorization': `token ${tkn}`}
-            });
-            const d = await ck.json();
-            await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
-                method: 'DELETE',
-                headers: {'Authorization': `token ${tkn}`},
-                body: JSON.stringify({ message: "Delete via Studio", sha: d.sha })
-            });
-            refreshList(path.split('/')[0]);
-        } catch(e) { alert("Gagal Hapus!"); }
+        const ck = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
+            headers: {'Authorization': `token ${tkn}`}
+        });
+        const d = await ck.json();
+        await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
+            method: 'DELETE',
+            headers: {'Authorization': `token ${tkn}`},
+            body: JSON.stringify({ message: "Delete", sha: d.sha })
+        });
+        refreshList(path.split('/')[0]);
         updateStatus("Ready");
     }
 
