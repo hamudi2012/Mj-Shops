@@ -1,0 +1,28 @@
+name: Auto-Save RSVP Mj-Shops
+on:
+  repository_dispatch:
+    types: [simpan-ucapan]
+
+jobs:
+  save:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Update Database
+        run: |
+          [span_2](start_span)mkdir -p database[span_2](end_span)
+          [span_3](start_span)ID="${{ github.event.client_payload.project_id }}"[span_3](end_span)
+          [span_4](start_span)FILE="database/data-${ID}.json"[span_4](end_span)
+          # [span_5](start_span)Jika file belum ada, buat file json kosong baru[span_5](end_span)
+          if [ ! -[span_6](start_span)f "$FILE" ]; then echo "[]" > "$FILE"; fi[span_6](end_span)
+          # [span_7](start_span)Masukkan data RSVP baru menggunakan jq[span_7](end_span)
+          [span_8](start_span)jq ". += [${{ toJson(github.event.client_payload.data) }}]" "$FILE" > tmp.json && mv tmp.json "$FILE"[span_8](end_span)
+          
+      - name: Commit & Push
+        run: |
+          git config --global user.name "Mj-Shops-Bot"
+          git config --global user.email "hamudi2012@gmail.com"
+          [span_9](start_span)git add database/[span_9](end_span)
+          [span_10](start_span)git commit -m "RSVP Baru Terarsip di Mj-Shops"[span_10](end_span)
+          [span_11](start_span)git push[span_11](end_span)
