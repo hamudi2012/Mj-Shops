@@ -2,216 +2,125 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MJ STUDIO FINAL</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Undangan v2.0</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
-        :root { --gold: #d4af37; --dark-bg: #0a0a0a; --panel: #161616; }
-        body { background-color: var(--dark-bg); font-family: sans-serif; color: #fff; padding: 10px; margin: 0; }
-        .nav-custom { display: flex; justify-content: center; gap: 5px; margin-bottom: 15px; position: sticky; top: 0; z-index: 100; background: var(--dark-bg); padding: 5px 0; }
-        .btn-nav { background: none; border: 1px solid #333; color: #888; padding: 8px 10px; border-radius: 5px; font-size: 0.7rem; text-transform: uppercase; flex: 1; }
-        .btn-nav.active { border-color: var(--gold); color: var(--gold); background: rgba(212, 175, 55, 0.1); }
-        .editor-box { background: var(--panel); padding: 15px; border-radius: 12px; border: 1px solid #222; margin-bottom: 80px; }
-        .form-control-dark { background: #000; border: 1px solid #333; color: #fff; margin-bottom: 12px; padding: 10px; width: 100%; border-radius: 6px; font-size: 0.8rem; }
-        textarea { min-height: 350px; font-family: monospace; font-size: 11px; border-left: 3px solid var(--gold) !important; }
-        .btn-gold { background: var(--gold); color: #000; font-weight: 800; width: 100%; padding: 12px; border: none; border-radius: 6px; text-transform: uppercase; font-size: 0.8rem; }
-        #status-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #000; padding: 5px; font-size: 0.6rem; text-align: center; border-top: 1px solid #222; color: var(--gold); z-index: 1001; }
-        .file-card { background: #000; border: 1px solid #222; padding: 10px; border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
-        .hidden { display: none; }
+        body { background: #f0f2f5; font-family: sans-serif; overflow: hidden; }
+        .app-shell { max-width: 450px; margin: auto; height: 100vh; background: white; display: flex; flex-direction: column; position: relative; }
+        .content { flex: 1; overflow-y: auto; padding: 20px; }
+        .nav-bottom { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid #ddd; padding: 10px; background: #fff; }
+        .preview-img { width: 100%; height: 200px; border-radius: 15px; object-fit: cover; margin-top: 10px; border: 2px dashed #ccc; }
+        .card-arsip { border-radius: 12px; border: 1px solid #eee; padding: 12px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .btn-nav { border: none; padding: 10px; background: none; font-weight: bold; color: #888; }
+        .btn-nav.active { color: #007bff; border-bottom: 2px solid #007bff; }
     </style>
 </head>
-<body>
+<body x-data="adminSystem()" x-init="checkToken()">
 
-<div class="text-center mt-3">
-    <h3 style="color:var(--gold); font-weight: 800; margin:0;">MJ STUDIO</h3>
-    <p style="font-size:0.5rem; letter-spacing: 3px; color:#555;">PRO AUTO-RSVP EDITION</p>
-</div>
+    <div class="app-shell">
+        <div class="p-3 bg-dark text-white d-flex justify-content-between align-items-center">
+            <h6 class="m-0">Admin Dashboard</h6>
+            <button @click="logout()" class="btn btn-sm btn-outline-danger">Logout</button>
+        </div>
 
-<div class="nav-custom">
-    <button onclick="switchTab('build')" id="tab-build" class="btn-nav">Builder</button>
-    <button onclick="switchTab('assets')" id="tab-assets" class="btn-nav">Assets</button>
-    <button onclick="switchTab('archive')" id="tab-archive" class="btn-nav">Archive</button>
-</div>
+        <div class="content">
+            <div x-show="tab === 'upload'">
+                <label class="fw-bold mb-2">Upload Foto Baru</label>
+                <input type="file" id="fileInp" class="form-control" @change="previewFile">
+                
+                <template x-if="imageUrl">
+                    <img :src="imageUrl" class="preview-img">
+                </template>
+                <template x-if="!imageUrl">
+                    <div class="preview-img d-flex align-items-center justify-content-center text-muted">Belum ada foto dipilih</div>
+                </template>
 
-<div id="sec-build" class="tab-sec">
-    <div class="editor-box">
-        <button onclick="configToken()" class="btn btn-sm btn-dark w-100 mb-3" style="font-size:0.6rem; border:1px solid #333">⚙️ CONFIG TOKEN</button>
-        <input type="text" id="judulProj" class="form-control-dark" placeholder="Nama File (Contoh: johan-nurhasanah)">
-        <textarea id="kontenHTML" class="form-control-dark" placeholder="Paste HTML di sini..."></textarea>
-        <button class="btn-gold" id="btnPublish" onclick="doBuildFinal()">Publish Undangan</button>
-    </div>
-</div>
+                <button @click="simpanData()" class="btn btn-primary w-100 mt-3 py-3 fw-bold">🚀 Simpan ke Arsip</button>
+            </div>
 
-<div id="sec-assets" class="tab-sec hidden">
-    <div class="editor-box">
-        <input type="file" id="fMedia" hidden onchange="doUpload()">
-        <button onclick="document.getElementById('fMedia').click()" class="btn-gold mb-3">Upload Media</button>
-        <div id="asset-container"></div>
-    </div>
-</div>
-
-<div id="sec-archive" class="tab-sec hidden">
-    <div class="editor-box">
-        <div id="archive-container"></div>
-    </div>
-</div>
-
-<div id="status-bar">READY</div>
-
-<script>
-    const REPO = "hamudi2012/Mj-Shops";
-    const DOMAIN = "mj-shops.biz.id";
-
-    window.onload = () => {
-        const lastTab = localStorage.getItem('last_tab') || 'build';
-        switchTab(lastTab);
-    };
-
-    function switchTab(t) {
-        localStorage.setItem('last_tab', t);
-        document.querySelectorAll('.tab-sec').forEach(s => s.classList.add('hidden'));
-        document.querySelectorAll('.btn-nav').forEach(b => b.classList.remove('active'));
-        document.getElementById('sec-' + t).classList.remove('hidden');
-        document.getElementById('tab-' + t).classList.add('active');
-        if(t !== 'build') refreshList(t === 'assets' ? 'uploads' : 'skrip');
-    }
-
-    async function doBuildFinal() {
-        const tkn = localStorage.getItem('_gh_tkn_u');
-        const tit = document.getElementById('judulProj').value.trim();
-        const code = document.getElementById('kontenHTML').value;
-
-        if(!tkn || !tit || !code) return alert("Lengkapi Data!");
-        
-        updateStatus("Processing...");
-        const slug = tit.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-        const path = `skrip/${slug}.html`;
-
-        // Script RSVP untuk tamu (Menghindari deteksi Secret GitHub)
-        const p1 = "ghp_";
-        const p2 = tkn.replace("ghp_", "");
-        const rsvpScript = `
-        <script>
-        async function sendRSVP() {
-            const n = document.getElementById('namaTamu').value;
-            const h = document.getElementById('hadir').value;
-            const p = document.getElementById('pesan').value;
-            const t = "${p1}" + "${p2}";
-            try {
-                await fetch('https://api.github.com/repos/${REPO}/dispatches', {
-                    method: 'POST',
-                    headers: { 'Authorization': 'token ' + t, 'Accept': 'application/vnd.github.v3+json' },
-                    body: JSON.stringify({
-                        event_type: 'simpan-ucapan',
-                        client_payload: { project_id: '${slug}', data: { nama: n, status: h, ucapan: p, date: new Date().toLocaleString() } }
-                    })
-                });
-                alert("Ucapan Terkirim!");
-            } catch(e) { alert("Error!"); }
-        }
-        <\/script>`;
-
-        let finalCode = code.includes("</body>") ? code.replace("</body>", rsvpScript + "</body>") : code + rsvpScript;
-
-        try {
-            // Cek apakah file sudah ada (untuk mendapatkan SHA)
-            let sha = null;
-            const checkRes = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
-                headers: {'Authorization': `token ${tkn}`}
-            });
-            if(checkRes.ok) {
-                const checkData = await checkRes.json();
-                sha = checkData.sha;
-            }
-
-            const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
-                method: 'PUT',
-                headers: {'Authorization': `token ${tkn}`},
-                body: JSON.stringify({
-                    message: "Build: " + slug,
-                    content: btoa(unescape(encodeURIComponent(finalCode))),
-                    sha: sha // Menangani error "sha wasn't supplied"
-                })
-            });
-
-            if(res.ok) {
-                alert("BERHASIL!");
-                switchTab('archive');
-            } else {
-                const err = await res.json();
-                alert("Gagal: " + err.message);
-            }
-        } catch(e) { alert("Sistem Error!"); }
-        updateStatus("Ready");
-    }
-
-    async function refreshList(folder) {
-        const tkn = localStorage.getItem('_gh_tkn_u');
-        if(!tkn) return;
-        const cont = document.getElementById(folder === 'uploads' ? 'asset-container' : 'archive-container');
-        cont.innerHTML = "Loading...";
-        try {
-            const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${folder}?t=${Date.now()}`, {
-                headers: {'Authorization': `token ${tkn}`}
-            });
-            const data = await res.json();
-            cont.innerHTML = "";
-            data.reverse().forEach(item => {
-                const link = `https://${DOMAIN}/${item.path}`;
-                cont.innerHTML += `
-                    <div class="file-card">
-                        <div class="file-content">
-                            <div class="file-info" style="font-size:0.7rem">${item.name}</div>
-                            <div class="d-flex gap-1">
-                                <button class="btn btn-sm btn-primary" onclick="window.open('${link}')">Buka</button>
-                                <button class="btn btn-sm btn-danger" onclick="doDelete('${item.path}')">Hapus</button>
-                            </div>
+            <div x-show="tab === 'archive'">
+                <label class="fw-bold mb-3 text-primary">Daftar Arsip Undangan</label>
+                <template x-for="(item, index) in listArsip" :key="index">
+                    <div class="card-arsip">
+                        <div class="d-flex align-items-center mb-2">
+                            <img :src="item.url" width="50" height="50" class="rounded me-2" style="object-fit: cover;">
+                            <span class="small fw-bold text-truncate" x-text="item.nama"></span>
                         </div>
-                    </div>`;
-            });
-        } catch(e) { cont.innerHTML = "Folder Kosong."; }
-    }
+                        <div class="d-flex gap-1 justify-content-between">
+                            <button @click="window.open(item.url)" class="btn btn-sm btn-dark flex-grow-1">Buka</button>
+                            <button @click="copyUrl(item.url)" class="btn btn-sm btn-warning text-white flex-grow-1">Kopi URL</button>
+                            <button @click="hapus(index)" class="btn btn-sm btn-danger flex-grow-1">Hapus</button>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
 
-    async function doDelete(path) {
-        if(!confirm("Hapus?")) return;
-        const tkn = localStorage.getItem('_gh_tkn_u');
-        const ck = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
-            headers: {'Authorization': `token ${tkn}`}
-        });
-        const d = await ck.json();
-        await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
-            method: 'DELETE',
-            headers: {'Authorization': `token ${tkn}`},
-            body: JSON.stringify({ message: "Delete", sha: d.sha })
-        });
-        refreshList(path.split('/')[0]);
-    }
+        <div class="nav-bottom">
+            <button @click="tab = 'upload'" :class="tab === 'upload' ? 'active' : ''" class="btn-nav">UPLOAD</button>
+            <button @click="tab = 'archive'" :class="tab === 'archive' ? 'active' : ''" class="btn-nav">ARSIP</button>
+        </div>
+    </div>
 
-    async function doUpload() {
-        const file = document.getElementById('fMedia').files[0];
-        const tkn = localStorage.getItem('_gh_tkn_u');
-        if(!file || !tkn) return;
-        updateStatus("Uploading...");
-        const reader = new FileReader();
-        reader.onload = async () => {
-            const b64 = reader.result.split(',')[1];
-            const path = `uploads/${Date.now()}-${file.name.replace(/\s+/g, '_')}`;
-            await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
-                method: 'PUT',
-                headers: {'Authorization': `token ${tkn}`},
-                body: JSON.stringify({ message: "Upload", content: b64 })
-            });
-            refreshList('uploads');
-            updateStatus("Ready");
-        };
-        reader.readAsDataURL(file);
-    }
+    <script>
+        function adminSystem() {
+            return {
+                tab: 'upload',
+                token: '',
+                imageUrl: null,
+                listArsip: JSON.parse(localStorage.getItem('my_archive') || '[]'),
 
-    function updateStatus(m) { document.getElementById('status-bar').innerText = m.toUpperCase(); }
-    function configToken() { 
-        const t = prompt("Masukkan Token:"); 
-        if(t) { localStorage.setItem('_gh_tkn_u', t.trim()); location.reload(); }
-    }
-</script>
+                checkToken() {
+                    let savedToken = localStorage.getItem('gh_token');
+                    if (!savedToken) {
+                        let pass = prompt("Masukkan Token GitHub Anda:");
+                        if (pass) {
+                            localStorage.setItem('gh_token', pass);
+                            this.token = pass;
+                        }
+                    } else {
+                        this.token = savedToken;
+                    }
+                },
+
+                previewFile(e) {
+                    const file = e.target.files[0];
+                    if (file) this.imageUrl = URL.createObjectURL(file);
+                },
+
+                simpanData() {
+                    if (!this.imageUrl) return alert("Pilih foto dulu!");
+                    // Simpan ke array arsip
+                    this.listArsip.unshift({
+                        nama: "Undangan_" + new Date().getTime(),
+                        url: this.imageUrl
+                    });
+                    localStorage.setItem('my_archive', JSON.stringify(this.listArsip));
+                    alert("Berhasil disimpan!");
+                    this.tab = 'archive';
+                    this.imageUrl = null;
+                },
+
+                copyUrl(url) {
+                    navigator.clipboard.writeText(url);
+                    alert("URL dikopi!");
+                },
+
+                hapus(index) {
+                    if(confirm("Hapus file ini?")) {
+                        this.listArsip.splice(index, 1);
+                        localStorage.setItem('my_archive', JSON.stringify(this.listArsip));
+                    }
+                },
+
+                logout() {
+                    localStorage.removeItem('gh_token');
+                    location.reload();
+                }
+            }
+        }
+    </script>
 </body>
 </html>
