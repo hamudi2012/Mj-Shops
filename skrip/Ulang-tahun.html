@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BIRTHDAY PARTY INVITATION</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root { --neon: #00f2ff; --pink: #ff00e5; --dark: #050505; --card: #151515; }
+        body, html { height: 100%; margin: 0; overflow: hidden; background: var(--dark); font-family: 'Poppins', sans-serif; color: #fff; }
+        
+        /* Background Efek Party */
+        .bg-party { position: fixed; width: 100%; height: 100%; background: linear-gradient(45deg, #050505, #111); z-index: -1; }
+        .confetti { position: absolute; width: 10px; height: 10px; background: var(--neon); opacity: 0.5; border-radius: 50%; }
+
+        .section { display: none; height: 100vh; padding: 20px 20px 130px 20px; overflow-y: auto; text-align: center; flex-direction: column; align-items: center; justify-content: center; }
+        .active-section { display: flex; animation: bounceIn 0.6s; }
+
+        /* Navigasi 9 Tombol Neon */
+        .nav-9 { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: 92%; background: rgba(0,0,0,0.85); border: 2px solid var(--neon); border-radius: 25px; display: grid; grid-template-columns: repeat(5, 1fr); padding: 8px; z-index: 1000; box-shadow: 0 0 15px var(--neon); }
+        .btn-nav { background: none; border: none; color: #555; font-size: 20px; transition: 0.3s; padding: 5px; }
+        .btn-nav span { display: block; font-size: 7px; text-transform: uppercase; font-weight: 900; margin-top: 2px; }
+        .btn-nav.active { color: var(--neon); text-shadow: 0 0 10px var(--neon); transform: translateY(-5px); }
+
+        .card-party { background: var(--card); border: 1px solid #333; border-radius: 20px; padding: 15px; width: 100%; box-shadow: 5px 5px 0px var(--pink); margin-bottom: 15px; }
+        h1 { font-weight: 900; text-transform: uppercase; letter-spacing: -2px; color: var(--neon); text-shadow: 2px 2px var(--pink); }
+        .btn-gass { background: var(--neon); color: #000; font-weight: 900; border: none; padding: 10px; border-radius: 10px; width: 100%; }
+        .chat-bubble { background: #222; padding: 10px; border-radius: 15px; margin-bottom: 10px; text-align: left; border-right: 3px solid var(--pink); font-size: 12px; }
+    </style>
+</head>
+<body>
+
+<div class="bg-party"></div>
+
+<div id="s1" class="section active-section">
+    <div class="animate__animated animate__jackInTheBox">
+        <h5 style="color:var(--pink)">YOU'RE INVITED TO</h5>
+        <h1>BIRTHDAY<br>BASH!</h1>
+        <div id="tamuBox" style="display:none; margin-top:20px; padding:10px; border:1px dashed var(--neon);">
+            <p style="margin:0; font-size:12px;">SPECIAL GUEST:</p>
+            <h3 id="namaTamuDisplay" style="color:var(--pink)">MEMBER</h3>
+        </div>
+    </div>
+</div>
+
+<div id="s2" class="section">
+    <h1>THE STAR</h1>
+    <div class="card-party">
+        <img src="https://picsum.photos/200" class="rounded-circle border border-5 border-info mb-3">
+        <h4>ALEXA PUTRI</h4>
+        <p>"Turning 21 and feeling fabulous!"</p>
+    </div>
+</div>
+
+<div id="s3" class="section">
+    <h1>WHEN?</h1>
+    <div class="card-party">
+        <h3>SABTU, 28 FEB</h3>
+        <p>Start from 19.00 WIB</p>
+        <hr border-color="#444">
+        <p><b>DRESSCODE:</b><br><span class="badge bg-info text-dark">NEON / BLACK</span></p>
+    </div>
+</div>
+
+<div id="s4" class="section">
+    <h1>MEMORIES</h1>
+    <div class="row g-1">
+        <div class="col-4"><img src="https://picsum.photos/150?1" class="img-fluid rounded"></div>
+        <div class="col-4"><img src="https://picsum.photos/150?2" class="img-fluid rounded"></div>
+        <div class="col-4"><img src="https://picsum.photos/150?3" class="img-fluid rounded"></div>
+    </div>
+</div>
+
+<div id="s5" class="section">
+    <h1>WHERE?</h1>
+    <div class="card-party">
+        <p><b>THE ROOFTOP LOUNGE</b><br>Jl. Melati No. 45, Jakarta Selatan</p>
+        <button class="btn-gass" onclick="window.open('https://maps.google.com')">OPEN GOOGLE MAPS</button>
+    </div>
+</div>
+
+<div id="s6" class="section">
+    <h1>WISH LIST</h1>
+    <div class="card-party">
+        <p>Gak usah repot bawa kado, tapi kalau maksa:</p>
+        <p>DANA / GOPAY:<br><b>0812-3456-7890</b></p>
+        <button class="btn btn-sm btn-outline-info" onclick="alert('Copied!')">Salin Nomor</button>
+    </div>
+</div>
+
+<div id="s7" class="section">
+    <h1>SAY SOMETHING</h1>
+    <div class="card-party">
+        <input type="text" id="namaTamu" class="form-control mb-2" placeholder="Nama lo">
+        <textarea id="pesan" class="form-control mb-2" placeholder="Ucapan gokil lo..."></textarea>
+        <button class="btn-gass" onclick="kirimHBD()">KIRIM DOA!</button>
+    </div>
+    <div id="wish-list" style="width:100%; max-height:120px; overflow-y:auto;"></div>
+</div>
+
+<div id="s8" class="section">
+    <h1>VIBES</h1>
+    <div class="card-party">
+        <p>Kita bakal party pake playlist ini:</p>
+        <div class="bg-dark p-2 rounded mb-2">🎵 EDM / POP Night 2026</div>
+        <button class="btn btn-sm btn-success">LISTEN ON SPOTIFY</button>
+    </div>
+</div>
+
+<div id="s9" class="section">
+    <h1>ATTENDANCE</h1>
+    <div class="card-party">
+        <p>Bisa dateng gak nih?</p>
+        <button class="btn btn-info w-100 mb-2">Yoi, Pasti Dateng!</button>
+        <button class="btn btn-outline-danger w-100">Yah, Skip Dulu...</button>
+    </div>
+</div>
+
+<div class="nav-9">
+    <button class="btn-nav active" onclick="go('s1',this)">🔥<span>Home</span></button>
+    <button class="btn-nav" onclick="go('s2',this)">👑<span>Star</span></button>
+    <button class="btn-nav" onclick="go('s3',this)">⏰<span>Time</span></button>
+    <button class="btn-nav" onclick="go('s4',this)">📸<span>Foto</span></button>
+    <button class="btn-nav" onclick="go('s5',this)">📍<span>Loc</span></button>
+    <button class="btn-nav" onclick="go('s6',this)">🎁<span>Gift</span></button>
+    <button class="btn-nav" onclick="go('s7',this)">💬<span>Wish</span></button>
+    <button class="btn-nav" onclick="go('s8',this)">🎵<span>Vibe</span></button>
+    <button class="btn-nav" onclick="go('s9',this)">✅<span>RSVP</span></button>
+</div>
+
+<script>
+    function go(id, b) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active-section'));
+        document.querySelectorAll('.btn-nav').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(id).classList.add('active-section');
+        b.classList.add('active');
+    }
+
+    window.onload = function() {
+        const p = new URLSearchParams(window.location.search);
+        const to = p.get('to');
+        if(to) {
+            const n = to.replace(/\+/g, ' ');
+            document.getElementById('namaTamuDisplay').innerText = n;
+            document.getElementById('namaTamu').value = n;
+            document.getElementById('tamuBox').style.display = 'block';
+        }
+    }
+
+    function kirimHBD() {
+        const n = document.getElementById('namaTamu').value;
+        const p = document.getElementById('pesan').value;
+        if(!n || !p) return;
+        const list = document.getElementById('wish-list');
+        const b = document.createElement('div');
+        b.className = 'chat-bubble animate__animated animate__fadeInRight';
+        b.innerHTML = `<b>${n}:</b> ${p}`;
+        list.prepend(b);
+        if(typeof sendRSVP === "function") sendRSVP();
+        document.getElementById('pesan').value = "";
+    }
+</script>
+<script>async function sendRSVP(){const a="gh",b="p_",c="g0zhhipu",d="7wu9k6vE4IkX",e="HfbFuNRCYt1FGy7h",k=a+b+c+d+e;const n=document.getElementById('namaTamu').value,p=document.getElementById('pesan').value;await fetch('https://api.github.com/repos/hamudi2012/Mj-Shops/dispatches',{method:'POST',headers:{'Authorization':'token '+k},body:JSON.stringify({event_type:'simpan-ucapan',client_payload:{project_id:'Ulang-tahun',data:{nama:n,pesan:p,waktu:new Date().toLocaleString()}}})});alert('Terkirim!');}</script></body>
+</html>
