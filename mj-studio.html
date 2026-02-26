@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Studio Ultra Max + MJ Shops</title>
+    <title>MJ STUDIO - Pro System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
         :root { --gold: #d4af37; --dark-bg: #0a0a0a; --panel: #161616; }
@@ -13,19 +13,16 @@
         .btn-nav.active { border-color: var(--gold); color: var(--gold); background: rgba(212, 175, 55, 0.1); }
         .editor-box { background: var(--panel); padding: 15px; border-radius: 12px; border: 1px solid #222; margin-bottom: 80px; }
         .form-control-dark { background: #000; border: 1px solid #333; color: #fff; margin-bottom: 12px; padding: 10px; width: 100%; border-radius: 6px; font-size: 0.8rem; }
-        textarea { min-height: 300px; font-family: monospace; font-size: 11px; border-left: 3px solid var(--gold) !important; }
+        textarea { min-height: 350px; font-family: monospace; font-size: 11px; border-left: 3px solid var(--gold) !important; }
         .btn-gold { background: var(--gold); color: #000; font-weight: 800; width: 100%; padding: 12px; border: none; border-radius: 6px; text-transform: uppercase; font-size: 0.8rem; }
-        
         .file-card { background: #000; border: 1px solid #222; padding: 10px; border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
         .thumb-preview { width: 50px; height: 50px; border-radius: 4px; object-fit: cover; background: #111; border: 1px solid #333; flex-shrink: 0; }
         .file-content { flex-grow: 1; overflow: hidden; }
-        .file-info { font-size: 0.7rem; margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #ccc; }
-        .file-actions { display: flex; gap: 4px; }
+        .file-info { font-size: 0.7rem; margin-bottom: 5px; color: #ccc; }
         .btn-act { flex: 1; font-size: 0.55rem; padding: 4px; border-radius: 3px; border: none; font-weight: bold; text-transform: uppercase; }
         .btn-view { background: #007bff; color: #fff; }
         .btn-del { background: #dc3545; color: #fff; }
         .btn-cp { background: var(--gold); color: #000; }
-        
         .hidden { display: none; }
         #status-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #000; padding: 5px; font-size: 0.6rem; text-align: center; border-top: 1px solid #222; color: var(--gold); z-index: 1001; }
     </style>
@@ -34,7 +31,7 @@
 
 <div class="text-center mt-3">
     <h3 style="color:var(--gold); font-weight: 800; margin:0;">MJ STUDIO</h3>
-    <p style="font-size:0.5rem; letter-spacing: 3px; color:#555;">MANAGEMENT SYSTEM</p>
+    <p style="font-size:0.5rem; letter-spacing: 3px; color:#555;">AUTOMATED SYSTEM</p>
 </div>
 
 <div class="nav-custom">
@@ -46,9 +43,9 @@
 <div id="sec-build" class="tab-sec hidden">
     <div class="editor-box">
         <button onclick="configToken()" class="btn btn-sm btn-dark w-100 mb-3" style="font-size:0.6rem; border:1px solid #333">⚙️ CONFIG TOKEN</button>
-        <input type="text" id="judul" class="form-control-dark" placeholder="Project Name (e.g. Undangan-Asep)">
-        <textarea id="content" class="form-control-dark" placeholder="Paste HTML..."></textarea>
-        <button class="btn-gold" onclick="doBuild()">Publish to MJ Shops</button>
+        <input type="text" id="judul" class="form-control-dark" placeholder="Project Name (contoh: Johan-Hasanah)">
+        <textarea id="content" class="form-control-dark" placeholder="Paste HTML Template Here..."></textarea>
+        <button class="btn-gold" onclick="doBuild()">Publish & Auto-Inject RSVP</button>
     </div>
 </div>
 
@@ -69,10 +66,9 @@
 <div id="status-bar">READY</div>
 
 <script>
-    // SUDAH DIUBAH KE REPO TUJUAN
-    const REPO = "hamudi2012/Mj-Shops"; 
+    const REPO = "hamudi2012/Mj-Shops";
 
-    window.onload = function() {
+    window.onload = () => {
         const lastTab = localStorage.getItem('last_tab') || 'build';
         switchTab(lastTab);
     };
@@ -84,6 +80,59 @@
         document.getElementById('sec-' + t).classList.remove('hidden');
         document.getElementById('tab-' + t).classList.add('active');
         if(t !== 'build') refreshList(t === 'assets' ? 'uploads' : 'skrip');
+    }
+
+    async function doBuild() {
+        const tkn = localStorage.getItem('_gh_tkn_u');
+        const tit = document.getElementById('judul').value.trim();
+        let code = document.getElementById('content').value;
+
+        if(!tkn || !tit || !code) return alert("Lengkapi data!");
+        updateStatus("Publishing...");
+
+        const slug = tit.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+        // INJEKSI LOGIKA RSVP OTOMATIS SEBELUM UPLOAD
+        const rsvpScript = `
+        <script>
+        async function sendRSVP() {
+            const t = "${tkn}";
+            const n = document.getElementById('namaTamu').value;
+            const h = document.getElementById('hadir').value;
+            const p = document.getElementById('pesan').value;
+            if(!n || !p) return alert("Nama dan pesan wajib diisi!");
+            try {
+                const res = await fetch('https://api.github.com/repos/${REPO}/dispatches', {
+                    method: 'POST',
+                    headers: { 'Authorization': 'token ' + t, 'Accept': 'application/vnd.github.v3+json' },
+                    body: JSON.stringify({
+                        event_type: 'simpan-ucapan',
+                        client_payload: { project_id: '${slug}', data: { nama: n, status: h, ucapan: p, date: new Date().toLocaleString() } }
+                    })
+                });
+                if(res.ok) { alert("Terima kasih! Ucapan lo sudah masuk."); }
+                else { alert("Gagal kirim! Cek Token Permissions."); }
+            } catch(e) { alert("Error Koneksi!"); }
+        }
+        <\/script>
+        `;
+
+        // Masukkan script tepat sebelum penutup body
+        code = code.replace("</body>", rsvpScript + "</body>");
+
+        const path = `skrip/${slug}.html`;
+        try {
+            const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
+                method: 'PUT',
+                headers: {'Authorization': `token ${tkn}`},
+                body: JSON.stringify({ 
+                    message: "Build: " + tit, 
+                    content: btoa(unescape(encodeURIComponent(code))) 
+                })
+            });
+            if(res.ok) { alert("Selesai! Undangan & RSVP sudah Aktif."); switchTab('archive'); }
+        } catch(e) { alert("Gagal Publish!"); }
+        updateStatus("Ready");
     }
 
     async function refreshList(folder) {
@@ -99,54 +148,32 @@
             cont.innerHTML = "";
             if(!data.length) { cont.innerHTML = "Kosong."; return; }
             data.reverse().forEach(item => {
-                // LINK SUDAH DIUBAH KE MJ-SHOPS
-                const link = `https://hamudi2012.github.io/Mj-Shops/${item.path}`;
+                const link = `https://mj-shops.biz.id/${item.path}`;
                 let previewHtml = '';
-                
                 if (folder === 'uploads') {
                     const ext = item.name.split('.').pop().toLowerCase();
                     if(['jpg','jpeg','png','gif','webp'].includes(ext)) {
-                        previewHtml = `<img src="${link}" class="thumb-preview" onclick="window.open('${link}')">`;
+                        previewHtml = `<img src="${link}" class="thumb-preview">`;
                     } else {
                         previewHtml = `<div class="thumb-preview d-flex align-items-center justify-content-center" style="font-size:10px; color:#555">FILE</div>`;
                     }
                 } else {
                     previewHtml = `<div class="thumb-preview d-flex align-items-center justify-content-center" style="font-size:10px; color:var(--gold)">HTML</div>`;
                 }
-
                 cont.innerHTML += `
                     <div class="file-card">
                         ${previewHtml}
                         <div class="file-content">
                             <div class="file-info">${item.name}</div>
-                            <div class="file-actions">
+                            <div class="file-actions d-flex gap-1">
                                 <button class="btn-act btn-cp" onclick="copyIt('${link}')">Link</button>
-                                <button class="btn-act btn-view" onclick="window.open('${link}')">Buka</button>
-                                <button class="btn-act btn-del" onclick="doDelete('${item.path}')">Hapus</button>
+                                <button class="btn-act btn-view" onclick="window.open('${link}')">Open</button>
+                                <button class="btn-act btn-del" onclick="doDelete('${item.path}')">Del</button>
                             </div>
                         </div>
                     </div>`;
             });
-        } catch(e) { cont.innerHTML = "Error atau Folder Belum Ada."; }
-    }
-
-    async function doDelete(path) {
-        if(!confirm("Hapus file?")) return;
-        const tkn = localStorage.getItem('_gh_tkn_u');
-        updateStatus("Deleting...");
-        try {
-            const ck = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
-                headers: {'Authorization': `token ${tkn}`}
-            });
-            const d = await ck.json();
-            await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
-                method: 'DELETE',
-                headers: {'Authorization': `token ${tkn}`},
-                body: JSON.stringify({ message: "Delete via MJ Studio", sha: d.sha })
-            });
-            refreshList(path.split('/')[0]);
-        } catch(e) { alert("Gagal!"); }
-        updateStatus("Ready");
+        } catch(e) { cont.innerHTML = "Folder " + folder + " belum ada."; }
     }
 
     async function doUpload() {
@@ -158,39 +185,39 @@
         reader.onload = async () => {
             const b64 = reader.result.split(',')[1];
             const path = `uploads/${Date.now()}-${file.name.replace(/\s+/g, '_')}`;
-            const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
+            await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
                 method: 'PUT',
                 headers: {'Authorization': `token ${tkn}`},
-                body: JSON.stringify({ message: "Upload via MJ Studio", content: b64 })
+                body: JSON.stringify({ message: "Upload via Studio", content: b64 })
             });
-            if(res.ok) { refreshList('uploads'); }
+            refreshList('uploads');
             updateStatus("Ready");
         };
         reader.readAsDataURL(file);
     }
 
-    async function doBuild() {
+    async function doDelete(path) {
+        if(!confirm("Hapus file?")) return;
         const tkn = localStorage.getItem('_gh_tkn_u');
-        const tit = document.getElementById('judul').value.trim();
-        const code = document.getElementById('content').value;
-        if(!tkn || !tit || !code) return alert("Lengkapi data!");
-        updateStatus("Publishing...");
-        const slug = tit.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-        const path = `skrip/${slug}.html`;
-        const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
-            method: 'PUT',
-            headers: {'Authorization': `token ${tkn}`},
-            body: JSON.stringify({ message: "Build via MJ Studio", content: btoa(unescape(encodeURIComponent(code))) })
+        updateStatus("Deleting...");
+        const ck = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
+            headers: {'Authorization': `token ${tkn}`}
         });
-        if(res.ok) { alert("Published to MJ Shops!"); switchTab('archive'); }
+        const d = await ck.json();
+        await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
+            method: 'DELETE',
+            headers: {'Authorization': `token ${tkn}`},
+            body: JSON.stringify({ message: "Delete", sha: d.sha })
+        });
+        refreshList(path.split('/')[0]);
         updateStatus("Ready");
     }
 
-    function copyIt(v) { navigator.clipboard.writeText(v); alert("Link Copied!"); }
+    function copyIt(v) { navigator.clipboard.writeText(v); alert("Copied!"); }
     function updateStatus(m) { document.getElementById('status-bar').innerText = m.toUpperCase(); }
     function configToken() { 
-        const t = prompt("Masukkan GitHub Token:"); 
-        if(t) { localStorage.setItem('_gh_tkn_u', t.trim()); alert("Token Saved!"); }
+        const t = prompt("GitHub Token:"); 
+        if(t) { localStorage.setItem('_gh_tkn_u', t.trim()); alert("Saved!"); }
     }
 </script>
 </body>
