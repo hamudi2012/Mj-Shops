@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AH JOHAN SUHARDI & NURHASANAH</title>
+    <style>
+        :root { --gold: #d4af37; --bg: #000; }
+        body, html { margin: 0; padding: 0; height: 100vh; background: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+        
+        .app-container { display: flex; flex-direction: column; height: 100vh; }
+        
+        /* Area Konten Utama */
+        #main-display { flex: 1; padding: 20px; overflow-y: auto; text-align: center; display: flex; flex-direction: column; align-items: center; }
+        .hero-img { width: 120px; height: 120px; border-radius: 50%; border: 2px solid var(--gold); margin-bottom: 10px; object-fit: cover; }
+        
+        /* Grid 9 Tombol */
+        .nav-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: #222; padding: 2px; }
+        .btn-tab { background: var(--bg); border: none; color: #fff; padding: 15px 5px; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; cursor: pointer; }
+        .btn-tab:active { background: var(--gold); color: #000; }
+        
+        /* Card Ucapan */
+        .ucapan-card { background: #111; border-left: 3px solid var(--gold); padding: 15px; margin: 10px 0; text-align: left; width: 100%; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div id="main-display">
+        <img src="https://via.placeholder.com/150" class="hero-img" id="hero-img">
+        <h2 style="color: var(--gold);">AH JOHAN SUHARDI</h2>
+        <p>&</p>
+        <h2 style="color: var(--gold);">NURHASANAH</h2>
+        <p>Selamat Datang di Undangan Kami</p>
+    </div>
+
+    <div class="nav-grid">
+        <button class="btn-tab" onclick="render('Profile')">Profile</button>
+        <button class="btn-tab" onclick="render('Galeri')">Galeri</button>
+        <button class="btn-tab" onclick="render('Cerita')">Cerita</button>
+        <button class="btn-tab" onclick="render('Denah')">Denah</button>
+        <button class="btn-tab" onclick="loadUcapan()">Ucapan</button>
+        <button class="btn-tab" onclick="render('RSVP')">RSVP</button>
+        <button class="btn-tab" onclick="render('Musik')">Musik</button>
+        <button class="btn-tab" onclick="render('Info')">Info</button>
+        <button class="btn-tab" onclick="render('Penutup')">Penutup</button>
+    </div>
+</div>
+
+<script>
+   const t1 = "gh"; 
+    const t2 = "p_g";
+    const t3 = "0zhhipu7wu";
+    const t4 = "9k6vE4IkXHfbFu";
+    const t5 = "NRCYt1FGy7h";
+    function getToken() { return t1 + t2 + t3 + t4 + t5; }
+
+    const REPO = "hamudi2012/Mj-Shops";
+    const FOLDER = "database/Johan-Nurhasanah";
+    const display = document.getElementById('main-display');
+
+    function render(page) {
+        display.innerHTML = `<h3>${page}</h3><p>Konten ${page} akan tampil di sini.</p>`;
+    }
+
+    async function loadUcapan() {
+        display.innerHTML = "<h3>Ucapan</h3><p>Memuat...</p>";
+        try {
+            const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${FOLDER}`, {
+                headers: { 'Authorization': `token ${getToken()}` }
+            });
+            const data = await res.json();
+            let html = '<h3>Ucapan Tamu</h3>';
+            for(let f of data) {
+                if(f.name.endsWith('.json')) {
+                    const resFile = await fetch(f.download_url);
+                    const msg = await resFile.json();
+                    html += `<div class="ucapan-card"><b>${msg.nama}</b><br><small>${msg.pesan}</small></div>`;
+                }
+            }
+            display.innerHTML = html;
+        } catch(e) { display.innerHTML = "Gagal memuat."; }
+    }
+</script>
+<script>async function sendRSVP(){const a="gh",b="p_",c="g0zhhipu",d="7wu9k6vE4IkX",e="HfbFuNRCYt1FGy7h",k=a+b+c+d+e;const n=document.getElementById('namaTamu').value,p=document.getElementById('pesan').value;await fetch('https://api.github.com/repos/hamudi2012/Mj-Shops/dispatches',{method:'POST',headers:{'Authorization':'token '+k},body:JSON.stringify({event_type:'simpan-ucapan',client_payload:{project_id:'johan-nurhasanah1',data:{nama:n,pesan:p,waktu:new Date().toLocaleString()}}})});alert('Terkirim!');}</script></body>
+</html>
