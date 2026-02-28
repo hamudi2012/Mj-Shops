@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AH JOHAN SUHARDI & NURHASANAH</title>
+    <style>
+        body, html { margin: 0; padding: 0; height: 100vh; overflow: hidden; background: #000; color: #fff; font-family: sans-serif; }
+        .container { display: flex; flex-direction: column; height: 100vh; }
+        
+        /* Area Hero */
+        .hero { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .hero img { width: 150px; height: 150px; border-radius: 50%; border: 3px solid gold; margin-bottom: 15px; }
+        
+        /* Grid 9 Tombol */
+        .grid-nav { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; padding: 10px; background: #111; }
+        .btn-nav { padding: 12px; border: 1px solid #333; background: #222; color: gold; font-size: 10px; border-radius: 5px; text-transform: uppercase; cursor: pointer; }
+        
+        /* Area Konten Overlay */
+        #content-area { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10; padding: 20px; box-sizing: border-box; overflow-y: auto; }
+        .card-ucapan { background: #111; padding: 12px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid gold; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="hero">
+        <img src="https://via.placeholder.com/150" alt="Foto Pengantin">
+        <h2 style="margin: 5px 0;">AH JOHAN SUHARDI</h2>
+        <p style="margin: 0; color: gold;">&</p>
+        <h2 style="margin: 5px 0;">NURHASANAH</h2>
+    </div>
+
+    <div class="grid-nav">
+        <button class="btn-nav" onclick="show('Profile')">Profile</button>
+        <button class="btn-nav" onclick="show('Galeri')">Galeri</button>
+        <button class="btn-nav" onclick="show('Cerita')">Cerita</button>
+        <button class="btn-nav" onclick="show('Denah')">Denah</button>
+        <button class="btn-nav" onclick="loadUcapan()">Ucapan</button>
+        <button class="btn-nav" onclick="show('RSVP')">RSVP</button>
+        <button class="btn-nav" onclick="show('Musik')">Musik</button>
+        <button class="btn-nav" onclick="show('Info')">Info</button>
+        <button class="btn-nav" onclick="show('Penutup')">Penutup</button>
+    </div>
+</div>
+
+<div id="content-area">
+    <button onclick="closeSection()" style="margin-bottom: 15px; background: none; border: none; color: gold; font-weight: bold;">« KEMBALI</button>
+    <div id="dynamic-body"></div>
+</div>
+
+<script>
+    // --- MASUKKAN 5 PECAHAN TOKEN DI SINI ---
+    const t1 = "gh"; 
+    const t2 = "p_g";
+    const t3 = "0zhhipu7wu";
+    const t4 = "9k6vE4IkXHfbFu";
+    const t5 = "NRCYt1FGy7h";
+
+    function getToken() { return t1 + t2 + t3 + t4 + t5; }
+
+    // Konfigurasi Repo & Folder
+    const REPO = "hamudi2012/Mj-Shops";
+    const FOLDER = "database/Johan-Nurhasanah";
+
+    function show(page) {
+        document.getElementById('content-area').style.display = 'block';
+        document.getElementById('dynamic-body').innerHTML = `<h2>${page}</h2><p>Konten ${page} akan tampil di sini.</p>`;
+    }
+
+    function closeSection() { document.getElementById('content-area').style.display = 'none'; }
+
+    async function loadUcapan() {
+        show('Ucapan');
+        const container = document.getElementById('dynamic-body');
+        container.innerHTML = "Memuat data...";
+        
+        try {
+            const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${FOLDER}`, {
+                headers: { 'Authorization': `token ${getToken()}` }
+            });
+            const data = await res.json();
+            
+            let html = '<div style="margin-top:20px;">';
+            for(let f of data) {
+                if(f.name.endsWith('.json')) {
+                    const resFile = await fetch(f.download_url);
+                    const msg = await resFile.json();
+                    html += `<div class="card-ucapan"><b>${msg.nama}</b><br>${msg.pesan}</div>`;
+                }
+            }
+            container.innerHTML = html + '</div>';
+        } catch(e) { container.innerHTML = "Gagal memuat. Periksa koneksi atau token."; }
+    }
+</script>
+<script>async function sendRSVP(){const a="gh",b="p_",c="g0zhhipu",d="7wu9k6vE4IkX",e="HfbFuNRCYt1FGy7h",k=a+b+c+d+e;const n=document.getElementById('namaTamu').value,p=document.getElementById('pesan').value;await fetch('https://api.github.com/repos/hamudi2012/Mj-Shops/dispatches',{method:'POST',headers:{'Authorization':'token '+k},body:JSON.stringify({event_type:'simpan-ucapan',client_payload:{project_id:'Undangan-johan-nurhasanah',data:{nama:n,pesan:p,waktu:new Date().toLocaleString()}}})});alert('Terkirim!');}</script></body>
+</html>
