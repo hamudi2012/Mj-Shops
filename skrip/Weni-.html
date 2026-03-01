@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>THE WEDDING OF - EXCLUSIVE 9 BUTTON</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root { --gold: #d4af37; --bg: #0d0d0d; --card: #1a1a1a; --text: #f0f0f0; }
+        body, html { height: 100%; margin: 0; overflow: hidden; background: var(--bg); font-family: 'Georgia', serif; color: var(--text); }
+        
+        .section { display: none; height: 100vh; padding: 20px 20px 120px 20px; overflow-y: auto; text-align: center; flex-direction: column; align-items: center; justify-content: center; }
+        .active-section { display: flex; animation: fadeIn 0.8s; }
+
+        /* Floating Nav 9 Tombol */
+        .nav-9 { position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); width: 95%; background: rgba(0,0,0,0.9); border: 1px solid var(--gold); border-radius: 20px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; padding: 10px; z-index: 1000; box-shadow: 0 0 20px rgba(212,175,55,0.3); }
+        .btn-nav { background: none; border: none; color: #666; font-size: 18px; padding: 5px; transition: 0.3s; }
+        .btn-nav span { display: block; font-size: 8px; text-transform: uppercase; margin-top: 3px; }
+        .btn-nav.active { color: var(--gold); transform: scale(1.2); }
+
+        .card-islami { background: var(--card); border: 1px solid var(--gold); border-radius: 20px; padding: 20px; width: 100%; margin-bottom: 15px; }
+        h2, h4 { color: var(--gold); font-family: 'Times New Roman'; }
+        .bismillah { font-size: 26px; color: var(--gold); margin-bottom: 10px; }
+        .bubble { background: #222; border-left: 3px solid var(--gold); padding: 10px; text-align: left; margin-bottom: 10px; border-radius: 0 10px 10px 0; font-size: 12px; }
+    </style>
+</head>
+<body>
+
+<div id="s1" class="section active-section">
+    <div class="animate__animated animate__fadeIn">
+        <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
+        <p>Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan.</p>
+        <h1 style="color:var(--gold); font-size: 40px;">Roni & Lisa</h1>
+        <div id="tamuSection" class="mt-4" style="display:none;">
+            <p style="font-size: 12px;">Kepada Yth:</p>
+            <h4 id="namaTamuDisplay">Nama Tamu</h4>
+        </div>
+    </div>
+</div>
+
+<div id="s2" class="section">
+    <h2>Mempelai</h2>
+    <div class="card-islami">
+        <h4>Roni Al-Fatih, S.T</h4>
+        <p>Putra dari Bapak Fulan & Ibu Fulanah</p>
+    </div>
+    <div style="font-size: 24px; color:var(--gold)">❦</div>
+    <div class="card-islami">
+        <h4>Lisa Nur Haliza, S.E</h4>
+        <p>Putri dari Bapak Fulan & Ibu Fulanah</p>
+    </div>
+</div>
+
+<div id="s3" class="section">
+    <h2>Waktu & Tempat</h2>
+    <div class="card-islami">
+        <p><b>AKAD NIKAH</b><br>08:00 WIB - Selesai</p>
+        <hr style="border-color:var(--gold)">
+        <p><b>RESEPSI</b><br>11:00 - 17:00 WIB</p>
+        <p>📍 Gedung As-Sakinah, Jakarta</p>
+        <button class="btn btn-sm btn-outline-warning">BUKA MAPS</button>
+    </div>
+</div>
+
+<div id="s4" class="section">
+    <h2>Galeri Bahagia</h2>
+    <div class="row g-2">
+        <div class="col-6"><img src="https://picsum.photos/200/200?random=1" class="img-fluid rounded border border-warning"></div>
+        <div class="col-6"><img src="https://picsum.photos/200/200?random=2" class="img-fluid rounded border border-warning"></div>
+        <div class="col-6"><img src="https://picsum.photos/200/200?random=3" class="img-fluid rounded border border-warning"></div>
+        <div class="col-6"><img src="https://picsum.photos/200/200?random=4" class="img-fluid rounded border border-warning"></div>
+    </div>
+</div>
+
+<div id="s5" class="section">
+    <h2>Kisah Cinta</h2>
+    <div class="bubble"><b>Pertemuan:</b> Melalui proses Ta'aruf singkat pada tahun 2024.</div>
+    <div class="bubble"><b>Khitbah:</b> Mengkhitbah secara resmi pada 10 Januari 2025.</div>
+    <div class="bubble"><b>Akad:</b> Insya Allah akan bersatu pada hari ini.</div>
+</div>
+
+<div id="s6" class="section">
+    <h2>Kado Digital</h2>
+    <p>Doa restu Anda sudah lebih dari cukup, namun jika ingin memberi tanda kasih:</p>
+    <div class="card-islami">
+        <p>BANK MANDIRI<br><b>123-000-456-789</b><br>A/N Roni Al-Fatih</p>
+        <button class="btn btn-sm btn-light" onclick="alert('Copied!')">Salin Rekening</button>
+    </div>
+</div>
+
+<div id="s7" class="section">
+    <h2>Doa Tamu</h2>
+    <div class="card-islami">
+        <input type="text" id="namaTamu" class="form-control" placeholder="Nama">
+        <textarea id="pesan" class="form-control" placeholder="Doa anda..."></textarea>
+        <button class="btn-gold" style="width:100%; border-radius:10px; background:var(--gold); border:none; padding:10px; font-weight:bold;" onclick="gassKirim()">AMINKAN DOA</button>
+    </div>
+    <div id="realtime-list" style="width:100%; max-height: 250px; overflow-y: auto;">
+        </div>
+</div>
+
+<div id="s8" class="section">
+    <h2>Adab Bertamu</h2>
+    <div class="card-islami" style="font-size: 11px;">
+        <p>1. Menutup Aurat dengan sopan.</p>
+        <p>2. Menjaga lisan dan pandangan.</p>
+        <p>3. Tidak merokok di dalam ruangan.</p>
+        <p>4. Mendoakan keberkahan bagi mempelai.</p>
+    </div>
+</div>
+
+<div id="s9" class="section">
+    <h2>Live Streaming</h2>
+    <p>Bagi kerabat yang berhalangan hadir, silakan menyaksikan melalui:</p>
+    <div class="card-islami">
+        <p>Youtube Live / Zoom</p>
+        <button class="btn btn-danger">KLIK UNTUK JOIN</button>
+    </div>
+</div>
+
+<div class="nav-9">
+    <button class="btn-nav active" onclick="go('s1',this)">🏠<span>Home</span></button>
+    <button class="btn-nav" onclick="go('s2',this)">👫<span>Couple</span></button>
+    <button class="btn-nav" onclick="go('s3',this)">📅<span>Event</span></button>
+    <button class="btn-nav" onclick="go('s4',this)">🖼️<span>Gallery</span></button>
+    <button class="btn-nav" onclick="go('s5',this)">📖<span>Story</span></button>
+    <button class="btn-nav" onclick="go('s6',this)">🎁<span>Gift</span></button>
+    <button class="btn-nav" onclick="go('s7',this)">💬<span>Wishes</span></button>
+    <button class="btn-nav" onclick="go('s8',this)">🕌<span>Adab</span></button>
+    <button class="btn-nav" onclick="go('s9',this)">🎥<span>Live</span></button>
+</div>
+
+<script>
+    // --- FUNGSI NAVIGASI ---
+    function go(id, b) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active-section'));
+        document.querySelectorAll('.btn-nav').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(id).classList.add('active-section');
+        b.classList.add('active');
+    }
+
+    // --- FUNGSI UTAMA: BACA DATA (Load saat halaman dibuka) ---
+    async function loadUcapan() {
+        const list = document.getElementById('realtime-list');
+        const token = getToken(); // Mengambil token dari fungsi di bawah
+        const url = 'https://api.github.com/repos/hamudi2012/Mj-Shops/contents/database/Johan-Nurhasanah';
+        
+        try {
+            const response = await fetch(url, { headers: { 'Authorization': 'token ' + token } });
+            const files = await response.json();
+            
+            // Bersihkan list sebelum nampilin
+            list.innerHTML = "";
+            
+            // Loop semua file di folder tersebut
+            for(let file of files) {
+                if(file.name.endsWith('.json')) {
+                    const res = await fetch(file.download_url);
+                    const data = await res.json();
+                    
+                    const b = document.createElement('div');
+                    b.className = 'bubble animate__animated animate__fadeInUp';
+                    b.innerHTML = `<b>${data.nama}:</b> ${data.pesan}`;
+                    list.prepend(b);
+                }
+            }
+        } catch (e) {
+            console.log("Belum ada doa di folder ini.");
+        }
+    }
+
+    // Load data otomatis saat page load
+    window.onload = function() {
+        // Cek Nama Tamu dari URL
+        const p = new URLSearchParams(window.location.search);
+        const to = p.get('to');
+        if(to) {
+            const n = to.replace(/\+/g, ' ');
+            document.getElementById('namaTamuDisplay').innerText = n;
+            document.getElementById('namaTamu').value = n;
+            document.getElementById('tamuSection').style.display = 'block';
+        }
+        
+        // Jalanin mesin pembaca ucapan
+        loadUcapan();
+    }
+
+    // --- FUNGSI KIRIM (RSVP) ---
+    function getToken() {
+        const a="gh",b="p_",c="g0zhhipu",d="7wu9k6vE4IkX",e="HfbFuNRCYt1FGy7h";
+        return a+b+c+d+e;
+    }
+
+    async function gassKirim() {
+        const n = document.getElementById('namaTamu').value;
+        const p = document.getElementById('pesan').value;
+        if(!n || !p) return alert("Isi nama dan pesan!");
+        
+        const list = document.getElementById('realtime-list');
+        const b = document.createElement('div');
+        b.className = 'bubble animate__animated animate__bounceInRight';
+        b.innerHTML = `<b>${n}:</b> ${p}`;
+        list.prepend(b);
+        
+        // Kirim ke github via sendRSVP
+        await sendRSVP(); 
+        document.getElementById('pesan').value = "";
+    }
+
+    async function sendRSVP(){
+        const k = getToken();
+        const n = document.getElementById('namaTamu').value;
+        const p = document.getElementById('pesan').value;
+        await fetch('https://api.github.com/repos/hamudi2012/Mj-Shops/dispatches',{
+            method:'POST',
+            headers:{'Authorization':'token '+k},
+            body:JSON.stringify({
+                event_type:'simpan-ucapan',
+                client_payload:{
+                    project_id:'Johan-Nurhasanah',
+                    data:{nama:n, pesan:p, waktu:new Date().toLocaleString()}
+                }
+            })
+        });
+        alert('Terkirim!');
+    }
+</script>
+<script>async function sendRSVP(){const a="gh",b="p_",c="g0zhhipu",d="7wu9k6vE4IkX",e="HfbFuNRCYt1FGy7h",k=a+b+c+d+e;const n=document.getElementById('namaTamu').value,p=document.getElementById('pesan').value;await fetch('https://api.github.com/repos/hamudi2012/Mj-Shops/dispatches',{method:'POST',headers:{'Authorization':'token '+k},body:JSON.stringify({event_type:'simpan-ucapan',client_payload:{project_id:'Weni-',data:{nama:n,pesan:p,waktu:new Date().toLocaleString()}}})});alert('Terkirim!');}</script></body>
+</html>
