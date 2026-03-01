@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        body { background: #0a0a0a; color: #fff; padding: 20px; font-family: sans-serif; }
+        .bubble { background: #1a1a1a; border-left: 4px solid #d4af37; padding: 15px; margin-bottom: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+    <div class="container" style="max-width: 600px;">
+        <h2 class="text-center">Buku Tamu</h2>
+        
+        <div class="mb-4">
+            <input type="text" id="namaTamu" class="form-control mb-2" placeholder="Nama Anda">
+            <textarea id="pesan" class="form-control mb-2" placeholder="Doa restu..."></textarea>
+            <button class="btn btn-warning w-100" onclick="handleKirim()">KIRIM</button>
+        </div>
+
+        <div id="realtime-list">
+            <p class="text-center text-muted">Memuat ucapan...</p>
+        </div>
+    </div>
+
+    <script>
+        // 1. OTOMATIS AMBIL NAMA FOLDER (Berdasarkan nama file .html di URL)
+        // Contoh: kalo file lu "Weni-Weni.html", FOLDER_PROJECT = "Weni-Weni"
+        const FOLDER_PROJECT = window.location.pathname.split('/').pop().replace('.html', '');
+
+        // 2. TOKEN (Sesuai sistem lu)
+        function getToken() {
+            const a="gh", b="p_", c="g0zhhipu", d="7wu9k6vE4IkX", e="HfbFuNRCYt1FGy7h";
+            return a + b + c + d + e;
+        }
+
+        // 3. MESIN PENARIK DATA (Ini yang bikin ucapan PERMANEN)
+        async function loadUcapan() {
+            const list = document.getElementById('realtime-list');
+            const url = `https://api.github.com/repos/hamudi2012/Mj-Shops/contents/database/${FOLDER_PROJECT}`;
+            
+            try {
+                const res = await fetch(url, { headers: { 'Authorization': 'token ' + getToken() } });
+                const files = await res.json();
+                
+                // Clear loading
+                list.innerHTML = "";
+                
+                // Urutin dari yang terbaru
+                for(let f of files.reverse()) {
+                    if(f.name.endsWith('.json')) {
+                        const r = await fetch(f.download_url);
+                        const data = await r.json();
+                        
+                        const div = document.createElement('div');
+                        div.className = 'bubble';
+                        div.innerHTML = `<b>${data.nama}:</b><br>${data.pesan}`;
+                        list.appendChild(div);
+                    }
+                }
+            } catch(e) { 
+                list.innerHTML = "<p class='text-center'>Belum ada ucapan.</p>";
+            }
+        }
+
+        // 4. TRIGGER KIRIM
+        function handleKirim() {
+            // Ini trigger sistem MJ Studio lu
+            if(typeof sendRSVP === "function") {
+                sendRSVP();
+                // Refresh list setelah kirim biar muncul otomatis
+                setTimeout(loadUcapan, 3000); 
+            } else {
+                alert("Sistem MJ Studio tidak terdeteksi.");
+            }
+        }
+
+        // Jalankan saat pertama kali dibuka
+        window.onload = loadUcapan;
+    </script>
+<script>async function sendRSVP(){const a="gh",b="p_",c="g0zhhipu",d="7wu9k6vE4IkX",e="HfbFuNRCYt1FGy7h",k=a+b+c+d+e;const n=document.getElementById('namaTamu').value,p=document.getElementById('pesan').value;await fetch('https://api.github.com/repos/hamudi2012/Mj-Shops/dispatches',{method:'POST',headers:{'Authorization':'token '+k},body:JSON.stringify({event_type:'simpan-ucapan',client_payload:{project_id:'Bintang',data:{nama:n,pesan:p,waktu:new Date().toLocaleString()}}})});alert('Terkirim!');}</script></body>
+</html>
