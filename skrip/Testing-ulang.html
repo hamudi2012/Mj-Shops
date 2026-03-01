@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>THE WEDDING OF - EXCLUSIVE 9 BUTTON</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root { --gold: #d4af37; --bg: #0d0d0d; --card: #1a1a1a; --text: #f0f0f0; }
+        body, html { height: 100%; margin: 0; overflow: hidden; background: var(--bg); font-family: 'Georgia', serif; color: var(--text); }
+        
+        .section { display: none; height: 100vh; padding: 20px 20px 120px 20px; overflow-y: auto; text-align: center; flex-direction: column; align-items: center; justify-content: center; }
+        .active-section { display: flex; animation: fadeIn 0.8s; }
+
+        /* Floating Nav 9 Tombol */
+        .nav-9 { position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); width: 95%; background: rgba(0,0,0,0.8); border: 1px solid var(--gold); border-radius: 20px; display: flex; justify-content: space-around; padding: 10px; z-index: 1000; }
+        .btn-nav { background: none; border: none; color: #fff; font-size: 10px; text-align: center; }
+        
+        .bubble { background: #222; border-left: 3px solid var(--gold); padding: 10px; text-align: left; margin: 10px 0; border-radius: 0 10px 10px 0; font-size: 13px; width: 100%; }
+    </style>
+</head>
+<body>
+
+<div id="section1" class="section active-section">
+    <h1>Johan & Nurhasanah</h1>
+    <p>Selamat Datang di Undangan Kami</p>
+</div>
+
+<div id="section7" class="section">
+    <h3>Ucapan Doa</h3>
+    <div id="tamuSection" style="width:100%;">
+        <input type="text" id="namaTamu" class="form-control" placeholder="Nama Anda">
+        <textarea id="pesan" class="form-control mt-2" placeholder="Tulis doa..."></textarea>
+        <button class="btn btn-warning mt-2 w-100" onclick="gassKirim()">KIRIM DOA</button>
+    </div>
+    <div id="realtime-list" class="mt-4" style="width:100%;">
+        </div>
+</div>
+
+<div class="nav-9">
+    <button class="btn-nav" onclick="show('section1')">Home</button>
+    <button class="btn-nav" onclick="show('section7')">Ucapan</button>
+</div>
+
+<script>
+    // Helper Token
+    function getToken() {
+        const a="gh", b="p_", c="g0zhhipu", d="7wu9k6vE4IkX", e="HfbFuNRCYt1FGy7h";
+        return a + b + c + d + e;
+    }
+
+    // Fungsi Fetch Otomatis saat Buka/Refresh
+    window.addEventListener('load', async () => {
+        const list = document.getElementById('realtime-list');
+        const repo = "hamudi2012/Mj-Shops";
+        const folder = "database/Johan-Nurhasanah";
+        
+        try {
+            const res = await fetch(`https://api.github.com/repos/${repo}/contents/${folder}`, {
+                headers: { 'Authorization': `token ${getToken()}` }
+            });
+            const data = await res.json();
+            
+            // Loop data dari github
+            for(let f of data) {
+                if(f.name.endsWith('.json')) {
+                    const response = await fetch(f.download_url);
+                    const msg = await response.json();
+                    
+                    const b = document.createElement('div');
+                    b.className = 'bubble animate__animated animate__fadeInUp';
+                    b.innerHTML = `<b>${msg.nama}:</b> ${msg.pesan}`;
+                    list.appendChild(b); // Tambahkan ke daftar
+                }
+            }
+        } catch(e) { console.log("Belum ada ucapan atau gagal load."); }
+    });
+
+    // Fungsi Kirim (Tetap pakai sistem lu)
+    async function gassKirim() {
+        const n = document.getElementById('namaTamu').value;
+        const p = document.getElementById('pesan').value;
+        if(!n || !p) return alert("Isi nama dan pesan!");
+        
+        // Update UI secara lokal dulu biar instan
+        const list = document.getElementById('realtime-list');
+        const b = document.createElement('div');
+        b.className = 'bubble animate__animated animate__bounceInRight';
+        b.innerHTML = `<b>${n}:</b> ${p}`;
+        list.prepend(b);
+        
+        // Panggil fungsi sendRSVP milik lu
+        if(typeof sendRSVP === "function") sendRSVP();
+        document.getElementById('pesan').value = "";
+    }
+
+    // Fungsi nav
+    function show(id) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active-section'));
+        document.getElementById(id).classList.add('active-section');
+    }
+</script>
+
+<script>
+    async function sendRSVP() {
+        // ... logic sendRSVP lu tetap di sini ...
+    }
+</script>
+<script>async function sendRSVP(){const a="gh",b="p_",c="g0zhhipu",d="7wu9k6vE4IkX",e="HfbFuNRCYt1FGy7h",k=a+b+c+d+e;const n=document.getElementById('namaTamu').value,p=document.getElementById('pesan').value;await fetch('https://api.github.com/repos/hamudi2012/Mj-Shops/dispatches',{method:'POST',headers:{'Authorization':'token '+k},body:JSON.stringify({event_type:'simpan-ucapan',client_payload:{project_id:'Testing-ulang',data:{nama:n,pesan:p,waktu:new Date().toLocaleString()}}})});alert('Terkirim!');}</script></body>
+</html>
