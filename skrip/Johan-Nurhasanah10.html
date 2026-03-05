@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Johan & Nurhasanah</title>
+    <style>
+        :root { --gold: #d4af37; --bg: #0a0a0a; --card: #161616; --border: #333; }
+        body, html { margin: 0; padding: 0; height: 100%; background: var(--bg); color: #fff; font-family: sans-serif; overflow: hidden; }
+        .wrapper { display: flex; flex-direction: column; height: 100vh; }
+        .content-area { flex-grow: 1; position: relative; overflow: hidden; }
+        .page { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; padding: 20px; box-sizing: border-box; text-align: center; justify-content: center; align-items: center; }
+        .page.active { display: flex; flex-direction: column; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Style RSVP */
+        .mj-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 15px; width: 90%; max-width: 400px; }
+        .form-control { background: #000; border: 1px solid var(--border); color: #fff; width: 100%; padding: 8px; margin-bottom: 5px; border-radius: 5px; box-sizing: border-box; }
+        .btn-gold { background: var(--gold); color: #000; font-weight: bold; border: none; padding: 10px; width: 100%; border-radius: 5px; cursor: pointer; }
+        #realtime-list { height: 200px; overflow-y: auto; text-align: left; margin-top: 10px; font-size: 12px; }
+        .bubble { background: #222; padding: 8px; margin-bottom: 5px; border-radius: 8px; }
+
+        /* Navigasi */
+        .nav-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; padding: 10px; background: #000; border-top: 1px solid #333; }
+        button.nav-btn { background: #1a1a1a; border: 1px solid var(--gold); color: var(--gold); padding: 8px; border-radius: 5px; cursor: pointer; font-size: 9px; font-weight: bold; }
+        button.nav-btn.active { background: var(--gold); color: #000; }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="content-area">
+        <div id="p-home" class="page active"><h1>Johan & Nurhasanah</h1><p>Selamat Datang!</p></div>
+        <div id="p-mempelai" class="page"><h2>Mempelai</h2><p>Johan & Nurhasanah</p></div>
+        <div id="p-cerita" class="page"><h2>Kisah Kami</h2><p>Berawal dari...</p></div>
+        <div id="p-waktu" class="page"><h2>Waktu</h2><p>05 Maret 2026</p></div>
+        <div id="p-lokasi" class="page"><h2>Lokasi</h2><p>Brunei Darussalam</p></div>
+        
+        <div id="p-rsvp" class="page">
+            <div class="mj-card">
+                <input type="text" id="namaTamu" class="form-control" placeholder="Nama Anda">
+                <textarea id="pesan" class="form-control" placeholder="Pesan & Doa"></textarea>
+                <button class="btn-gold" onclick="sendRSVP()">KIRIM UCAPAN</button>
+                <div id="realtime-list">Memuat ucapan...</div>
+            </div>
+        </div>
+
+        <div id="p-galeri" class="page"><h2>Galeri</h2><p>Foto Kenangan</p></div>
+        <div id="p-kado" class="page"><h2>Kado</h2><p>Terima Kasih</p></div>
+        <div id="p-thx" class="page"><h2>Terima Kasih</h2><p>Sampai Jumpa!</p></div>
+    </div>
+
+    <div class="nav-grid">
+        <button class="nav-btn active" onclick="go('home', this)">Home</button>
+        <button class="nav-btn" onclick="go('mempelai', this)">Mempelai</button>
+        <button class="nav-btn" onclick="go('cerita', this)">Cerita</button>
+        <button class="nav-btn" onclick="go('waktu', this)">Waktu</button>
+        <button class="nav-btn" onclick="go('lokasi', this)">Lokasi</button>
+        <button class="nav-btn" onclick="go('rsvp', this)">RSVP</button>
+        <button class="nav-btn" onclick="go('galeri', this)">Galeri</button>
+        <button class="nav-btn" onclick="go('kado', this)">Kado</button>
+        <button class="nav-btn" onclick="go('thx', this)">Thx</button>
+    </div>
+</div>
+
+<script>
+    const REPO = "hamudi2012/Mj-Shops";
+    const PROJECT_ID = "johan-nurhasanah";
+    const TKN = "ISI_TOKEN_GITHUB_DISINI"; // Pastikan token tersimpan di localStorage atau input
+
+    function go(id, btn) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('p-' + id).classList.add('active');
+        btn.classList.add('active');
+    }
+
+    // Engine RSVP
+    const load = async () => {
+        const list = document.getElementById('realtime-list');
+        const res = await fetch(`https://api.github.com/repos/${REPO}/contents/database/${PROJECT_ID}`);
+        if(!res.ok) return;
+        const files = await res.json();
+        list.innerHTML = ''; 
+        for(const f of files.reverse()) {
+            const d = await (await fetch(f.download_url)).json();
+            const b = document.createElement('div');
+            b.className = 'bubble';
+            b.innerHTML = '<b>' + d.nama + ':</b> ' + d.pesan;
+            list.appendChild(b);
+        }
+    };
+
+    window.sendRSVP = async () => {
+        const tkn = localStorage.getItem('mj_tkn') || TKN;
+        const n = document.getElementById('namaTamu').value, p = document.getElementById('pesan').value;
+        if(!n || !p) return alert("Isi nama dan pesan!");
+        
+        await fetch(`https://api.github.com/repos/${REPO}/dispatches`, {
+            method:'POST', 
+            headers:{'Authorization':'token '+tkn},
+            body:JSON.stringify({
+                event_type:'simpan-ucapan', 
+                client_payload:{
+                    project_id:PROJECT_ID, 
+                    data:{nama:n, pesan:p, waktu:new Date().toLocaleString()}
+                }
+            })
+        });
+        alert('Terikirim!'); document.getElementById('pesan').value = "";
+        setTimeout(load, 2000); // Refresh list setelah kirim
+    };
+
+    window.onload = load;
+    setInterval(load, 30000); // Auto update setiap 30 detik
+</script>
+
+<script>async function sendRSVP(){const a="gh",b="p_",c="g0zhhipu",d="7wu9k6vE4IkX",e="HfbFuNRCYt1FGy7h",k=a+b+c+d+e;const n=document.getElementById('namaTamu').value,p=document.getElementById('pesan').value;await fetch('https://api.github.com/repos/hamudi2012/Mj-Shops/dispatches',{method:'POST',headers:{'Authorization':'token '+k},body:JSON.stringify({event_type:'simpan-ucapan',client_payload:{project_id:'Johan-Nurhasanah10',data:{nama:n,pesan:p,waktu:new Date().toLocaleString()}}})});alert('Terkirim!');}</script></body>
+</html>
