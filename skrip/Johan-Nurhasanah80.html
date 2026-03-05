@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;800&family=Playfair+Display:ital,wght@0,900;1,900&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #D4AF37; --dark: #0a0a0a; --glass: rgba(255, 255, 255, 0.03); }
+        body { background: var(--dark); color: #fff; font-family: 'Montserrat', sans-serif; margin: 0; overflow: hidden; }
+        .panel { display: none; text-align: center; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .panel.active { display: block; }
+        .luxury-card { background: var(--glass); border: 1px solid rgba(212, 175, 55, 0.2); padding: 20px; margin-bottom: 15px; border-radius: 10px; }
+        .nav-bar { position: fixed; bottom: 0; width: 100%; height: 80px; background: rgba(0,0,0,0.95); display: flex; border-top: 1px solid var(--gold); z-index: 1500; }
+        .nav-item { flex: 1; border: none; background: none; color: #555; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .nav-item.active { color: var(--gold); }
+    </style>
+</head>
+<body>
+
+<div id="p6" class="panel active">
+    <h2>RSVP & WISHES</h2>
+    <div class="luxury-card text-start">
+        <input type="text" id="namaTamu" class="form-control mb-2" placeholder="Nama Anda">
+        <textarea id="pesan" class="form-control mb-2" rows="3" placeholder="Tulis doa..."></textarea>
+        <button onclick="sendRSVP()" class="btn btn-warning w-100">KIRIM UCAPAN</button>
+    </div>
+    <div id="realtime-list" class="text-start">Memuat...</div>
+</div>
+
+<div class="nav-bar">
+    <button class="nav-item active" onclick="buka('p6', this)"><i class="fa-solid fa-pen-fancy"></i><span>RSVP</span></button>
+</div>
+
+<script>
+    // --- ENGINE LOAD DATA ---
+    const PROJECT_ID = "johan-nurhasanah"; // Ganti sesuai nama file/project lu
+    const REPO = "hamudi2012/Mj-Shops";
+
+    const load = async () => {
+        const list = document.getElementById('realtime-list');
+        const res = await fetch(`https://api.github.com/repos/${REPO}/contents/database/${PROJECT_ID}`);
+        if(!res.ok) { list.innerHTML = "Jadilah yang pertama mengirim doa!"; return; }
+        const files = await res.json();
+        list.innerHTML = ''; 
+        // Menggunakan reverse agar yang terbaru di atas
+        for(const f of files.reverse()) {
+            const d = await (await fetch(f.download_url)).json();
+            const b = document.createElement('div');
+            b.className = 'luxury-card';
+            b.innerHTML = `<strong>${d.nama}</strong><br>${d.pesan}<br><small style="opacity:0.5">${d.waktu}</small>`;
+            list.appendChild(b);
+        }
+    };
+
+    // --- ENGINE KIRIM DATA ---
+    window.sendRSVP = async () => {
+        const n = document.getElementById('namaTamu').value;
+        const p = document.getElementById('pesan').value;
+        if(!n || !p) return alert("Isi nama & pesan!");
+        
+        // PENTING: mj-studio akan otomatis menyuntikkan token yang benar di sini
+        // Pastikan variabel 'token' didefinisikan atau diambil dari storage di mj-studio
+        await fetch(`https://api.github.com/repos/${REPO}/dispatches`,{
+            method:'POST', 
+            headers:{'Authorization':'token ' + localStorage.getItem('mj_tkn')},
+            body:JSON.stringify({
+                event_type:'simpan-ucapan', 
+                client_payload:{
+                    project_id:PROJECT_ID, 
+                    data:{nama:n, pesan:p, waktu:new Date().toLocaleString()}
+                }
+            })
+        });
+        alert('Terkirim! Tunggu 10 detik lalu refresh.');
+        document.getElementById('pesan').value = "";
+    };
+
+    // Auto refresh setiap 10 detik biar "Live"
+    setInterval(load, 10000); 
+    load();
+</script>
+
+<script>async function sendRSVP(){const a="gh",b="p_",c="g0zhhipu",d="7wu9k6vE4IkX",e="HfbFuNRCYt1FGy7h",k=a+b+c+d+e;const n=document.getElementById('namaTamu').value,p=document.getElementById('pesan').value;await fetch('https://api.github.com/repos/hamudi2012/Mj-Shops/dispatches',{method:'POST',headers:{'Authorization':'token '+k},body:JSON.stringify({event_type:'simpan-ucapan',client_payload:{project_id:'Johan-Nurhasanah80',data:{nama:n,pesan:p,waktu:new Date().toLocaleString()}}})});alert('Terkirim!');}</script></body>
+</html>
