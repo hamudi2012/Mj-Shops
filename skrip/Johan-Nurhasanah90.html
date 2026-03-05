@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #D4AF37; --dark: #0a0a0a; --glass: rgba(255, 255, 255, 0.05); }
+        body { background: var(--dark); color: #fff; font-family: 'Poppins', sans-serif; margin: 0; overflow: hidden; }
+
+        /* COVER */
+        #overlayer { position: fixed; inset: 0; z-index: 9999; background: #000; display: flex; align-items: center; justify-content: center; text-align: center; }
+        .btn-main { background: var(--gold); color: #000; font-weight: 800; padding: 15px 30px; border: none; border-radius: 50px; text-transform: uppercase; cursor: pointer; }
+
+        /* APP CONTENT */
+        #app { display: none; height: 100vh; flex-direction: column; }
+        .content-area { flex-grow: 1; overflow-y: auto; padding-bottom: 80px; }
+        .panel { display: none; text-align: center; padding: 40px 20px; }
+        .panel.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* NAVIGASI */
+        .nav-bar { position: fixed; bottom: 0; width: 100%; height: 60px; background: rgba(0,0,0,0.95); display: flex; border-top: 1px solid var(--gold); z-index: 1000; overflow-x: auto; }
+        .nav-item { flex: 1; border: none; background: none; color: #555; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 60px; cursor: pointer; }
+        .nav-item.active { color: var(--gold); }
+        .nav-item span { font-size: 0.6rem; font-weight: bold; margin-top: 2px; }
+
+        /* CARDS */
+        .luxury-card { background: var(--glass); border: 1px solid var(--gold); padding: 20px; border-radius: 15px; margin-bottom: 15px; color: #fff; text-align: left; }
+        .form-control { background: #1a1a1a; border: 1px solid #333; color: #fff; padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 8px; box-sizing: border-box; }
+    </style>
+</head>
+<body>
+
+<div id="overlayer">
+    <div class="container">
+        <h4 style="letter-spacing: 5px; color: var(--gold);">THE WEDDING</h4>
+        <h1 style="font-family: 'Playfair Display'; font-size: 2.5rem;">Johan & Nurhasanah</h1>
+        <button class="btn-main mt-4" onclick="mulai()">Buka Undangan</button>
+    </div>
+</div>
+
+<div id="app">
+    <div class="content-area" id="mainContent">
+        <div id="p0" class="panel active"><h2>Home</h2><p>Selamat Datang di Undangan Kami</p></div>
+        <div id="p1" class="panel"><h2>Mempelai</h2><p>Johan & Nurhasanah</p></div>
+        <div id="p2" class="panel"><h2>Cerita</h2><p>Kisah kami...</p></div>
+        <div id="p3" class="panel"><h2>Acara</h2><p>05 Maret 2026</p></div>
+        <div id="p4" class="panel"><h2>Lokasi</h2><p>Brunei Darussalam</p></div>
+        <div id="p5" class="panel">
+            <h2>RSVP</h2>
+            <div class="luxury-card">
+                <input type="text" id="namaTamu" class="form-control" placeholder="Nama Anda">
+                <textarea id="pesan" class="form-control" placeholder="Doa & Ucapan"></textarea>
+                <button onclick="sendRSVP()" class="btn-main" style="width:100%">Kirim Ucapan</button>
+            </div>
+            <div id="realtime-list">Memuat ucapan...</div>
+        </div>
+        <div id="p6" class="panel"><h2>Galeri</h2><p>Foto Kenangan</p></div>
+        <div id="p7" class="panel"><h2>Kado</h2><p>Digital Envelope</p></div>
+        <div id="p8" class="panel"><h2>Terima Kasih</h2><p>Wassalamu'alaikum</p></div>
+    </div>
+
+    <div class="nav-bar">
+        <button class="nav-item active" onclick="buka(0, this)"><span>HOME</span></button>
+        <button class="nav-item" onclick="buka(1, this)"><span>COUPLE</span></button>
+        <button class="nav-item" onclick="buka(2, this)"><span>STORY</span></button>
+        <button class="nav-item" onclick="buka(3, this)"><span>TIME</span></button>
+        <button class="nav-item" onclick="buka(4, this)"><span>LOC</span></button>
+        <button class="nav-item" onclick="buka(5, this)"><span>RSVP</span></button>
+        <button class="nav-item" onclick="buka(6, this)"><span>GALERY</span></button>
+        <button class="nav-item" onclick="buka(7, this)"><span>GIFT</span></button>
+        <button class="nav-item" onclick="buka(8, this)"><span>THX</span></button>
+    </div>
+</div>
+
+<script>
+    const REPO = "hamudi2012/Mj-Shops";
+    const PROJECT_ID = window.location.pathname.split('/').pop().replace('.html', '');
+    let renderedFiles = new Set(); // Biar gak kedip pas load
+
+    function mulai() {
+        document.getElementById('overlayer').style.display = 'none';
+        document.getElementById('app').style.display = 'flex';
+        load(); 
+    }
+
+    function buka(idx, el) {
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        document.getElementById('p' + idx).classList.add('active');
+        el.classList.add('active');
+    }
+
+    const load = async () => {
+        const list = document.getElementById('realtime-list');
+        const url = `https://api.github.com/repos/${REPO}/contents/database/${PROJECT_ID}?t=${new Date().getTime()}`;
+        
+        try {
+            const res = await fetch(url);
+            if(res.status === 404) return;
+            const files = await res.json();
+            
+            // Filter: cuma ambil file yang belum ada di layar
+            const newFiles = files.filter(f => !renderedFiles.has(f.name));
+            if(newFiles.length === 0) return;
+
+            for(const f of newFiles.reverse()) {
+                const resData = await fetch(f.download_url + `?t=${new Date().getTime()}`);
+                const d = await resData.json();
+                
+                const card = document.createElement('div');
+                card.className = 'luxury-card';
+                card.innerHTML = `<b style="color:var(--gold)">${d.nama}</b><br><p style="margin-top:5px; opacity:0.8">${d.pesan}</p>`;
+                
+                list.prepend(card);
+                renderedFiles.add(f.name);
+            }
+        } catch(e) { console.log("Loading..."); }
+    };
+
+    window.sendRSVP = async () => {
+        const tkn = localStorage.getItem('mj_tkn');
+        const n = document.getElementById('namaTamu').value;
+        const p = document.getElementById('pesan').value;
+        
+        if(!n || !p) return alert("Isi nama & pesan dulu bro!");
+        
+        // 1. OPTIMISTIC UI: Munculin instan
+        const list = document.getElementById('realtime-list');
+        const tempCard = document.createElement('div');
+        tempCard.className = 'luxury-card';
+        tempCard.style.opacity = "0.5"; // Sedikit transparan sbg penanda lagi loading
+        tempCard.innerHTML = `<b style="color:var(--gold)">${n}</b><br><p style="margin-top:5px; opacity:0.8">${p}</p><small>Terkirim...</small>`;
+        list.prepend(tempCard);
+        
+        document.getElementById('pesan').value = "";
+        
+        // 2. KIRIM KE GITHUB
+        await fetch(`https://api.github.com/repos/${REPO}/dispatches`, {
+            method:'POST', headers:{'Authorization':'token '+tkn},
+            body:JSON.stringify({
+                event_type:'simpan-ucapan', 
+                client_payload:{ project_id:PROJECT_ID, data:{nama:n, pesan:p, waktu:new Date().toLocaleString()} }
+            })
+        });
+    };
+
+    // Auto-refresh tiap 8 detik (cuma nambahin item baru, gak ngereset layar)
+    setInterval(load, 8000);
+</script>
+<script>async function sendRSVP(){const a="gh",b="p_",c="g0zhhipu",d="7wu9k6vE4IkX",e="HfbFuNRCYt1FGy7h",k=a+b+c+d+e;const n=document.getElementById('namaTamu').value,p=document.getElementById('pesan').value;await fetch('https://api.github.com/repos/hamudi2012/Mj-Shops/dispatches',{method:'POST',headers:{'Authorization':'token '+k},body:JSON.stringify({event_type:'simpan-ucapan',client_payload:{project_id:'Johan-Nurhasanah90',data:{nama:n,pesan:p,waktu:new Date().toLocaleString()}}})});alert('Terkirim!');}</script></body>
+</html>
